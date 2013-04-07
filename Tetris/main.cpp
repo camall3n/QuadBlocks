@@ -9,6 +9,7 @@
 #include <GL/glew.h>
 #include <GL/glfw.h>
 #include <OpenGL/OpenGL.h>
+#include <SDL/SDL.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,20 +21,36 @@ const int SCREEN_BPP = 32;
 const int FRAMES_PER_SECOND = 60;
 const char* const WINDOW_TITLE = "Tetris";
 
-void display();
-void checkError();
-void cleanup();
+bool should_quit = false;
+
 void init();
+void input();
+void update();
+void display();
+void cleanup();
+
+void checkError();
 void initGLFW();
+void initSDL();
 
+// GLFW Callbacks
+void GLFWCALL onKey(int key, int action);
+void GLFWCALL onResize(int x, int y);
+int  GLFWCALL onClose();
 
-int main(int argc, const char * argv[])
-{
+// Tell SDL to GTFO
+#ifdef main
+#undef main
+#endif
+
+int main(int argc, const char* argv[]) {
+    
     init();
     
-	while( glfwGetKey( GLFW_KEY_ESC ) != GLFW_PRESS &&
-          glfwGetWindowParam( GLFW_OPENED ) )
+	while( !should_quit && glfwGetWindowParam(GLFW_OPENED) )
     {
+//        input();
+//        update();
         display();
     }
     
@@ -44,7 +61,7 @@ int main(int argc, const char * argv[])
 
 void init() {
     initGLFW();
-    //    initSDL();
+    initSDL();
 }
 
 void initGLFW() {
@@ -56,12 +73,13 @@ void initGLFW() {
         exit(-1);
     }
     
-    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
-    //    glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
-    //    glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    //    glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
+    glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
     
     // Open a window and create its OpenGL context
 	if( !glfwOpenWindow( SCREEN_WIDTH, SCREEN_HEIGHT, 0,0,0,0, SCREEN_BPP,0, GLFW_WINDOW ) )
@@ -85,11 +103,33 @@ void initGLFW() {
     
     glfwSetWindowTitle( WINDOW_TITLE );
     
-    //    glfwEnable(GLFW_STICKY_KEYS);
-    //
-    //    glfwSetWindowCloseCallback(&onClose);
-    //    glfwSetWindowSizeCallback(&onResize);
-    //    glfwSetKeyCallback(&onKey);
+    glfwSetWindowCloseCallback(&onClose);
+    glfwSetWindowSizeCallback(&onResize);
+    glfwSetKeyCallback(&onKey);
+    
+    glfwDisable(GLFW_MOUSE_CURSOR);
+    glfwSetMousePos(0, 0);
+}
+
+void initSDL() {
+    
+    if (SDL_Init(SDL_INIT_JOYSTICK) == -1)
+    {
+        fprintf(stderr, "Failed to initialize SDL\n");
+        exit(1);
+    }
+    SDL_Joystick* stick = SDL_JoystickOpen(0);
+    if (stick==NULL) {
+        fprintf(stderr,"Error opening joystick.");
+        exit(1);
+    }
+    
+    printf("Num Joysticks = %d\n", (int)SDL_NumJoysticks() );
+    printf("Num Axes = %d\n", (int)SDL_JoystickNumAxes(stick) );
+    printf("Num Buttons = %d\n", (int)SDL_JoystickNumButtons(stick) );
+    
+    SDL_JoystickClose(stick);
+    stick=NULL;
 }
 
 
@@ -111,10 +151,25 @@ void cleanup() {
 }
 
 
-void checkError()
-{
+void checkError() {
     GLenum error;
     while ( (error = glGetError()) != GL_NO_ERROR ) {
         printf("%s\n", gluErrorString(error));
     }
 }
+
+void onKey(int key, int action) {
+    if (key==GLFW_KEY_ESC && action == GLFW_PRESS) {
+        onClose();
+    }
+}
+
+int onClose() {
+    should_quit = true;
+    return GL_TRUE;
+}
+
+void onResize(int x, int y) {
+    glViewport(0, 0, x, y);
+}
+
