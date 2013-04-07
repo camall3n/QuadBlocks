@@ -14,15 +14,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//Screen attributes
+#include "controller.h"
+
+//Constants
+#pragma mark Constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 const int SCREEN_BPP = 32;
 const int FRAMES_PER_SECOND = 60;
 const char* const WINDOW_TITLE = "Tetris";
 
+//Globals
+#pragma mark
+#pragma mark Globals
 bool should_quit = false;
+Controller controller;
 
+// Declarations
+#pragma mark
+#pragma mark Declarations
 void init();
 void input();
 void update();
@@ -43,6 +53,10 @@ int  GLFWCALL onClose();
 #undef main
 #endif
 
+
+// Main
+#pragma mark
+#pragma mark Main
 int main(int argc, const char* argv[]) {
     
     init();
@@ -59,10 +73,31 @@ int main(int argc, const char* argv[]) {
     return 0;
 }
 
+#pragma mark
+#pragma mark Functions
+
 void init() {
     initGLFW();
     initSDL();
 }
+
+
+void display() {
+    // Clear the screen
+    glClearColor(1.f, 0, 0.5f, 1);
+    glClearDepth(1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glfwGetTime();
+    
+    glfwSwapBuffers();
+    checkError();
+}
+
+void cleanup() {
+    glfwTerminate();
+}
+
 
 void initGLFW() {
     
@@ -132,31 +167,17 @@ void initSDL() {
     stick=NULL;
 }
 
-
-void display() {
-    // Clear the screen
-    glClearColor(1.f, 0, 0.5f, 1);
-    glClearDepth(1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glfwGetTime();
-    
-    glfwSwapBuffers();
-    checkError();
-}
-
-
-void cleanup() {
-    glfwTerminate();
-}
-
-
 void checkError() {
     GLenum error;
     while ( (error = glGetError()) != GL_NO_ERROR ) {
         printf("%s\n", gluErrorString(error));
     }
 }
+
+
+// Callbacks
+#pragma mark
+#pragma mark Callbacks
 
 void onKey(int key, int action) {
     if (key==GLFW_KEY_ESC && action == GLFW_PRESS) {

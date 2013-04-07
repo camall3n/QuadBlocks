@@ -10,6 +10,8 @@
 
 #include "controller.h"
 
+#pragma mark Constants
+
 const int AXIS_MAX_VALUE = 32768;
 
 const int UNINITIALIZED = -1;
@@ -54,6 +56,9 @@ enum XBOX_BUTTON_TYPE {
     XBOX_BUTTON_START =  4,
     XBOX_BUTTON_GUIDE = 10
 };
+
+#pragma mark
+#pragma mark Controller
 
 Controller::Controller() :
     LS(XBOX_THUMBSTICK_LEFT),
@@ -131,6 +136,8 @@ void Controller::processEvent(const SDL_Event &event)
 /*----------------------------------------------------------------------------
  * Controller::Button
  *----------------------------------------------------------------------------*/
+#pragma mark
+#pragma mark Button
 Controller::Button::Button(int type)
 {
     _buttonType = type;
@@ -161,6 +168,8 @@ bool Controller::Button::isPressed()
 /*----------------------------------------------------------------------------
  * Controller::Thumbstick
  *----------------------------------------------------------------------------*/
+#pragma mark
+#pragma mark Thumbstick
 Controller::Thumbstick::Thumbstick(int type)
 {
     if (type == XBOX_THUMBSTICK_LEFT) {
@@ -224,6 +233,8 @@ bool Controller::Thumbstick::isPressed(){
 /*----------------------------------------------------------------------------
  * Controller::Trigger
  *----------------------------------------------------------------------------*/
+#pragma mark
+#pragma mark Trigger
 Controller::Trigger::Trigger(int type)
 {
     if (type == XBOX_TRIGGER_LEFT) {
