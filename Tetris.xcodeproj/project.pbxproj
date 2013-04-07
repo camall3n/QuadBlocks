@@ -8,11 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		32FFC0671710F65900667EFC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FFC0661710F65900667EFC /* Cocoa.framework */; };
-		32FFC0711710F65900667EFC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC06F1710F65900667EFC /* InfoPlist.strings */; };
-		32FFC0731710F65900667EFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FFC0721710F65900667EFC /* main.m */; };
-		32FFC0771710F65900667EFC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC0751710F65900667EFC /* Credits.rtf */; };
-		32FFC07A1710F65900667EFC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FFC0791710F65900667EFC /* AppDelegate.m */; };
+		32FFC0731710F65900667EFC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32FFC0721710F65900667EFC /* main.cpp */; };
 		32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC07B1710F65900667EFC /* MainMenu.xib */; };
+		32FFC0841710F6C100667EFC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FFC0831710F6C100667EFC /* OpenGL.framework */; };
+		32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC0891710F8E500667EFC /* Tetris.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,13 +21,10 @@
 		32FFC06A1710F65900667EFC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		32FFC06B1710F65900667EFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		32FFC06E1710F65900667EFC /* Tetris-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tetris-Info.plist"; sourceTree = "<group>"; };
-		32FFC0701710F65900667EFC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		32FFC0721710F65900667EFC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		32FFC0741710F65900667EFC /* Tetris-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tetris-Prefix.pch"; sourceTree = "<group>"; };
-		32FFC0761710F65900667EFC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		32FFC0781710F65900667EFC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		32FFC0791710F65900667EFC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		32FFC0721710F65900667EFC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		32FFC07C1710F65900667EFC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		32FFC0831710F6C100667EFC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		32FFC0891710F8E500667EFC /* Tetris.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Tetris.icns; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32FFC0841710F6C100667EFC /* OpenGL.framework in Frameworks */,
 				32FFC0671710F65900667EFC /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,6 +43,7 @@
 		32FFC05A1710F65900667EFC = {
 			isa = PBXGroup;
 			children = (
+				32FFC0831710F6C100667EFC /* OpenGL.framework */,
 				32FFC06C1710F65900667EFC /* Tetris */,
 				32FFC0651710F65900667EFC /* Frameworks */,
 				32FFC0641710F65900667EFC /* Products */,
@@ -82,9 +80,7 @@
 		32FFC06C1710F65900667EFC /* Tetris */ = {
 			isa = PBXGroup;
 			children = (
-				32FFC0781710F65900667EFC /* AppDelegate.h */,
-				32FFC0791710F65900667EFC /* AppDelegate.m */,
-				32FFC07B1710F65900667EFC /* MainMenu.xib */,
+				32FFC0721710F65900667EFC /* main.cpp */,
 				32FFC06D1710F65900667EFC /* Supporting Files */,
 			);
 			path = Tetris;
@@ -93,11 +89,9 @@
 		32FFC06D1710F65900667EFC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				32FFC0891710F8E500667EFC /* Tetris.icns */,
 				32FFC06E1710F65900667EFC /* Tetris-Info.plist */,
-				32FFC06F1710F65900667EFC /* InfoPlist.strings */,
-				32FFC0721710F65900667EFC /* main.m */,
-				32FFC0741710F65900667EFC /* Tetris-Prefix.pch */,
-				32FFC0751710F65900667EFC /* Credits.rtf */,
+				32FFC07B1710F65900667EFC /* MainMenu.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -153,9 +147,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32FFC0711710F65900667EFC /* InfoPlist.strings in Resources */,
-				32FFC0771710F65900667EFC /* Credits.rtf in Resources */,
 				32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */,
+				32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,30 +159,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32FFC0731710F65900667EFC /* main.m in Sources */,
-				32FFC07A1710F65900667EFC /* AppDelegate.m in Sources */,
+				32FFC0731710F65900667EFC /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		32FFC06F1710F65900667EFC /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				32FFC0701710F65900667EFC /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		32FFC0751710F65900667EFC /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				32FFC0761710F65900667EFC /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
 		32FFC07B1710F65900667EFC /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -262,9 +238,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tetris/Tetris-Prefix.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "Tetris/Tetris-Info.plist";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-lglew",
+					"-lglfw",
+					"-lSDLmain",
+					"-lSDL",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -274,9 +258,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tetris/Tetris-Prefix.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "Tetris/Tetris-Info.plist";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-lglew",
+					"-lglfw",
+					"-lSDLmain",
+					"-lSDL",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
