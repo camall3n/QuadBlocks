@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32DFB0381711073500515349 /* controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32DFB0371711073500515349 /* controller.cpp */; };
 		32FFC0671710F65900667EFC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FFC0661710F65900667EFC /* Cocoa.framework */; };
 		32FFC0731710F65900667EFC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32FFC0721710F65900667EFC /* main.cpp */; };
 		32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC07B1710F65900667EFC /* MainMenu.xib */; };
@@ -15,6 +16,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		32DFB0361711073500515349 /* controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controller.h; sourceTree = "<group>"; };
+		32DFB0371711073500515349 /* controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controller.cpp; sourceTree = "<group>"; };
+		32DFB03917110B1C00515349 /* Tetris.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = Tetris.iconset; sourceTree = SOURCE_ROOT; };
+		32DFB03A17110B1C00515349 /* tetris.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tetris.png; sourceTree = SOURCE_ROOT; };
 		32FFC0631710F65900667EFC /* Tetris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tetris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32FFC0661710F65900667EFC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		32FFC0691710F65900667EFC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -80,6 +85,8 @@
 		32FFC06C1710F65900667EFC /* Tetris */ = {
 			isa = PBXGroup;
 			children = (
+				32DFB0361711073500515349 /* controller.h */,
+				32DFB0371711073500515349 /* controller.cpp */,
 				32FFC0721710F65900667EFC /* main.cpp */,
 				32FFC06D1710F65900667EFC /* Supporting Files */,
 			);
@@ -89,6 +96,8 @@
 		32FFC06D1710F65900667EFC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				32DFB03917110B1C00515349 /* Tetris.iconset */,
+				32DFB03A17110B1C00515349 /* tetris.png */,
 				32FFC0891710F8E500667EFC /* Tetris.icns */,
 				32FFC06E1710F65900667EFC /* Tetris-Info.plist */,
 				32FFC07B1710F65900667EFC /* MainMenu.xib */,
@@ -160,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32FFC0731710F65900667EFC /* main.cpp in Sources */,
+				32DFB0381711073500515349 /* controller.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +303,7 @@
 				32FFC0821710F65900667EFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
