@@ -256,8 +256,6 @@
 				OTHER_LDFLAGS = (
 					"-lglew",
 					"-lglfw",
-					"-lSDLmain",
-					"-lSDL",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -276,8 +274,6 @@
 				OTHER_LDFLAGS = (
 					"-lglew",
 					"-lglfw",
-					"-lSDLmain",
-					"-lSDL",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

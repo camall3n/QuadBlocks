@@ -9,7 +9,6 @@
 #include <GL/glew.h>
 #include <GL/glfw.h>
 #include <OpenGL/OpenGL.h>
-#include <SDL/SDL.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,29 +40,22 @@ void cleanup();
 
 void checkError();
 void initGLFW();
-void initSDL();
 
 // GLFW Callbacks
 void GLFWCALL onKey(int key, int action);
 void GLFWCALL onResize(int x, int y);
 int  GLFWCALL onClose();
 
-// Tell SDL to GTFO
-#ifdef main
-#undef main
-#endif
-
-
 // Main
 #pragma mark
 #pragma mark Main
-int main(int argc, const char* argv[]) {
+int main(int argc, char* argv[]) {
     
     init();
     
 	while( !should_quit && glfwGetWindowParam(GLFW_OPENED) )
     {
-//        input();
+        input();
 //        update();
         display();
     }
@@ -78,13 +70,18 @@ int main(int argc, const char* argv[]) {
 
 void init() {
     initGLFW();
-    initSDL();
 }
 
+void input() {
+    controller.update();
+}
 
 void display() {
     // Clear the screen
-    glClearColor(1.f, 0, 0.5f, 1);
+    if (controller.Start.isPressed())
+        glClearColor(1.f, 0, 0.5f, 1);
+    else
+        glClearColor(0, 0, 0, 0);
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -144,28 +141,10 @@ void initGLFW() {
     
     glfwDisable(GLFW_MOUSE_CURSOR);
     glfwSetMousePos(0, 0);
+    
+    controller.init(0);
 }
 
-void initSDL() {
-    
-    if (SDL_Init(SDL_INIT_JOYSTICK) == -1)
-    {
-        fprintf(stderr, "Failed to initialize SDL\n");
-        exit(1);
-    }
-    SDL_Joystick* stick = SDL_JoystickOpen(0);
-    if (stick==NULL) {
-        fprintf(stderr,"Error opening joystick.");
-        exit(1);
-    }
-    
-    printf("Num Joysticks = %d\n", (int)SDL_NumJoysticks() );
-    printf("Num Axes = %d\n", (int)SDL_JoystickNumAxes(stick) );
-    printf("Num Buttons = %d\n", (int)SDL_JoystickNumButtons(stick) );
-    
-    SDL_JoystickClose(stick);
-    stick=NULL;
-}
 
 void checkError() {
     GLenum error;
@@ -180,12 +159,17 @@ void checkError() {
 #pragma mark Callbacks
 
 void onKey(int key, int action) {
-    if (key==GLFW_KEY_ESC && action == GLFW_PRESS) {
-        onClose();
-    }
+    
+    // Apparently escape key breaks XBOX_START_BUTTON ??
+    
+//    if (key==GLFW_KEY_ESC && action == GLFW_PRESS) {
+//        onClose();
+//    }
+    
 }
 
 int onClose() {
+    
     should_quit = true;
     return GL_TRUE;
 }

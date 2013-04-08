@@ -8,9 +8,7 @@
 #ifndef SDLJoystick_controller_h
 #define SDLJoystick_controller_h
 
-#include <SDL/SDL.h>
-
-//#include "thumbstick.h"
+#include <GL/glfw.h>
 
 const float THUMBSTICK_DEADZONE = 0.15;
 const float TRIGGER_DEADZONE    = 0.01;
@@ -23,7 +21,7 @@ public:
     public:
         Button();
         Button(int type);
-        void processEvent(const SDL_Event &event);
+        void update(unsigned char pressed);
         
         bool isPressed();
         
@@ -37,7 +35,8 @@ public:
     public:
         Thumbstick();
         Thumbstick(int type);
-        void processEvent(const SDL_Event &event);
+        void update(unsigned char pressed);
+        void update(float x, float y);
         
         float x();
         float y();
@@ -57,7 +56,7 @@ public:
     public:
         Trigger();
         Trigger(int type);
-        void processEvent(const SDL_Event &event);
+        void update(float z);
         
         float z();
         
@@ -69,7 +68,11 @@ public:
 public:
     Controller();
     ~Controller();
-    void processEvent(const SDL_Event &event);
+    
+    void init(int whichJoystick=0);
+    void update();
+    void updateButtons();
+    void updateAxes();
     
     Thumbstick LS;
     Thumbstick RS;
@@ -92,7 +95,10 @@ public:
     
     Button Back;
     Button Start;
-    Button  Guide;
+    Button Guide;
+    
+private:
+    int whichJoystick;
 };
 
 

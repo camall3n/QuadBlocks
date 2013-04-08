@@ -25,6 +25,8 @@ enum XBOX_AXIS_TYPE {
     XBOX_AXIS_RTRIGGER      = 5
 };
 
+const int XBOX_NUM_AXES = 6;
+
 enum XBOX_THUMBSTICK_TYPE {
     XBOX_THUMBSTICK_LEFT  = 0,
     XBOX_THUMBSTICK_RIGHT = 1
@@ -57,6 +59,8 @@ enum XBOX_BUTTON_TYPE {
     XBOX_BUTTON_GUIDE = 10
 };
 
+const int XBOX_NUM_BUTTONS = 15;
+
 #pragma mark
 #pragma mark Controller
 
@@ -83,55 +87,80 @@ Controller::Controller() :
     Back(XBOX_BUTTON_BACK),
     Start(XBOX_BUTTON_START),
     Guide(XBOX_BUTTON_GUIDE)
-{ }
+{
+
+}
 
 Controller::~Controller()
-{ }
-
-void Controller::processEvent(const SDL_Event &event)
 {
-    if (event.type == SDL_JOYBUTTONDOWN ||
-        event.type == SDL_JOYBUTTONUP )
-    {
-        switch (event.jbutton.button) {
-            case XBOX_BUTTON_LS: LS.processEvent(event); break;
-            case XBOX_BUTTON_RS: RS.processEvent(event); break;
-                
-            case XBOX_BUTTON_A: A.processEvent(event); break;
-            case XBOX_BUTTON_B: B.processEvent(event); break;
-            case XBOX_BUTTON_X: X.processEvent(event); break;
-            case XBOX_BUTTON_Y: Y.processEvent(event); break;
-                
-            case XBOX_BUTTON_LB: LB.processEvent(event); break;
-            case XBOX_BUTTON_RB: RB.processEvent(event); break;
-                
-            case XBOX_BUTTON_DPAD_UP:    Up.processEvent(event); break;
-            case XBOX_BUTTON_DPAD_DOWN:  Down.processEvent(event); break;
-            case XBOX_BUTTON_DPAD_LEFT:  Left.processEvent(event); break;
-            case XBOX_BUTTON_DPAD_RIGHT: Right.processEvent(event); break;
-                
-            case XBOX_BUTTON_BACK:  Back.processEvent(event); break;
-            case XBOX_BUTTON_START: Start.processEvent(event); break;
-            case XBOX_BUTTON_GUIDE: Guide.processEvent(event); break;
-                
-            default: break;
+
+}
+
+void Controller::init(int whichJoystick)
+{
+    this->whichJoystick = whichJoystick;
+}
+
+void Controller::update()
+{
+    updateButtons();
+    updateAxes();
+}
+
+void Controller::updateButtons()
+{
+    unsigned char buttons[XBOX_NUM_BUTTONS];
+    int nButtons = glfwGetJoystickButtons(whichJoystick, buttons, XBOX_NUM_BUTTONS);
+    if (nButtons == XBOX_NUM_BUTTONS) {
+        
+        for (int i=0; i<XBOX_NUM_BUTTONS; ++i) {
+            switch (i) {
+                case XBOX_BUTTON_LS: LS.update(buttons[i]); break;
+                case XBOX_BUTTON_RS: RS.update(buttons[i]); break;
+                    
+                case XBOX_BUTTON_A: A.update(buttons[i]); break;
+                case XBOX_BUTTON_B: B.update(buttons[i]); break;
+                case XBOX_BUTTON_X: X.update(buttons[i]); break;
+                case XBOX_BUTTON_Y: Y.update(buttons[i]); break;
+                    
+                case XBOX_BUTTON_LB: LB.update(buttons[i]); break;
+                case XBOX_BUTTON_RB: RB.update(buttons[i]); break;
+                    
+                case XBOX_BUTTON_DPAD_UP:    Up.update(buttons[i]); break;
+                case XBOX_BUTTON_DPAD_DOWN:  Down.update(buttons[i]); break;
+                case XBOX_BUTTON_DPAD_LEFT:  Left.update(buttons[i]); break;
+                case XBOX_BUTTON_DPAD_RIGHT: Right.update(buttons[i]); break;
+                    
+                case XBOX_BUTTON_BACK:  Back.update(buttons[i]); break;
+                case XBOX_BUTTON_START: Start.update(buttons[i]); break;
+                case XBOX_BUTTON_GUIDE: Guide.update(buttons[i]); break;
+                    
+                default: break;
+            }
         }
     }
-    else if (event.type == SDL_JOYAXISMOTION) {
-        switch (event.jaxis.axis) {
-            case XBOX_AXIS_LS_VERTICAL:     // fall through
-            case XBOX_AXIS_LS_HORIZONTAL: LS.processEvent(event); break;
-            case XBOX_AXIS_RS_VERTICAL:     // fall through
-            case XBOX_AXIS_RS_HORIZONTAL: RS.processEvent(event); break;
-            case XBOX_AXIS_LTRIGGER:      LT.processEvent(event); break;
-            case XBOX_AXIS_RTRIGGER:      RT.processEvent(event); break;
-
-                
-            default:   break;
-        }
+    else {
+        printf("Failed to get joystick buttons. Expecting %d buttons, got %d\n",
+               XBOX_NUM_BUTTONS, nButtons);
     }
 }
 
+void Controller::updateAxes()
+{
+    float positions[XBOX_NUM_AXES];
+    int nPositions = glfwGetJoystickPos(whichJoystick, positions, XBOX_NUM_AXES);
+    if (nPositions == XBOX_NUM_AXES) {
+        LS.update(positions[XBOX_AXIS_LS_HORIZONTAL], positions[XBOX_AXIS_LS_VERTICAL]);
+        RS.update(positions[XBOX_AXIS_RS_HORIZONTAL], positions[XBOX_AXIS_RS_VERTICAL]);
+        
+        LT.update(positions[XBOX_AXIS_LTRIGGER]);
+        RT.update(-1 * positions[XBOX_AXIS_RTRIGGER]);
+    }
+    else {
+        printf("Failed to get joystick buttons. Expecting %d buttons, got %d\n",
+               XBOX_NUM_BUTTONS, nPositions);
+    }
+}
 
 /*----------------------------------------------------------------------------
  * Controller::Button
@@ -149,14 +178,13 @@ Controller::Button::Button()
     _pressed = false;
 }
 
-void Controller::Button::processEvent(const SDL_Event &event){
-    if (event.jbutton.button == _buttonType) {
-        if (event.type == SDL_JOYBUTTONDOWN) {
-            _pressed = true;
-        }
-        else if (event.type == SDL_JOYBUTTONUP) {
-            _pressed = false;
-        }
+void Controller::Button::update(unsigned char pressed)
+{
+    if (pressed == GLFW_PRESS) {
+        _pressed = true;
+    }
+    else if (pressed == GLFW_RELEASE) {
+        _pressed = false;
     }
 }
 
@@ -197,23 +225,20 @@ Controller::Thumbstick::Thumbstick()
     _pressed = false;
 }
 
-void Controller::Thumbstick::processEvent(const SDL_Event &event){
-    if (event.type == SDL_JOYAXISMOTION) {
-        if (event.jaxis.axis == _axisX) {
-            _x = (float)event.jaxis.value / AXIS_MAX_VALUE;
-        }
-        else if (event.jaxis.axis == _axisY){
-            _y = (float)event.jaxis.value / AXIS_MAX_VALUE;
-        }
+void Controller::Thumbstick::update(unsigned char pressed)
+{
+    if (pressed == GLFW_PRESS) {
+        _pressed = true;
     }
-    else if (event.jbutton.button == _buttonType) {
-        if (event.type == SDL_JOYBUTTONDOWN) {
-            _pressed = true;
-        }
-        else if (event.type == SDL_JOYBUTTONUP) {
-            _pressed = false;
-        }
+    else if (pressed == GLFW_RELEASE) {
+        _pressed = false;
     }
+}
+
+void Controller::Thumbstick::update(float x, float y)
+{
+    _x = x;
+    _y = y;
 }
 
 float Controller::Thumbstick::x(){
@@ -252,13 +277,9 @@ Controller::Trigger::Trigger()
 }
 
 
-void Controller::Trigger::processEvent(const SDL_Event &event)
+void Controller::Trigger::update(float z)
 {
-    if (event.type == SDL_JOYAXISMOTION) {
-        if (event.jaxis.axis == _axis) {
-            _z = (float)event.jaxis.value / AXIS_MAX_VALUE;
-        }
-    }
+    _z = z;
 }
 
 float Controller::Trigger::z()
