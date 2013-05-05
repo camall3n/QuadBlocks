@@ -1,4 +1,4 @@
-<object>
+<mesh>
     <name>Block</name>
     <vertices>
         <vertex>
@@ -100,4 +100,4 @@
             9, 11, 10
         </triangle>
     </triangles>
-</object>
+</mesh>
