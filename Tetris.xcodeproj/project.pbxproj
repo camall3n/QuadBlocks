@@ -15,8 +15,9 @@
 		32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC07B1710F65900667EFC /* MainMenu.xib */; };
 		32FFC0841710F6C100667EFC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FFC0831710F6C100667EFC /* OpenGL.framework */; };
 		32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC0891710F8E500667EFC /* Tetris.icns */; };
-		FD13B31D1735F86000705C91 /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD13B31C1735F86000705C91 /* block.xml */; };
 		FD13B3211735FF9800705C91 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD13B31F1735FF9800705C91 /* mesh.cpp */; };
+		FD16CB9317361D2200688EDC /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB9117361D2200688EDC /* ResourcePath.mm */; };
+		FD16CB9417362E6300688EDC /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD13B31C1735F86000705C91 /* block.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		FD13B31C1735F86000705C91 /* block.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = block.xml; sourceTree = "<group>"; };
 		FD13B31F1735FF9800705C91 /* mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mesh.cpp; sourceTree = "<group>"; };
 		FD13B3201735FF9800705C91 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
+		FD16CB9117361D2200688EDC /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
+		FD16CB9217361D2200688EDC /* ResourcePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourcePath.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,8 @@
 		32FFC06D1710F65900667EFC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FD16CB9117361D2200688EDC /* ResourcePath.mm */,
+				FD16CB9217361D2200688EDC /* ResourcePath.h */,
 				32DFB03917110B1C00515349 /* Tetris.iconset */,
 				32DFB03A17110B1C00515349 /* tetris.png */,
 				32FFC0891710F8E500667EFC /* Tetris.icns */,
@@ -184,7 +189,7 @@
 			files = (
 				32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */,
 				32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */,
-				FD13B31D1735F86000705C91 /* block.xml in Resources */,
+				FD16CB9417362E6300688EDC /* block.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +205,7 @@
 				32AD906E171A68AB008E0827 /* tetromino.cpp in Sources */,
 				32AD9077171B31DE008E0827 /* block.cpp in Sources */,
 				FD13B3211735FF9800705C91 /* mesh.cpp in Sources */,
+				FD16CB9317361D2200688EDC /* ResourcePath.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +286,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"__TARGET_NAME__=\\\"$(PRODUCT_NAME)\\\"",
+					"DEBUG=1",
+				);
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "Tetris/Tetris-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
@@ -298,6 +308,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "__TARGET_NAME__=\\\"$(PRODUCT_NAME)\\\"";
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "Tetris/Tetris-Info.plist";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;

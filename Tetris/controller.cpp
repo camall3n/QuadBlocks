@@ -93,8 +93,7 @@ void Controller::updateButtons()
         }
     }
     else {
-        printf("Failed to get joystick buttons. Expecting %d buttons, got %d\n",
-               XBOX_NUM_BUTTONS, nButtons);
+//        printf("Failed to get joystick buttons. Expecting %d buttons, got %d\n", XBOX_NUM_BUTTONS, nButtons);
     }
 }
 
@@ -110,8 +109,7 @@ void Controller::updateAxes()
         RT.update(-1 * positions[XBOX_AXIS_RTRIGGER]);
     }
     else {
-        printf("Failed to get joystick buttons. Expecting %d buttons, got %d\n",
-               XBOX_NUM_BUTTONS, nPositions);
+//        printf("Failed to get joystick buttons. Expecting %d buttons, got %d\n", XBOX_NUM_BUTTONS, nPositions);
     }
 }
 

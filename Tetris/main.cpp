@@ -14,6 +14,8 @@
 #include <stdlib.h>
 
 #include "controller.h"
+#include "mesh.h"
+#include "ResourcePath.h"
 
 //Constants
 #pragma mark Constants
@@ -50,6 +52,10 @@ int  GLFWCALL onClose();
 #pragma mark
 #pragma mark Main
 int main(int argc, char* argv[]) {
+    
+    Mesh m1;
+    m1.load( ResourcePath("block.xml") );
+    m1.save( __TARGET_NAME__ ".app/Contents/Resources/" "block_out.xml" );
     
     init();
     
