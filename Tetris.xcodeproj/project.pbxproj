@@ -15,6 +15,7 @@
 		32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC07B1710F65900667EFC /* MainMenu.xib */; };
 		32FFC0841710F6C100667EFC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FFC0831710F6C100667EFC /* OpenGL.framework */; };
 		32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC0891710F8E500667EFC /* Tetris.icns */; };
+		FD13B31D1735F86000705C91 /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD13B31C1735F86000705C91 /* block.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		32FFC07C1710F65900667EFC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		32FFC0831710F6C100667EFC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		32FFC0891710F8E500667EFC /* Tetris.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Tetris.icns; sourceTree = SOURCE_ROOT; };
+		FD13B31C1735F86000705C91 /* block.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = block.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				32AD9075171B31DE008E0827 /* block.cpp */,
 				32AD9076171B31DE008E0827 /* block.h */,
 				32AD9078171B3230008E0827 /* datatypes.h */,
+				FD13B31E1735FD9A00705C91 /* Resources */,
 				32FFC06D1710F65900667EFC /* Supporting Files */,
 			);
 			path = Tetris;
@@ -115,6 +118,14 @@
 				32FFC07B1710F65900667EFC /* MainMenu.xib */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FD13B31E1735FD9A00705C91 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FD13B31C1735F86000705C91 /* block.xml */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +181,7 @@
 			files = (
 				32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */,
 				32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */,
+				FD13B31D1735F86000705C91 /* block.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
