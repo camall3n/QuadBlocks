@@ -13,7 +13,6 @@
 #include <list>
 #include <glm/glm.hpp>
 #include "block.h"
-#include "datatypes.h"
 
 namespace TETROMINO {
     enum TYPE {

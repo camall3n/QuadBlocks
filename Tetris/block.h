@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include <glm/glm.hpp>
-#include "datatypes.h"
 
 namespace BLOCK {
     namespace COLOR {
