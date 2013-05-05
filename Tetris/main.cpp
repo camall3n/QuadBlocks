@@ -160,11 +160,9 @@ void checkError() {
 
 void onKey(int key, int action) {
     
-    // Apparently escape key breaks XBOX_START_BUTTON ??
-    
-//    if (key==GLFW_KEY_ESC && action == GLFW_PRESS) {
-//        onClose();
-//    }
+    if (key==GLFW_KEY_ESC && action == GLFW_PRESS) {
+        onClose();
+    }
     
 }
 

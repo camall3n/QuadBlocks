@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32AD906E171A68AB008E0827 /* tetromino.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32AD906C171A68AB008E0827 /* tetromino.cpp */; };
+		32AD9077171B31DE008E0827 /* block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32AD9075171B31DE008E0827 /* block.cpp */; };
 		32DFB0381711073500515349 /* controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32DFB0371711073500515349 /* controller.cpp */; };
 		32FFC0671710F65900667EFC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FFC0661710F65900667EFC /* Cocoa.framework */; };
 		32FFC0731710F65900667EFC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32FFC0721710F65900667EFC /* main.cpp */; };
@@ -16,6 +18,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		32AD906C171A68AB008E0827 /* tetromino.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tetromino.cpp; sourceTree = "<group>"; };
+		32AD906D171A68AB008E0827 /* tetromino.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tetromino.h; sourceTree = "<group>"; };
+		32AD9075171B31DE008E0827 /* block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = block.cpp; sourceTree = "<group>"; };
+		32AD9076171B31DE008E0827 /* block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = block.h; sourceTree = "<group>"; };
+		32AD9078171B3230008E0827 /* datatypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = datatypes.h; sourceTree = "<group>"; };
 		32DFB0361711073500515349 /* controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controller.h; sourceTree = "<group>"; };
 		32DFB0371711073500515349 /* controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controller.cpp; sourceTree = "<group>"; };
 		32DFB03917110B1C00515349 /* Tetris.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = Tetris.iconset; sourceTree = SOURCE_ROOT; };
@@ -85,9 +92,14 @@
 		32FFC06C1710F65900667EFC /* Tetris */ = {
 			isa = PBXGroup;
 			children = (
-				32DFB0361711073500515349 /* controller.h */,
 				32DFB0371711073500515349 /* controller.cpp */,
+				32DFB0361711073500515349 /* controller.h */,
 				32FFC0721710F65900667EFC /* main.cpp */,
+				32AD906C171A68AB008E0827 /* tetromino.cpp */,
+				32AD906D171A68AB008E0827 /* tetromino.h */,
+				32AD9075171B31DE008E0827 /* block.cpp */,
+				32AD9076171B31DE008E0827 /* block.h */,
+				32AD9078171B3230008E0827 /* datatypes.h */,
 				32FFC06D1710F65900667EFC /* Supporting Files */,
 			);
 			path = Tetris;
@@ -170,6 +182,8 @@
 			files = (
 				32FFC0731710F65900667EFC /* main.cpp in Sources */,
 				32DFB0381711073500515349 /* controller.cpp in Sources */,
+				32AD906E171A68AB008E0827 /* tetromino.cpp in Sources */,
+				32AD9077171B31DE008E0827 /* block.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

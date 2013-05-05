@@ -1,6 +1,5 @@
 //
 //  controller.cpp
-//  SDLJoystick
 //
 //  Created by Cam Allen on 11/4/12.
 //
@@ -10,56 +9,10 @@
 
 #include "controller.h"
 
+
 #pragma mark Constants
-
-const int AXIS_MAX_VALUE = 32768;
-
-const int UNINITIALIZED = -1;
-
-enum XBOX_AXIS_TYPE {
-    XBOX_AXIS_LS_HORIZONTAL = 0,
-    XBOX_AXIS_LS_VERTICAL   = 1,
-    XBOX_AXIS_RS_HORIZONTAL = 2,
-    XBOX_AXIS_RS_VERTICAL   = 3,
-    XBOX_AXIS_LTRIGGER      = 4,
-    XBOX_AXIS_RTRIGGER      = 5
-};
-
-const int XBOX_NUM_AXES = 6;
-
-enum XBOX_THUMBSTICK_TYPE {
-    XBOX_THUMBSTICK_LEFT  = 0,
-    XBOX_THUMBSTICK_RIGHT = 1
-};
-
-enum XBOX_TRIGGER_TYPE {
-    XBOX_TRIGGER_LEFT  = 0,
-    XBOX_TRIGGER_RIGHT = 1
-};
-
-enum XBOX_BUTTON_TYPE {
-    XBOX_BUTTON_A = 11,
-    XBOX_BUTTON_B = 12,
-    XBOX_BUTTON_X = 13,
-    XBOX_BUTTON_Y = 14,
-    
-    XBOX_BUTTON_LB = 8,
-    XBOX_BUTTON_RB = 9,
-    
-    XBOX_BUTTON_LS = 6,
-    XBOX_BUTTON_RS = 7,
-    
-    XBOX_BUTTON_DPAD_UP    =  0,
-    XBOX_BUTTON_DPAD_DOWN  =  1,
-    XBOX_BUTTON_DPAD_LEFT  =  2,
-    XBOX_BUTTON_DPAD_RIGHT =  3,
-    
-    XBOX_BUTTON_BACK  =  5,
-    XBOX_BUTTON_START =  4,
-    XBOX_BUTTON_GUIDE = 10
-};
-
-const int XBOX_NUM_BUTTONS = 15;
+const float THUMBSTICK_DEADZONE = 0.15;
+const float TRIGGER_DEADZONE    = 0.01;
 
 #pragma mark
 #pragma mark Controller
@@ -169,22 +122,24 @@ void Controller::updateAxes()
 #pragma mark Button
 Controller::Button::Button(int type)
 {
-    _buttonType = type;
+    _type = type;
     _pressed = false;
 }
 Controller::Button::Button()
 {
-    _buttonType = UNINITIALIZED;
+    _type = UNINITIALIZED;
     _pressed = false;
 }
 
 void Controller::Button::update(unsigned char pressed)
 {
-    if (pressed == GLFW_PRESS) {
+    if (_pressed == false && pressed == GLFW_PRESS) {
         _pressed = true;
+        signal.pressed(_type);
     }
-    else if (pressed == GLFW_RELEASE) {
+    else if (_pressed == true && pressed == GLFW_RELEASE) {
         _pressed = false;
+        signal.released(_type);
     }
 }
 
@@ -200,6 +155,7 @@ bool Controller::Button::isPressed()
 #pragma mark Thumbstick
 Controller::Thumbstick::Thumbstick(int type)
 {
+    _type = type;
     if (type == XBOX_THUMBSTICK_LEFT) {
         _axisX = XBOX_AXIS_LS_HORIZONTAL;
         _axisY = XBOX_AXIS_LS_VERTICAL;
@@ -217,6 +173,7 @@ Controller::Thumbstick::Thumbstick(int type)
 }
 Controller::Thumbstick::Thumbstick()
 {
+    _type = UNINITIALIZED;
     _axisX = UNINITIALIZED;
     _axisY = UNINITIALIZED;
     _buttonType = UNINITIALIZED;
@@ -227,18 +184,32 @@ Controller::Thumbstick::Thumbstick()
 
 void Controller::Thumbstick::update(unsigned char pressed)
 {
-    if (pressed == GLFW_PRESS) {
+    if (_pressed == false && pressed == GLFW_PRESS) {
         _pressed = true;
+        signal.pressed(_type);
     }
-    else if (pressed == GLFW_RELEASE) {
+    else if (_pressed == true && pressed == GLFW_RELEASE) {
         _pressed = false;
+        signal.released(_type);
     }
 }
 
 void Controller::Thumbstick::update(float x, float y)
 {
+    float old_x = this->x();
+    float old_y = this->y();
+
     _x = x;
     _y = y;
+    
+    float new_x = this->x();
+    float new_y = this->y();
+
+    if ( (new_x != old_x) ||
+         (new_y != old_y) )
+    {
+        signal.moved(new_x,new_y,_type);
+    }
 }
 
 float Controller::Thumbstick::x(){
@@ -262,6 +233,7 @@ bool Controller::Thumbstick::isPressed(){
 #pragma mark Trigger
 Controller::Trigger::Trigger(int type)
 {
+    _type = type;
     if (type == XBOX_TRIGGER_LEFT) {
         _axis = XBOX_AXIS_LTRIGGER;
     }
@@ -272,6 +244,7 @@ Controller::Trigger::Trigger(int type)
 }
 Controller::Trigger::Trigger()
 {
+    _type = UNINITIALIZED;
     _axis = UNINITIALIZED;
     _z = 0.0;
 }
@@ -279,7 +252,21 @@ Controller::Trigger::Trigger()
 
 void Controller::Trigger::update(float z)
 {
-    _z = z;
+    float old_z = this->z();
+    
+    _z = (z+1)/2;
+    
+    float new_z = this->z();
+    
+    if (new_z != old_z)
+    {
+        signal.moved(new_z, _type);
+//        if (new_z > old_z)
+//            signal.pressed();
+//        else
+//            signal.released();
+    }
+//    printf("%f\n", this->z());
 }
 
 float Controller::Trigger::z()
