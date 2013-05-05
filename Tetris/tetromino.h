@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <list>
+#include <glm/glm.hpp>
 #include "block.h"
 #include "datatypes.h"
 
@@ -62,7 +63,7 @@ private:
     TETROMINO::STATE _state;
     TETROMINO::COMMAND _currentCommand;
 
-    Position _position;
+    glm::vec2 _position;
     float _rotation;
     
     std::list<Block> _blocksList;

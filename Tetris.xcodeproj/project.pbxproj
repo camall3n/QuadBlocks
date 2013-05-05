@@ -16,6 +16,7 @@
 		32FFC0841710F6C100667EFC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FFC0831710F6C100667EFC /* OpenGL.framework */; };
 		32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC0891710F8E500667EFC /* Tetris.icns */; };
 		FD13B31D1735F86000705C91 /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD13B31C1735F86000705C91 /* block.xml */; };
+		FD13B3211735FF9800705C91 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD13B31F1735FF9800705C91 /* mesh.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +24,6 @@
 		32AD906D171A68AB008E0827 /* tetromino.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tetromino.h; sourceTree = "<group>"; };
 		32AD9075171B31DE008E0827 /* block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = block.cpp; sourceTree = "<group>"; };
 		32AD9076171B31DE008E0827 /* block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = block.h; sourceTree = "<group>"; };
-		32AD9078171B3230008E0827 /* datatypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = datatypes.h; sourceTree = "<group>"; };
 		32DFB0361711073500515349 /* controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controller.h; sourceTree = "<group>"; };
 		32DFB0371711073500515349 /* controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controller.cpp; sourceTree = "<group>"; };
 		32DFB03917110B1C00515349 /* Tetris.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = Tetris.iconset; sourceTree = SOURCE_ROOT; };
@@ -39,6 +39,8 @@
 		32FFC0831710F6C100667EFC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		32FFC0891710F8E500667EFC /* Tetris.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Tetris.icns; sourceTree = SOURCE_ROOT; };
 		FD13B31C1735F86000705C91 /* block.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = block.xml; sourceTree = "<group>"; };
+		FD13B31F1735FF9800705C91 /* mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mesh.cpp; sourceTree = "<group>"; };
+		FD13B3201735FF9800705C91 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,11 +99,12 @@
 				32DFB0371711073500515349 /* controller.cpp */,
 				32DFB0361711073500515349 /* controller.h */,
 				32FFC0721710F65900667EFC /* main.cpp */,
+				FD13B3201735FF9800705C91 /* mesh.h */,
+				FD13B31F1735FF9800705C91 /* mesh.cpp */,
 				32AD906C171A68AB008E0827 /* tetromino.cpp */,
 				32AD906D171A68AB008E0827 /* tetromino.h */,
 				32AD9075171B31DE008E0827 /* block.cpp */,
 				32AD9076171B31DE008E0827 /* block.h */,
-				32AD9078171B3230008E0827 /* datatypes.h */,
 				FD13B31E1735FD9A00705C91 /* Resources */,
 				32FFC06D1710F65900667EFC /* Supporting Files */,
 			);
@@ -196,6 +199,7 @@
 				32DFB0381711073500515349 /* controller.cpp in Sources */,
 				32AD906E171A68AB008E0827 /* tetromino.cpp in Sources */,
 				32AD9077171B31DE008E0827 /* block.cpp in Sources */,
+				FD13B3211735FF9800705C91 /* mesh.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

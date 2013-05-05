@@ -47,8 +47,8 @@ public:
 private:
     BLOCK::STATE _state;
     
-    Position _position;
-    Position _offset;
+    glm::vec2 _position;
+    glm::vec2 _offset;
     float _rotation;
     
     glm::vec4 _color;
