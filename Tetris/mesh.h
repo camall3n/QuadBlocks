@@ -12,7 +12,6 @@
 #include <cstdlib>
 #include <string>
 #include <list>
-#include <glm/glm.hpp>
 
 class Mesh
 {
@@ -22,12 +21,12 @@ public:
     
     void load(const std::string filename);
     void save(const std::string filename);
-//    
-//    size_t nVertices();
-//    size_t nIndices();
     
-//    void fillVertexArray(float (&vertices)[], size_t nVertices);
-//    void fillIndexArray(int (&indices)[], size_t nIndices);
+    size_t nVertices();
+    size_t nIndices();
+    
+    void fillVertexArray(float* vertexArray);
+    void fillIndexArray(int* indexArray);
     
 private:
     std::string name;

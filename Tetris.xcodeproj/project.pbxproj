@@ -117,13 +117,13 @@
 		32FFC06D1710F65900667EFC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				FD16CB9117361D2200688EDC /* ResourcePath.mm */,
-				FD16CB9217361D2200688EDC /* ResourcePath.h */,
-				32DFB03917110B1C00515349 /* Tetris.iconset */,
-				32DFB03A17110B1C00515349 /* tetris.png */,
-				32FFC0891710F8E500667EFC /* Tetris.icns */,
-				32FFC06E1710F65900667EFC /* Tetris-Info.plist */,
 				32FFC07B1710F65900667EFC /* MainMenu.xib */,
+				FD16CB9217361D2200688EDC /* ResourcePath.h */,
+				FD16CB9117361D2200688EDC /* ResourcePath.mm */,
+				32DFB03917110B1C00515349 /* Tetris.iconset */,
+				32FFC0891710F8E500667EFC /* Tetris.icns */,
+				32DFB03A17110B1C00515349 /* tetris.png */,
+				32FFC06E1710F65900667EFC /* Tetris-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";

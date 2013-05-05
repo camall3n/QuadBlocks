@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <glm/glm.hpp>
+#include "mesh.h"
 
 namespace BLOCK {
     namespace COLOR {
@@ -37,10 +38,11 @@ namespace BLOCK {
 class Block
 {
 public:
-    Block();
-    Block(int color);
-    ~Block();
-    
+    Block(glm::vec4 color=BLOCK::COLOR::WHITE); //Constructor
+    Block(const Block& that);                   //Copy constructor
+    Block& operator=(const Block& that);        //Copy assignment operator
+    ~Block();                                   //Destructor
+
     void draw();
     
 private:
@@ -52,6 +54,11 @@ private:
     
     glm::vec4 _color;
     
+    Mesh _mesh;
+    float* _vertexArray;
+    int* _indexArray;
+    size_t _nVertices;
+    size_t _nIndices;
 };
 
 #endif /* defined(__Tetris__block__) */

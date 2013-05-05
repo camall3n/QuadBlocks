@@ -14,7 +14,6 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/tokenizer.hpp>
-#include <iostream>
 #include <string>
 
 Mesh::Mesh()
@@ -82,6 +81,8 @@ void Mesh::save(const std::string filename)
     char_separator<char> sep(", \n");
     
     // Set the vertices for the mesh
+    // NOTE: The number of spaces before each entry is based on the
+    //       property's seniority in the tree, which is always 2.
     std::string verticesStr = "\n    ";
     int i=1;
     BOOST_FOREACH(const float vertex_coord, this->vertices) {
@@ -102,6 +103,8 @@ void Mesh::save(const std::string filename)
     
     
     // Set the indices for the mesh
+    // NOTE: The number of spaces before each entry is based on the
+    //       property's seniority in the tree, which is always 2.
     std::string indicesStr = "\n    ";
     i=1;
     BOOST_FOREACH(const int index, this->indices) {
@@ -121,6 +124,34 @@ void Mesh::save(const std::string filename)
     pt.put("mesh.indices", indicesStr);
     
     // Write property tree to the XML file
-    xml_writer_settings<char> settings(' ', 4);
+    xml_writer_settings<char> settings(' ', 4);// Indent with 4 spaces
     write_xml(filename, pt, std::locale(), settings);
+}
+
+size_t Mesh::nVertices()
+{
+    return vertices.size();
+}
+
+size_t Mesh::nIndices()
+{
+    return indices.size();
+}
+
+void Mesh::fillVertexArray(float* vertexArray)
+{
+    int i=0;
+    BOOST_FOREACH(const int vertex_coord, vertices) {
+        vertexArray[i] = vertex_coord;
+        i++;
+    }
+}
+
+void Mesh::fillIndexArray(int* indexArray)
+{
+    int i=0;
+    BOOST_FOREACH(const int index, indices) {
+        indexArray[i] = index;
+        i++;
+    }
 }
