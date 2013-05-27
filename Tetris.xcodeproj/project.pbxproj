@@ -18,7 +18,29 @@
 		FD13B3211735FF9800705C91 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD13B31F1735FF9800705C91 /* mesh.cpp */; };
 		FD16CB9317361D2200688EDC /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB9117361D2200688EDC /* ResourcePath.mm */; };
 		FD16CB9417362E6300688EDC /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD13B31C1735F86000705C91 /* block.xml */; };
+		FD16CB97173B0EF000688EDC /* utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB95173B0EEF00688EDC /* utility.cpp */; };
+		FD16CBA3173DEC8C00688EDC /* basic.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD16CB9B173DE27500688EDC /* basic.vert */; };
+		FD16CBA4173DEC8C00688EDC /* basic.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD16CB9C173DE27500688EDC /* basic.frag */; };
+		FD16CBAF1748918100688EDC /* model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBAC1748918000688EDC /* model.cpp */; };
+		FD16CBB01748918100688EDC /* graphics_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBAE1748918000688EDC /* graphics_manager.cpp */; };
+		FD16CBB31748920800688EDC /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBB11748920800688EDC /* camera.cpp */; };
+		FD16CBB6175011A300688EDC /* world.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBB4175011A200688EDC /* world.cpp */; };
+		FD36E0231753EA660041A762 /* block1.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD36E0221753EA660041A762 /* block1.xml */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FD16CBA0173DEC6100688EDC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				FD16CBA3173DEC8C00688EDC /* basic.vert in CopyFiles */,
+				FD16CBA4173DEC8C00688EDC /* basic.frag in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		32AD906C171A68AB008E0827 /* tetromino.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tetromino.cpp; sourceTree = "<group>"; };
@@ -44,6 +66,19 @@
 		FD13B3201735FF9800705C91 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 		FD16CB9117361D2200688EDC /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
 		FD16CB9217361D2200688EDC /* ResourcePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourcePath.h; sourceTree = "<group>"; };
+		FD16CB95173B0EEF00688EDC /* utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utility.cpp; sourceTree = "<group>"; };
+		FD16CB96173B0EF000688EDC /* utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utility.h; sourceTree = "<group>"; };
+		FD16CB9B173DE27500688EDC /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.vert; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.glsl; };
+		FD16CB9C173DE27500688EDC /* basic.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.frag; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.glsl; };
+		FD16CBAB1748917F00688EDC /* model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
+		FD16CBAC1748918000688EDC /* model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = model.cpp; sourceTree = "<group>"; };
+		FD16CBAD1748918000688EDC /* graphics_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graphics_manager.h; sourceTree = "<group>"; };
+		FD16CBAE1748918000688EDC /* graphics_manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = graphics_manager.cpp; sourceTree = "<group>"; };
+		FD16CBB11748920800688EDC /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
+		FD16CBB21748920800688EDC /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
+		FD16CBB4175011A200688EDC /* world.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = world.cpp; sourceTree = "<group>"; };
+		FD16CBB5175011A300688EDC /* world.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = world.h; sourceTree = "<group>"; };
+		FD36E0221753EA660041A762 /* block1.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = block1.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,15 +134,26 @@
 		32FFC06C1710F65900667EFC /* Tetris */ = {
 			isa = PBXGroup;
 			children = (
-				32DFB0371711073500515349 /* controller.cpp */,
-				32DFB0361711073500515349 /* controller.h */,
-				32FFC0721710F65900667EFC /* main.cpp */,
-				FD13B3201735FF9800705C91 /* mesh.h */,
-				FD13B31F1735FF9800705C91 /* mesh.cpp */,
-				32AD906C171A68AB008E0827 /* tetromino.cpp */,
-				32AD906D171A68AB008E0827 /* tetromino.h */,
 				32AD9075171B31DE008E0827 /* block.cpp */,
 				32AD9076171B31DE008E0827 /* block.h */,
+				FD16CBB11748920800688EDC /* camera.cpp */,
+				FD16CBB21748920800688EDC /* camera.h */,
+				32DFB0371711073500515349 /* controller.cpp */,
+				32DFB0361711073500515349 /* controller.h */,
+				FD16CBAE1748918000688EDC /* graphics_manager.cpp */,
+				FD16CBAD1748918000688EDC /* graphics_manager.h */,
+				32FFC0721710F65900667EFC /* main.cpp */,
+				FD13B31F1735FF9800705C91 /* mesh.cpp */,
+				FD13B3201735FF9800705C91 /* mesh.h */,
+				FD16CBAC1748918000688EDC /* model.cpp */,
+				FD16CBAB1748917F00688EDC /* model.h */,
+				32AD906C171A68AB008E0827 /* tetromino.cpp */,
+				32AD906D171A68AB008E0827 /* tetromino.h */,
+				FD16CB95173B0EEF00688EDC /* utility.cpp */,
+				FD16CB96173B0EF000688EDC /* utility.h */,
+				FD16CBB4175011A200688EDC /* world.cpp */,
+				FD16CBB5175011A300688EDC /* world.h */,
+				FD16CB9F173DE28F00688EDC /* Shaders */,
 				FD13B31E1735FD9A00705C91 /* Resources */,
 				32FFC06D1710F65900667EFC /* Supporting Files */,
 			);
@@ -132,8 +178,18 @@
 			isa = PBXGroup;
 			children = (
 				FD13B31C1735F86000705C91 /* block.xml */,
+				FD36E0221753EA660041A762 /* block1.xml */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		FD16CB9F173DE28F00688EDC /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				FD16CB9B173DE27500688EDC /* basic.vert */,
+				FD16CB9C173DE27500688EDC /* basic.frag */,
+			);
+			name = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,6 +202,7 @@
 				32FFC05F1710F65900667EFC /* Sources */,
 				32FFC0601710F65900667EFC /* Frameworks */,
 				32FFC0611710F65900667EFC /* Resources */,
+				FD16CBA0173DEC6100688EDC /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -190,6 +247,7 @@
 				32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */,
 				32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */,
 				FD16CB9417362E6300688EDC /* block.xml in Resources */,
+				FD36E0231753EA660041A762 /* block1.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +264,11 @@
 				32AD9077171B31DE008E0827 /* block.cpp in Sources */,
 				FD13B3211735FF9800705C91 /* mesh.cpp in Sources */,
 				FD16CB9317361D2200688EDC /* ResourcePath.mm in Sources */,
+				FD16CB97173B0EF000688EDC /* utility.cpp in Sources */,
+				FD16CBAF1748918100688EDC /* model.cpp in Sources */,
+				FD16CBB01748918100688EDC /* graphics_manager.cpp in Sources */,
+				FD16CBB31748920800688EDC /* camera.cpp in Sources */,
+				FD16CBB6175011A300688EDC /* world.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

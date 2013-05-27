@@ -141,16 +141,16 @@ size_t Mesh::nIndices()
 void Mesh::fillVertexArray(float* vertexArray)
 {
     int i=0;
-    BOOST_FOREACH(const int vertex_coord, vertices) {
+    BOOST_FOREACH(float vertex_coord, vertices) {
         vertexArray[i] = vertex_coord;
         i++;
     }
 }
 
-void Mesh::fillIndexArray(int* indexArray)
+void Mesh::fillIndexArray(GLshort* indexArray)
 {
     int i=0;
-    BOOST_FOREACH(const int index, indices) {
+    BOOST_FOREACH(int index, indices) {
         indexArray[i] = index;
         i++;
     }

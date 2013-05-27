@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <string>
 #include <list>
+#include <GL/glew.h>
 
 class Mesh
 {
@@ -26,7 +27,7 @@ public:
     size_t nIndices();
     
     void fillVertexArray(float* vertexArray);
-    void fillIndexArray(int* indexArray);
+    void fillIndexArray(GLshort* indexArray);
     
 private:
     std::string name;

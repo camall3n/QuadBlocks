@@ -13,14 +13,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "block.h"
 #include "controller.h"
 #include "mesh.h"
 #include "ResourcePath.h"
+#include "utility.h"
+#include "world.h"
 
 //Constants
 #pragma mark Constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 800;
 const int SCREEN_BPP = 32;
 const int FRAMES_PER_SECOND = 60;
 const char* const WINDOW_TITLE = "Tetris";
@@ -30,6 +33,7 @@ const char* const WINDOW_TITLE = "Tetris";
 #pragma mark Globals
 bool should_quit = false;
 Controller controller;
+World* w = NULL;
 
 // Declarations
 #pragma mark
@@ -40,7 +44,6 @@ void update();
 void display();
 void cleanup();
 
-void checkError();
 void initGLFW();
 
 // GLFW Callbacks
@@ -72,6 +75,7 @@ int main(int argc, char* argv[]) {
 
 void init() {
     initGLFW();
+    w = new World();
 }
 
 void input() {
@@ -87,13 +91,16 @@ void display() {
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glfwGetTime();
+//    glfwGetTime();
+    
+    w->draw();
     
     glfwSwapBuffers();
     checkError();
 }
 
 void cleanup() {
+    delete w;
     glfwTerminate();
 }
 
@@ -112,13 +119,13 @@ void initGLFW() {
     glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
+    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 8);
     glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
     
     // Open a window and create its OpenGL context
 	if( !glfwOpenWindow( SCREEN_WIDTH, SCREEN_HEIGHT, 0,0,0,0, SCREEN_BPP,0, GLFW_WINDOW ) )
 	{
-		fprintf( stderr, "Failed to open GLFW window.\n" );
+		fprintf( stderr, "Failed to open GLFW window as an OpenGL 3.2 context.\n" );
 		glfwTerminate();
 		exit(-1);
 	}
@@ -131,8 +138,12 @@ void initGLFW() {
 		fprintf(stderr, "Failed to initialize GLEW\n");
 		exit(-1);
 	}
-    if (glGetError() == GL_INVALID_ENUM) {
+    GLenum error;
+    if ( (error = glGetError()) == GL_INVALID_ENUM) {
         //ignore it.
+    }
+    else {
+        printf("%s\n", gluErrorString(error));
     }
     
     glfwSetWindowTitle( WINDOW_TITLE );
@@ -144,17 +155,20 @@ void initGLFW() {
     glfwDisable(GLFW_MOUSE_CURSOR);
     glfwSetMousePos(0, 0);
     
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CW);
+    checkError("while setting up face culling");
+    
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+    glDepthRange(0.f, 1.f);
+    glEnable(GL_DEPTH_CLAMP);
+    checkError("while setting up depth mask");
+    
     controller.init(0);
 }
-
-
-void checkError() {
-    GLenum error;
-    while ( (error = glGetError()) != GL_NO_ERROR ) {
-        printf("%s\n", gluErrorString(error));
-    }
-}
-
 
 // Callbacks
 #pragma mark

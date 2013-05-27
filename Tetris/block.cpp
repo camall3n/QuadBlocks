@@ -8,30 +8,22 @@
 
 #include "block.h"
 
-#include <algorithm>
-#include <boost/foreach.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "ResourcePath.h"
+#include "utility.h"
 
 Block::Block(glm::vec4 color) :
     _state(BLOCK::USER_CONTROL),
-    _position(0,0),
+    _position(glm::vec3(0,0,0)),
     _offset(0,0),
     _rotation(0),
     _color(color),
-    _vertexArray(NULL),
-    _indexArray(NULL),
-    _nVertices(0),
-    _nIndices(0)
+    _modelToWorld(glm::mat4(1.f))
 {
-    _mesh.load( ResourcePath("block.xml") );
-    _nVertices = _mesh.nVertices();
-    _nIndices = _mesh.nIndices();
-    
-    _vertexArray = new float[_nVertices];
-    _indexArray = new int[_nIndices];
-    
-    _mesh.fillVertexArray(_vertexArray);
-    _mesh.fillIndexArray(_indexArray);
+    if (nBlockInstances==0) {
+        InitializeGLObjects();
+    }
+    nBlockInstances++;
 }
 
 // Copy constructor
@@ -41,15 +33,12 @@ Block::Block(const Block& that) :
     _offset(that._offset),
     _rotation(that._rotation),
     _color(that._color),
-    _mesh(that._mesh),
-    _nVertices(that._nVertices),
-    _nIndices(that._nIndices)
+    _modelToWorld(that._modelToWorld)
 {
-    _vertexArray = new float[_nVertices];
-    _indexArray = new int[_nIndices];
-    
-    std::copy(that._vertexArray+0, that._vertexArray+_nVertices, _vertexArray);
-    std::copy(that._indexArray+0, that._indexArray+_nIndices, _indexArray);
+    if (nBlockInstances==0) {
+        InitializeGLObjects();
+    }
+    nBlockInstances++;
 }
 
 // Copy assignment operator
@@ -60,19 +49,7 @@ Block& Block::operator=(const Block& that)
     _offset = that._offset;
     _rotation = that._rotation;
     _color = that._color;
-    _mesh = that._mesh;
-    _nVertices = that._nVertices;
-    _nIndices = that._nIndices;
-    
-    float* vertexArray = new float[_nVertices];
-    std::copy(that._vertexArray+0, that._vertexArray+_nVertices, vertexArray);
-    delete[] _vertexArray;
-    _vertexArray = vertexArray;
-    
-    int* indexArray = new int[_nIndices];
-    std::copy(that._indexArray+0, that._indexArray+_nIndices, indexArray);
-    delete[] _indexArray;
-    _indexArray = indexArray;
+    _modelToWorld = that._modelToWorld;
     
     return *this;
 }
@@ -80,7 +57,136 @@ Block& Block::operator=(const Block& that)
 // Destructor
 Block::~Block()
 {
-    delete[] _vertexArray;
-    delete[] _indexArray;
+    nBlockInstances--;
+    if (nBlockInstances == 0) {
+        DestroyGLObjects();
+    }
 }
 
+void Block::draw()
+{
+    glUseProgram(_glProgram);
+    
+    glBindVertexArray(_glObject.vertexArray);
+    {
+        glUniform4fv(_glUniform.diffuseColor, 1, glm::value_ptr(_color));
+        glUniformMatrix4fv(_glUniform.modelToWorld, 1, GL_FALSE, glm::value_ptr(_modelToWorld));
+        
+        glDrawElements(GL_TRIANGLES, _mesh.nIndices, GL_UNSIGNED_SHORT, 0);
+    }
+    glBindVertexArray(0);
+    
+    glUseProgram(0);
+    
+    checkError("during draw");
+}
+
+glm::vec2 Block::position() const
+{
+    return glm::vec2(_position.x, _position.y);
+}
+void Block::setPosition(glm::vec2 pos)
+{
+    glm::vec3 xyz = glm::vec3(pos, 0.f);
+    if (_position != xyz) {
+        _position = xyz;
+        _modelToWorld = glm::mat4(1.f);
+        _modelToWorld[3] = glm::vec4(_position, 1.f);
+    }
+}
+
+
+size_t Block::getNumBlockInstances()
+{
+    return nBlockInstances;
+}
+
+void Block::useCamera(Camera &c)
+{
+    if (nBlockInstances==0) {
+        fprintf(stderr, "Error: useCamera() called while there were no Block insances.\n");
+    }
+    if (Camera::getNumCameraInstances() == 0) {
+        fprintf(stderr, "Error: useCamera() called while there were no Camera insances.\n");
+    }
+    _glObject.uniformBindingLocation = 0;
+    GLuint uniformBlockIndex = glGetUniformBlockIndex(_glProgram, "SharedUniforms");
+    glUniformBlockBinding(_glProgram, uniformBlockIndex, _glObject.uniformBindingLocation);
+
+    _glObject.uniformBuffer = c.getUBO();
+    glBindBufferRange(GL_UNIFORM_BUFFER, _glObject.uniformBindingLocation, _glObject.uniformBuffer, 0, sizeof(glm::mat4));
+    
+    checkError("while setting up the camera");
+}
+
+void Block::InitializeGLObjects()
+{
+    Mesh mesh;
+    mesh.load( ResourcePath("block.xml") );
+    
+    _mesh.nVertices = (int) mesh.nVertices();
+    _mesh.nIndices = (int) mesh.nIndices();
+    
+    float* vertexData = new float[_mesh.nVertices];
+    GLshort* indexData = new GLshort[_mesh.nIndices];
+    
+    mesh.fillVertexArray(vertexData);
+    mesh.fillIndexArray(indexData);
+    
+    // Create and compile program
+    _glProgram = LoadProgram( "basic.vert", "basic.frag" );
+    checkError("during program compilation");
+    
+    _glAttrib.position = glGetAttribLocation(_glProgram, "position");
+
+	_glUniform.diffuseColor = glGetUniformLocation(_glProgram, "diffuseColor");
+    _glUniform.modelToWorld = glGetUniformLocation(_glProgram, "modelToWorldMatrix");
+    checkError("during location finding");
+    
+    // Generate and fill GL buffers
+    GLsizeiptr nVertexBytes = sizeof(vertexData[0]) * _mesh.nVertices;
+    glGenBuffers(1, &_glObject.vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, _glObject.vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, nVertexBytes, vertexData, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    GLsizeiptr nIndexBytes = sizeof(indexData[0]) * _mesh.nIndices;
+    glGenBuffers(1, &_glObject.indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _glObject.indexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndexBytes, indexData, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);    
+    checkError("during buffer creation");
+    
+    // Generate and configure VAO for the GL buffers
+    glGenVertexArrays(1, &_glObject.vertexArray);
+	glBindVertexArray(_glObject.vertexArray);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, _glObject.vertexBuffer);
+    glEnableVertexAttribArray(_glAttrib.position);
+    glVertexAttribPointer(_glAttrib.position, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _glObject.indexBuffer);
+    
+    glBindVertexArray(0);
+    checkError("during VAO creation");
+        
+    delete[] vertexData;
+    delete[] indexData;
+}
+
+void Block::DestroyGLObjects()
+{
+    glDeleteBuffers(1, &_glObject.vertexBuffer);
+    glDeleteBuffers(1, &_glObject.indexBuffer);
+    glDeleteProgram(_glProgram);
+    
+    checkError("during GL object destruction");
+}
+
+
+GLuint Block::_glProgram;
+Block::GLAttributes Block::_glAttrib;
+Block::GLUniforms Block::_glUniform;
+Block::GLObjects Block::_glObject;
+Block::MeshDetails Block::_mesh;
+size_t Block::nBlockInstances;
