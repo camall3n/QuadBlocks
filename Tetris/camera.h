@@ -32,6 +32,7 @@ public:
     void setOrientation(glm::vec3 up);
     
     GLuint getUBO();
+    size_t getUBOSize();
     static size_t getNumCameraInstances();
     
 private:

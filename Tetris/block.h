@@ -14,25 +14,27 @@
 #include <GL/glfw.h>
 #include <glm/glm.hpp>
 #include "camera.h"
+#include "light.h"
 #include "mesh.h"
 #include "model.h"
 
 namespace BLOCK {
     namespace COLOR {
-        const glm::vec4 CYAN   = glm::vec4(0.f, .9f, .9f, 1.f);
-        const glm::vec4 YELLOW = glm::vec4(1.f, .9f, 0.f, 1.f);
-        const glm::vec4 PURPLE = glm::vec4(.7f, 0.f, 1.f, 1.f);
-        const glm::vec4 GREEN  = glm::vec4(0.f, .9f, 0.f, 1.f);
-        const glm::vec4 RED    = glm::vec4(.9f, 0.f, 0.f, 1.f);
-        const glm::vec4 BLUE   = glm::vec4(0.f, 0.f, 1.f, 1.f);
-        const glm::vec4 ORANGE = glm::vec4(1.f, .5f, 0.f, 1.f);
-        const glm::vec4 GRAY   = glm::vec4(.7f, .7f, .7f, 1.f);
-        const glm::vec4 WHITE  = glm::vec4(9.f, 9.f, 9.f, 1.f);
+        const glm::vec4 CYAN   = glm::vec4(0.0, 0.9, 0.9, 1.0);
+        const glm::vec4 YELLOW = glm::vec4(1.0, 0.9, 0.0, 1.0);
+        const glm::vec4 PURPLE = glm::vec4(0.8, 0.1, 0.9, 1.0);
+        const glm::vec4 GREEN  = glm::vec4(0.0, 0.9, 0.0, 1.0);
+        const glm::vec4 RED    = glm::vec4(1.0, 0.1, 0.1, 1.0);
+        const glm::vec4 BLUE   = glm::vec4(0.2, 0.2, 0.8, 1.0);
+        const glm::vec4 ORANGE = glm::vec4(1.0, 0.5, 0.0, 1.0);
+        const glm::vec4 BLACK  = glm::vec4(0.0, 0.0, 0.0, 1.0);
+        const glm::vec4 GRAY   = glm::vec4(0.4, 0.4, 0.4, 1.0);
+        const glm::vec4 WHITE  = glm::vec4(1.0, 1.0, 1.0, 1.0);
         
-        const glm::vec4 NONE   = glm::vec4(0.f, 0.f, 0.f, 0.f);
+        const glm::vec4 NONE   = glm::vec4(0.0, 0.0, 0.0, 0.0);
         
         const glm::vec4 NUMBER[] = {
-            CYAN, YELLOW, PURPLE, GREEN, RED, BLUE, ORANGE, GRAY, WHITE
+            CYAN, YELLOW, PURPLE, GREEN, RED, BLUE, ORANGE, BLACK, GRAY, WHITE
         };
         const int MAX_NUMBER = sizeof(NUMBER)/sizeof(NUMBER[0]);
     };
@@ -60,7 +62,8 @@ public:
     void setPosition(glm::vec2 pos);
     
     static size_t getNumBlockInstances();
-    static void useCamera(Camera &c);// Requires at least one block instance to exist
+    static void useCamera(Camera &camera);// Requires at least one block instance to exist
+    static void useLight(Light &light);// Requires at least one block instance to exist
     
 private:
     void InitializeGLObjects();// Called on creation of first block instance
@@ -77,6 +80,7 @@ private:
     // Types for static class variables
     struct GLAttributes {
         GLuint position;
+        GLuint normal;
     };
     struct GLUniforms {
         GLuint diffuseColor;
@@ -85,12 +89,17 @@ private:
     struct GLObjects {
         GLuint vertexArray;
         GLuint vertexBuffer;
+        GLuint normalArray;
+        GLuint normalBuffer;
         GLuint indexBuffer;
-        GLuint uniformBuffer;
-        GLuint uniformBindingLocation;
+        GLuint transformUBO;
+        GLuint transformBindingLocation;
+        GLuint lightingUBO;
+        GLuint lightingBindingLocation;
     };
     struct MeshDetails {
         int nVertices;
+        int nNormals;
         int nIndices;
     };
 

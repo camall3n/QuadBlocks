@@ -24,14 +24,17 @@ public:
     void save(const std::string filename);
     
     size_t nVertices();
+    size_t nNormals();
     size_t nIndices();
     
     void fillVertexArray(float* vertexArray);
+    void fillNormalArray(float* normalArray);
     void fillIndexArray(GLshort* indexArray);
     
 private:
     std::string name;
     std::list<float> vertices;
+    std::list<float> normals;
     std::list<int> indices;
 };
 

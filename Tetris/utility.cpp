@@ -166,3 +166,8 @@ std::ostream &operator<< (std::ostream &out, const glm::mat4 &mat) {
         << " " << mat[3] << "}";
     return out;
 }
+
+int randint(int a, int b)
+{
+    return ( rand() % (b-a) ) + a;
+}

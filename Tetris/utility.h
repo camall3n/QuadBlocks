@@ -9,12 +9,14 @@
 #ifndef __Tetris__utility__
 #define __Tetris__utility__
 
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
 #include <GL/glew.h>
 #include <GL/glfw.h>
 #include <glm/glm.hpp>
+
 using std::cout;
 using std::endl;
 
@@ -31,5 +33,6 @@ std::ostream &operator<< (std::ostream &out, const glm::mat2 &vec);
 std::ostream &operator<< (std::ostream &out, const glm::mat3 &vec);
 std::ostream &operator<< (std::ostream &out, const glm::mat4 &vec);
 
+int randint(int a, int b);// random integer in the range [a, b]
 
 #endif /* defined(__Tetris__utility__) */

@@ -1,22 +1,14 @@
 #version 150
 
 in vec3 position;
-//in vec3 normal;
-
-out vec4 fragDiffuseColor;
-
-out vec3 fragCameraPosition;
-out vec4 fragLightIntensity;
-out vec4 fragAmbientIntensity;
-out float fragLightAttenuation;
-
+in vec3 normal;
 uniform vec4 diffuseColor;
 uniform mat4 modelToWorldMatrix;
+
 
 layout(std140) uniform TransformUniforms
 {
     mat4 worldToClipMatrix;
-//    mat4 cameraToClipMatrix;
 };
 
 layout(std140) uniform LightingUniforms
@@ -27,15 +19,34 @@ layout(std140) uniform LightingUniforms
     float lightAttenuation;
 };
 
+
+//out vec4 gl_Position;// (built-in)
+out vec3 fragClipPosition;
+out vec3 fragNormal;
+out vec4 fragDiffuseColor;
+
+out vec3 fragClipLightPosition;
+//out vec4 fragLightIntensity;
+//out vec4 fragAmbientIntensity;
+//out float fragLightAttenuation;
+
+
 void main(){
     vec4 worldVertexPosition = modelToWorldMatrix * vec4(position, 1.0);
-//    vec4 cameraVertexPosition = worldToCameraMatrix * worldVertexPosition;
-    gl_Position = worldToClipMatrix * worldVertexPosition;
+    vec4 clipVertexPosition = worldToClipMatrix * worldVertexPosition;
+    gl_Position = clipVertexPosition;
+    fragClipPosition = clipVertexPosition.xyz;
     
-//    vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);
+    vec4 worldNormal = modelToWorldMatrix * vec4(normal, 0.0);
+    vec4 clipNormal = worldToClipMatrix * worldNormal;
+    fragNormal = normalize(clipNormal.xyz);
     
-//    fragCameraPosition = vec3(cameraVertexPosition);
-//    fragNormal = normCamSpace;
     fragDiffuseColor = diffuseColor;
+    
+    vec4 clipLightPosition = worldToClipMatrix * vec4(worldLightPosition, 1.0);
+    fragClipLightPosition = clipLightPosition.xyz;
+//    fragLightIntensity = lightIntensity;
+//    fragAmbientIntensity = ambientIntensity;
+//    fragLightAttenuation = lightAttenuation;
 }
 

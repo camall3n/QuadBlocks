@@ -101,7 +101,7 @@ size_t Block::getNumBlockInstances()
     return nBlockInstances;
 }
 
-void Block::useCamera(Camera &c)
+void Block::useCamera(Camera &camera)
 {
     if (nBlockInstances==0) {
         fprintf(stderr, "Error: useCamera() called while there were no Block insances.\n");
@@ -109,14 +109,32 @@ void Block::useCamera(Camera &c)
     if (Camera::getNumCameraInstances() == 0) {
         fprintf(stderr, "Error: useCamera() called while there were no Camera insances.\n");
     }
-    _glObject.uniformBindingLocation = 0;
-    GLuint uniformBlockIndex = glGetUniformBlockIndex(_glProgram, "SharedUniforms");
-    glUniformBlockBinding(_glProgram, uniformBlockIndex, _glObject.uniformBindingLocation);
+    _glObject.transformBindingLocation = 0;
+    GLuint uniformBlockIndex = glGetUniformBlockIndex(_glProgram, "TransformUniforms");
+    glUniformBlockBinding(_glProgram, uniformBlockIndex, _glObject.transformBindingLocation);
 
-    _glObject.uniformBuffer = c.getUBO();
-    glBindBufferRange(GL_UNIFORM_BUFFER, _glObject.uniformBindingLocation, _glObject.uniformBuffer, 0, sizeof(glm::mat4));
+    _glObject.transformUBO = camera.getUBO();
+    glBindBufferRange(GL_UNIFORM_BUFFER, _glObject.transformBindingLocation, _glObject.transformUBO, 0, camera.getUBOSize());
     
     checkError("while setting up the camera");
+}
+
+void Block::useLight(Light &light)
+{
+    if (nBlockInstances==0) {
+        fprintf(stderr, "Error: useCamera() called while there were no Block insances.\n");
+    }
+    if (Camera::getNumCameraInstances() == 0) {
+        fprintf(stderr, "Error: useCamera() called while there were no Camera insances.\n");
+    }
+    _glObject.lightingBindingLocation = 1;
+    GLuint uniformBlockIndex = glGetUniformBlockIndex(_glProgram, "LightingUniforms");
+    glUniformBlockBinding(_glProgram, uniformBlockIndex, _glObject.lightingBindingLocation);
+    
+    _glObject.lightingUBO = light.getUBO();
+    glBindBufferRange(GL_UNIFORM_BUFFER, _glObject.lightingBindingLocation, _glObject.lightingUBO, 0, light.getUBOSize());
+    
+    checkError("while setting up the light");
 }
 
 void Block::InitializeGLObjects()
@@ -125,12 +143,15 @@ void Block::InitializeGLObjects()
     mesh.load( ResourcePath("block.xml") );
     
     _mesh.nVertices = (int) mesh.nVertices();
+    _mesh.nNormals = (int) mesh.nNormals();
     _mesh.nIndices = (int) mesh.nIndices();
     
     float* vertexData = new float[_mesh.nVertices];
+    float* normalData = new float[_mesh.nNormals];
     GLshort* indexData = new GLshort[_mesh.nIndices];
     
     mesh.fillVertexArray(vertexData);
+    mesh.fillNormalArray(normalData);
     mesh.fillIndexArray(indexData);
     
     // Create and compile program
@@ -138,6 +159,7 @@ void Block::InitializeGLObjects()
     checkError("during program compilation");
     
     _glAttrib.position = glGetAttribLocation(_glProgram, "position");
+    _glAttrib.normal = glGetAttribLocation(_glProgram, "normal");
 
 	_glUniform.diffuseColor = glGetUniformLocation(_glProgram, "diffuseColor");
     _glUniform.modelToWorld = glGetUniformLocation(_glProgram, "modelToWorldMatrix");
@@ -148,6 +170,12 @@ void Block::InitializeGLObjects()
     glGenBuffers(1, &_glObject.vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, _glObject.vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, nVertexBytes, vertexData, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    GLsizeiptr nNormalBytes = sizeof(normalData[0]) * _mesh.nNormals;
+    glGenBuffers(1, &_glObject.normalBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, _glObject.normalBuffer);
+	glBufferData(GL_ARRAY_BUFFER, nNormalBytes, normalData, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     GLsizeiptr nIndexBytes = sizeof(indexData[0]) * _mesh.nIndices;
@@ -164,6 +192,10 @@ void Block::InitializeGLObjects()
     glBindBuffer(GL_ARRAY_BUFFER, _glObject.vertexBuffer);
     glEnableVertexAttribArray(_glAttrib.position);
     glVertexAttribPointer(_glAttrib.position, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, _glObject.normalBuffer);
+    glEnableVertexAttribArray(_glAttrib.normal);
+    glVertexAttribPointer(_glAttrib.normal, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _glObject.indexBuffer);
     

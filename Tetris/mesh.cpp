@@ -53,6 +53,15 @@ void Mesh::load(const std::string filename)
         this->vertices.push_back(value);
     }
     
+    // Get the normals for the mesh
+    this->normals.clear();
+    std::string normalsStr = pt.get<std::string>("mesh.normals");
+    tokenizer< char_separator<char> > normals(normalsStr, sep);
+    BOOST_FOREACH(const std::string normal_coord, normals) {
+        float value = atof(normal_coord.c_str());
+        this->normals.push_back(value);
+    }
+    
     // Get the indices for the mesh
     this->indices.clear();
     std::string indicesStr = pt.get<std::string>("mesh.indices");
@@ -102,6 +111,28 @@ void Mesh::save(const std::string filename)
     pt.put("mesh.vertices", verticesStr);
     
     
+    // Set the normals for the mesh
+    // NOTE: The number of spaces before each entry is based on the
+    //       property's seniority in the tree, which is always 2.
+    std::string normalsStr = "\n    ";
+    i=1;
+    BOOST_FOREACH(const float normal_coord, this->normals) {
+        char valueStr[15];
+        std::sprintf(valueStr, "% g", normal_coord);
+        
+        if (i%3==1) {
+            normalsStr += "    ";
+        }
+        normalsStr += valueStr;
+        normalsStr += ", ";
+        if (i%3==0) {
+            normalsStr += "\n    ";
+        }
+        i++;
+    }
+    pt.put("mesh.normals", normalsStr);
+    
+    
     // Set the indices for the mesh
     // NOTE: The number of spaces before each entry is based on the
     //       property's seniority in the tree, which is always 2.
@@ -133,6 +164,11 @@ size_t Mesh::nVertices()
     return vertices.size();
 }
 
+size_t Mesh::nNormals()
+{
+    return normals.size();
+}
+
 size_t Mesh::nIndices()
 {
     return indices.size();
@@ -143,6 +179,15 @@ void Mesh::fillVertexArray(float* vertexArray)
     int i=0;
     BOOST_FOREACH(float vertex_coord, vertices) {
         vertexArray[i] = vertex_coord;
+        i++;
+    }
+}
+
+void Mesh::fillNormalArray(float *normalArray)
+{
+    int i=0;
+    BOOST_FOREACH(float normal_coord, normals) {
+        normalArray[i] = normal_coord;
         i++;
     }
 }

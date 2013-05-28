@@ -17,7 +17,6 @@
 		32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC0891710F8E500667EFC /* Tetris.icns */; };
 		FD13B3211735FF9800705C91 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD13B31F1735FF9800705C91 /* mesh.cpp */; };
 		FD16CB9317361D2200688EDC /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB9117361D2200688EDC /* ResourcePath.mm */; };
-		FD16CB9417362E6300688EDC /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD13B31C1735F86000705C91 /* block.xml */; };
 		FD16CB97173B0EF000688EDC /* utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB95173B0EEF00688EDC /* utility.cpp */; };
 		FD16CBA3173DEC8C00688EDC /* basic.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD16CB9B173DE27500688EDC /* basic.vert */; };
 		FD16CBA4173DEC8C00688EDC /* basic.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD16CB9C173DE27500688EDC /* basic.frag */; };
@@ -25,7 +24,8 @@
 		FD16CBB01748918100688EDC /* graphics_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBAE1748918000688EDC /* graphics_manager.cpp */; };
 		FD16CBB31748920800688EDC /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBB11748920800688EDC /* camera.cpp */; };
 		FD16CBB6175011A300688EDC /* world.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBB4175011A200688EDC /* world.cpp */; };
-		FD36E0231753EA660041A762 /* block1.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD36E0221753EA660041A762 /* block1.xml */; };
+		FD36E0231753EA660041A762 /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD36E0221753EA660041A762 /* block.xml */; };
+		FD36E0261753FAD30041A762 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E0241753FAD30041A762 /* light.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,7 +61,6 @@
 		32FFC07C1710F65900667EFC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		32FFC0831710F6C100667EFC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		32FFC0891710F8E500667EFC /* Tetris.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Tetris.icns; sourceTree = SOURCE_ROOT; };
-		FD13B31C1735F86000705C91 /* block.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = block.xml; sourceTree = "<group>"; };
 		FD13B31F1735FF9800705C91 /* mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mesh.cpp; sourceTree = "<group>"; };
 		FD13B3201735FF9800705C91 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 		FD16CB9117361D2200688EDC /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
@@ -78,7 +77,9 @@
 		FD16CBB21748920800688EDC /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
 		FD16CBB4175011A200688EDC /* world.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = world.cpp; sourceTree = "<group>"; };
 		FD16CBB5175011A300688EDC /* world.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = world.h; sourceTree = "<group>"; };
-		FD36E0221753EA660041A762 /* block1.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = block1.xml; sourceTree = "<group>"; };
+		FD36E0221753EA660041A762 /* block.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = block.xml; sourceTree = "<group>"; };
+		FD36E0241753FAD30041A762 /* light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
+		FD36E0251753FAD30041A762 /* light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +143,8 @@
 				32DFB0361711073500515349 /* controller.h */,
 				FD16CBAE1748918000688EDC /* graphics_manager.cpp */,
 				FD16CBAD1748918000688EDC /* graphics_manager.h */,
+				FD36E0241753FAD30041A762 /* light.cpp */,
+				FD36E0251753FAD30041A762 /* light.h */,
 				32FFC0721710F65900667EFC /* main.cpp */,
 				FD13B31F1735FF9800705C91 /* mesh.cpp */,
 				FD13B3201735FF9800705C91 /* mesh.h */,
@@ -177,8 +180,7 @@
 		FD13B31E1735FD9A00705C91 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FD13B31C1735F86000705C91 /* block.xml */,
-				FD36E0221753EA660041A762 /* block1.xml */,
+				FD36E0221753EA660041A762 /* block.xml */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -246,8 +248,7 @@
 			files = (
 				32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */,
 				32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */,
-				FD16CB9417362E6300688EDC /* block.xml in Resources */,
-				FD36E0231753EA660041A762 /* block1.xml in Resources */,
+				FD36E0231753EA660041A762 /* block.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +270,7 @@
 				FD16CBB01748918100688EDC /* graphics_manager.cpp in Sources */,
 				FD16CBB31748920800688EDC /* camera.cpp in Sources */,
 				FD16CBB6175011A300688EDC /* world.cpp in Sources */,
+				FD36E0261753FAD30041A762 /* light.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

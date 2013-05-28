@@ -23,6 +23,7 @@ public:
 private:
 //    Block b;
     Camera c;
+    Light light;
     
     std::list<Block> blocks;
     

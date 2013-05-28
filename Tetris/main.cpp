@@ -167,6 +167,10 @@ void initGLFW() {
     glEnable(GL_DEPTH_CLAMP);
     checkError("while setting up depth mask");
     
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    checkError("while setting up alpha blending");
+    
     controller.init(0);
 }
 

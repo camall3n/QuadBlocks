@@ -104,6 +104,11 @@ GLuint Camera::getUBO()
     return _glObject.uniformBuffer;
 }
 
+size_t Camera::getUBOSize()
+{
+    return sizeof(GLSharedUniforms);
+}
+
 size_t Camera::getNumCameraInstances()
 {
     return nCameraInstances;
