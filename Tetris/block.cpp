@@ -14,11 +14,14 @@
 
 Block::Block(glm::vec4 color) :
     _state(BLOCK::USER_CONTROL),
-    _position(glm::vec3(0,0,0)),
-    _offset(0,0),
+    _position(0,0,0),
+    _offset(0,0,0),
     _rotation(0),
     _color(color),
-    _modelToWorld(glm::mat4(1.f))
+    _offsetModel(1.f),
+    _rotateToOrientation(1.f),
+    _translateToWorld(1.f),
+    _modelToWorld(1.f)
 {
     if (nBlockInstances==0) {
         InitializeGLObjects();
@@ -33,6 +36,9 @@ Block::Block(const Block& that) :
     _offset(that._offset),
     _rotation(that._rotation),
     _color(that._color),
+    _offsetModel(that._offsetModel),
+    _rotateToOrientation(that._rotateToOrientation),
+    _translateToWorld(that._translateToWorld),
     _modelToWorld(that._modelToWorld)
 {
     if (nBlockInstances==0) {
@@ -49,6 +55,9 @@ Block& Block::operator=(const Block& that)
     _offset = that._offset;
     _rotation = that._rotation;
     _color = that._color;
+    _offsetModel = that._offsetModel;
+    _rotateToOrientation = that._rotateToOrientation;
+    _translateToWorld = that._translateToWorld;
     _modelToWorld = that._modelToWorld;
     
     return *this;
@@ -65,6 +74,8 @@ Block::~Block()
 
 void Block::draw()
 {
+    _modelToWorld = _translateToWorld * _rotateToOrientation * _offsetModel;
+
     glUseProgram(_glProgram);
     
     glBindVertexArray(_glObject.vertexArray);
@@ -85,16 +96,44 @@ glm::vec2 Block::position() const
 {
     return glm::vec2(_position.x, _position.y);
 }
+glm::vec2 Block::offset() const
+{
+    return glm::vec2(_offset.x, _offset.y);
+}
+float Block::rotation() const
+{
+    return _rotation;
+}
+
 void Block::setPosition(glm::vec2 pos)
 {
     glm::vec3 xyz = glm::vec3(pos, 0.f);
     if (_position != xyz) {
         _position = xyz;
-        _modelToWorld = glm::mat4(1.f);
-        _modelToWorld[3] = glm::vec4(_position, 1.f);
+        _translateToWorld = glm::mat4(1.f);
+        _translateToWorld[3] = glm::vec4(_position, 1.f);
     }
 }
-
+void Block::setOffset(glm::vec2 offset)
+{
+    glm::vec3 xyz = glm::vec3(offset, 0.f);
+    if (_offset != xyz) {
+        _offset = xyz;
+        _offsetModel = glm::mat4(1.f);
+        _offsetModel[3] = glm::vec4(_offset, 1.f);
+    }
+}
+void Block::setRotation(float angle)
+{
+    if (_rotation != angle) {
+        _rotation = angle;
+        _rotateToOrientation = glm::mat4(1.f);
+        _rotateToOrientation[0].x =  cos(angle);
+        _rotateToOrientation[0].y = -sin(angle);
+        _rotateToOrientation[1].x =  sin(angle);
+        _rotateToOrientation[1].y =  cos(angle);
+    }
+}
 
 size_t Block::getNumBlockInstances()
 {

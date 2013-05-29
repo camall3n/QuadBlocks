@@ -9,14 +9,15 @@
 #ifndef __Tetris__tetromino__
 #define __Tetris__tetromino__
 
+#include <glm/glm.hpp>
 #include <iostream>
 #include <list>
-#include <glm/glm.hpp>
+#include <vector>
 #include "block.h"
 
 namespace TETROMINO {
     enum TYPE {
-        I,
+        I = 0,
         O,
         T,
         S,
@@ -28,7 +29,6 @@ namespace TETROMINO {
     enum STATE {
         ACTIVE,
         HOLDING,
-        ON_DECK,
         UPCOMING,
         GHOST
     };
@@ -50,25 +50,30 @@ namespace TETROMINO {
 class Tetromino
 {
 public:
-    Tetromino();
-    Tetromino(int type);
-    ~Tetromino();
+    Tetromino(TETROMINO::TYPE type=TETROMINO::I);
+//    ~Tetromino();
     
     void draw();
     void update(TETROMINO::COMMAND command);
     
+    void setPosition(glm::vec2 pos);
+    void setRotation(float angle);
+
 private:
     TETROMINO::TYPE _type;
     TETROMINO::STATE _state;
     TETROMINO::COMMAND _currentCommand;
 
+    glm::vec4 _color;
     glm::vec2 _position;
+    glm::vec2 _center;
     float _rotation;
     
     std::list<Block> _blocksList;
     
-    Tetromino* parent;
-    Tetromino* ghost;
+    static glm::vec4 getColor(TETROMINO::TYPE type);
+    static glm::vec2 getCenter(TETROMINO::TYPE type);
+    static std::vector<glm::vec2> getBaseOffsets(TETROMINO::TYPE type);
 };
 
 #endif /* defined(__Tetris__tetromino__) */

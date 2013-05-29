@@ -34,7 +34,7 @@ namespace BLOCK {
         const glm::vec4 NONE   = glm::vec4(0.0, 0.0, 0.0, 0.0);
         
         const glm::vec4 NUMBER[] = {
-            CYAN, YELLOW, PURPLE, GREEN, RED, BLUE, ORANGE, BLACK, GRAY, WHITE
+            CYAN, YELLOW, PURPLE, GREEN, RED, BLUE, ORANGE, //BLACK, GRAY, WHITE
         };
         const int MAX_NUMBER = sizeof(NUMBER)/sizeof(NUMBER[0]);
     };
@@ -59,7 +59,11 @@ public:
     void draw();
     
     glm::vec2 position() const;
+    glm::vec2 offset() const;
+    float rotation() const;
     void setPosition(glm::vec2 pos);
+    void setOffset(glm::vec2 offset);
+    void setRotation(float angle);
     
     static size_t getNumBlockInstances();
     static void useCamera(Camera &camera);// Requires at least one block instance to exist
@@ -72,9 +76,12 @@ private:
     // Instance member variables
     BLOCK::STATE _state;
     glm::vec3 _position;
-    glm::vec2 _offset;
+    glm::vec3 _offset;
     float _rotation;
     glm::vec4 _color;
+    glm::mat4 _offsetModel;
+    glm::mat4 _rotateToOrientation;
+    glm::mat4 _translateToWorld;
     glm::mat4 _modelToWorld;
     
     // Types for static class variables

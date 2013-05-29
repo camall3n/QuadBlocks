@@ -12,6 +12,8 @@
 #include <list>
 #include "block.h"
 #include "camera.h"
+#include "light.h"
+#include "tetromino.h"
 
 class World
 {
@@ -23,6 +25,7 @@ public:
 private:
 //    Block b;
     Camera c;
+    Tetromino piece;
     Light light;
     
     std::list<Block> blocks;
