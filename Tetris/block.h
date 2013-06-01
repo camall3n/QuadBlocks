@@ -16,7 +16,6 @@
 #include "camera.h"
 #include "light.h"
 #include "mesh.h"
-#include "model.h"
 
 namespace BLOCK {
     namespace COLOR {
@@ -48,7 +47,7 @@ namespace BLOCK {
     };
 };
 
-class Block : public Model
+class Block
 {
 public:
     Block(glm::vec4 color=BLOCK::COLOR::WHITE); //Constructor

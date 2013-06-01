@@ -12,7 +12,6 @@
 #include <GL/glew.h>
 #include <GL/glfw.h>
 #include <glm/glm.hpp>
-//#include "model.h"
 
 class Camera
 {

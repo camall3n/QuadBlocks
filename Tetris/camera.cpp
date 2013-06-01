@@ -184,22 +184,13 @@ glm::mat4 Camera::CalcLookAtMatrix()
 	glm::vec3 perpUpDir = glm::cross(rightDir, lookDir);
     
     glm::mat4 rotMat(1.f);
-//    std::cout << "position = " << _position << endl;
-//    std::cout << "target = " << _target << endl;
-//    std::cout << "upDir = " << _upDir << endl;
     rotMat[0] = glm::vec4(rightDir, 0.f);
     rotMat[1] = glm::vec4(perpUpDir, 0.f);
     rotMat[2] = glm::vec4(-lookDir, 0.f);
     rotMat = glm::transpose(rotMat);
-//    
-//    std::cout << "rotMat=" << std::endl;
-//    std::cout << rotMat << std::endl;
     
     glm::mat4 transMat(1.f);
     transMat[3] = glm::vec4(-_position, 1.f);
-//    
-//    std::cout << "transMat=" << std::endl;
-//    std::cout << transMat << std::endl;
     
     return rotMat * transMat;
 }
