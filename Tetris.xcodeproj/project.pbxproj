@@ -24,6 +24,8 @@
 		FD16CBB6175011A300688EDC /* world.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBB4175011A200688EDC /* world.cpp */; };
 		FD36E0231753EA660041A762 /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD36E0221753EA660041A762 /* block.xml */; };
 		FD36E0261753FAD30041A762 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E0241753FAD30041A762 /* light.cpp */; };
+		FD36E043175A925E0041A762 /* well.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E041175A925D0041A762 /* well.cpp */; };
+		FD36E046175A933F0041A762 /* garbage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E044175A933F0041A762 /* garbage.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -74,6 +76,11 @@
 		FD36E0221753EA660041A762 /* block.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = block.xml; sourceTree = "<group>"; };
 		FD36E0241753FAD30041A762 /* light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
 		FD36E0251753FAD30041A762 /* light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light.h; sourceTree = "<group>"; };
+		FD36E041175A925D0041A762 /* well.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = well.cpp; sourceTree = "<group>"; };
+		FD36E042175A925D0041A762 /* well.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = well.h; sourceTree = "<group>"; };
+		FD36E044175A933F0041A762 /* garbage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = garbage.cpp; sourceTree = "<group>"; };
+		FD36E045175A933F0041A762 /* garbage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = garbage.h; sourceTree = "<group>"; };
+		FD36E047175AA0A50041A762 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,8 +140,11 @@
 				32AD9076171B31DE008E0827 /* block.h */,
 				FD16CBB11748920800688EDC /* camera.cpp */,
 				FD16CBB21748920800688EDC /* camera.h */,
+				FD36E047175AA0A50041A762 /* constants.h */,
 				32DFB0371711073500515349 /* controller.cpp */,
 				32DFB0361711073500515349 /* controller.h */,
+				FD36E044175A933F0041A762 /* garbage.cpp */,
+				FD36E045175A933F0041A762 /* garbage.h */,
 				FD36E0241753FAD30041A762 /* light.cpp */,
 				FD36E0251753FAD30041A762 /* light.h */,
 				32FFC0721710F65900667EFC /* main.cpp */,
@@ -144,6 +154,8 @@
 				32AD906D171A68AB008E0827 /* tetromino.h */,
 				FD16CB95173B0EEF00688EDC /* utility.cpp */,
 				FD16CB96173B0EF000688EDC /* utility.h */,
+				FD36E041175A925D0041A762 /* well.cpp */,
+				FD36E042175A925D0041A762 /* well.h */,
 				FD16CBB4175011A200688EDC /* world.cpp */,
 				FD16CBB5175011A300688EDC /* world.h */,
 				FD16CB9F173DE28F00688EDC /* Shaders */,
@@ -259,6 +271,8 @@
 				FD16CBB31748920800688EDC /* camera.cpp in Sources */,
 				FD16CBB6175011A300688EDC /* world.cpp in Sources */,
 				FD36E0261753FAD30041A762 /* light.cpp in Sources */,
+				FD36E043175A925E0041A762 /* well.cpp in Sources */,
+				FD36E046175A933F0041A762 /* garbage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

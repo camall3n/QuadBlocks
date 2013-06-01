@@ -136,6 +136,11 @@ size_t Light::getNumLightInstances()
     return nLightInstances;
 }
 
+Light* Light::getActiveLight()
+{
+    return _activeLight;
+}
+
 
 void Light::InitializeGLObjects()
 {
@@ -187,5 +192,3 @@ Light::GLObjects Light::_glObject;
 Light::GLSharedUniforms Light::_glShared;
 Light* Light::_activeLight = NULL;
 size_t Light::nLightInstances = 0;
-
-#undef GLM_SWIZZLE

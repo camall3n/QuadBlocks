@@ -169,5 +169,5 @@ std::ostream &operator<< (std::ostream &out, const glm::mat4 &mat) {
 
 int randint(int a, int b)
 {
-    return ( rand() % (b-a) ) + a;
+    return ( random() % (b+1-a) ) + a;
 }

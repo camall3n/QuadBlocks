@@ -45,8 +45,10 @@ public:
     
     void draw();
     
+    glm::vec2 position();
     void setPosition(glm::vec2 pos);
     void setRotation(float angle);// range [0,1)
+    
     
     glm::mat4 collisionSquare();// bottom- and left-justified
     int collisionSquareSize();// number of blocks on a side
@@ -60,7 +62,7 @@ private:
     glm::vec2 _center;
     float _rotation;// range [0,1)
     
-    std::list<Block> _blocksList;
+    std::list<Block> _blocks;
     static std::vector<glm::vec2> _baseOffsets;
     
     static glm::vec4 getColor(TETROMINO::TYPE type);

@@ -24,22 +24,27 @@ Tetromino::Tetromino(TETROMINO::TYPE type) :
         block[i] = Block(_color);
         block[i].setOffset(_baseOffsets[i]);
         block[i].setRotation(0);
-        _blocksList.push_back(block[i]);
+        _blocks.push_back(block[i]);
     }
 }
 
 void Tetromino::draw()
 {
-    BOOST_FOREACH(Block b, _blocksList) {
+    BOOST_FOREACH(Block b, _blocks) {
         b.draw();
     }
+}
+
+glm::vec2 Tetromino::position()
+{
+    return glm::vec2(_position.x, _position.y);
 }
 
 void Tetromino::setPosition(glm::vec2 pos)
 {
 //    if (_position != pos) {
         _position = pos;
-        BOOST_FOREACH(Block& b, _blocksList) {
+        BOOST_FOREACH(Block& b, _blocks) {
             b.setPosition(_position + _center);
         }
 //    }
@@ -50,7 +55,7 @@ void Tetromino::setRotation(float angle)
     angle = fmod(angle + 0.5, 1.0) - 0.5;//map angle onto [-0.5, 0.5)
     if (_rotation != angle) {
         _rotation = angle;
-        BOOST_FOREACH(Block& b, _blocksList) {
+        BOOST_FOREACH(Block& b, _blocks) {
             b.setRotation(_rotation);
         }
     }

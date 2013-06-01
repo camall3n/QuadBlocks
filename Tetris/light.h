@@ -36,6 +36,7 @@ public:
     GLuint getUBO();
     size_t getUBOSize();
     static size_t getNumLightInstances();
+    static Light* getActiveLight();
     
 private:
     void InitializeGLObjects();
