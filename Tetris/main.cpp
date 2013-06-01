@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
 	while( !should_quit && glfwGetWindowParam(GLFW_OPENED) )
     {
         input();
-//        update();
+        update();
         display();
     }
     
@@ -80,6 +80,10 @@ void init() {
 
 void input() {
     controller.update();
+}
+
+void update() {
+    w->update();
 }
 
 void display() {

@@ -12,22 +12,20 @@
 Tetromino::Tetromino(TETROMINO::TYPE type) :
     _type(type),
     _state(TETROMINO::ACTIVE),
-    _currentCommand(TETROMINO::NONE),
     _position(glm::vec2(0,0)),
     _rotation(0)
 {
     Block block[4];
     _color = getColor(_type);
     _center = getCenter(_type);
-    std::vector<glm::vec2> base_offsets = getBaseOffsets(_type);
+    _baseOffsets = getBaseOffsets(_type);
 
     for (int i=0; i<4; i++) {
         block[i] = Block(_color);
-        block[i].setOffset(base_offsets[i]);
+        block[i].setOffset(_baseOffsets[i]);
         block[i].setRotation(0);
         _blocksList.push_back(block[i]);
     }
-    
 }
 
 void Tetromino::draw()
@@ -49,11 +47,69 @@ void Tetromino::setPosition(glm::vec2 pos)
 
 void Tetromino::setRotation(float angle)
 {
+    angle = fmod(angle + 0.5, 1.0) - 0.5;//map angle onto [-0.5, 0.5)
     if (_rotation != angle) {
         _rotation = angle;
         BOOST_FOREACH(Block& b, _blocksList) {
             b.setRotation(_rotation);
         }
+    }
+}
+
+glm::mat4 Tetromino::collisionSquare()
+{
+    glm::mat4 square(0);
+    
+    float offsetAdjustment = getMaxAbsOffset();
+    
+    int row, col;
+    BOOST_FOREACH(glm::vec2 offset, _baseOffsets) {
+        // Upside-down
+        if (_rotation < -0.375 || _rotation >= 0.375) {
+            row = floor(-offset.x + offsetAdjustment);
+            col = floor(-offset.y + offsetAdjustment);
+        }
+        // Straight
+        else if (_rotation >= -0.125 && _rotation < 0.125) {
+            row = floor( offset.x + offsetAdjustment);
+            col = floor( offset.y + offsetAdjustment);
+        }
+        // CCW rotation
+        else if (_rotation < 0.0) {
+            row = floor(-offset.y + offsetAdjustment);
+            col = floor( offset.x + offsetAdjustment);
+        }
+        // CW rotation
+        else {
+            row = floor( offset.y + offsetAdjustment);
+            col = floor(-offset.x + offsetAdjustment);
+        }
+        square[3-col][row] = 1;
+    }
+    
+    return square;
+}
+
+int Tetromino::collisionSquareSize()
+{
+    switch (_type) {
+        case TETROMINO::I:
+            return 4;
+        case TETROMINO::O:
+            return 2;
+        case TETROMINO::T:
+            return 3;
+        case TETROMINO::S:
+            return 3;
+        case TETROMINO::Z:
+            return 3;
+        case TETROMINO::J:
+            return 3;
+        case TETROMINO::L:
+            return 3;
+            
+        default:
+            return 0;
     }
 }
 
@@ -161,6 +217,20 @@ std::vector<glm::vec2> Tetromino::getBaseOffsets(TETROMINO::TYPE type)
             base_offsets[2] = glm::vec2( 1.5, -1.5);
             base_offsets[3] = glm::vec2(-1.5, -1.5);
             break;
-    }
+    }    
     return base_offsets;
 }
+
+float Tetromino::getMaxAbsOffset()
+{
+    float max = 0;
+    BOOST_FOREACH(glm::vec2 offset, _baseOffsets) {
+        float localMax = glm::max(glm::abs(offset.x), glm::abs(offset.y));
+        if (max < localMax) {
+            max = localMax;
+        }
+    }
+    return max;
+}
+
+std::vector<glm::vec2> Tetromino::_baseOffsets(0);

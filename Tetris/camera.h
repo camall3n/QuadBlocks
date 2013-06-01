@@ -27,9 +27,11 @@ public:
     glm::vec3 position() const;
     glm::vec3 target() const;
     glm::vec3 orientation() const;
+    float viewingAngle() const;
     void setPosition(glm::vec3 pos);
     void setTarget(glm::vec3 target);
     void setOrientation(glm::vec3 up);
+    void setViewingAngle(float angle);
     
     GLuint getUBO();
     size_t getUBOSize();
@@ -46,6 +48,7 @@ private:
     glm::vec3 _position;
     glm::vec3 _target;
     glm::vec3 _upDir;
+    float _viewingAngle;//degrees
     
     glm::mat4 _worldToCameraMatrix;
     glm::mat4 _cameraToClipMatrix;

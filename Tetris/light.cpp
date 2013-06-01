@@ -12,7 +12,10 @@
 #include "utility.h"
 
 Light::Light() :
-_position(0,0,0)
+    _position(0,0,0),
+    _intensity(0),
+    _ambientIntensity(0),
+    _attenuation(0)
 {
     if (nLightInstances==0) {
         InitializeGLObjects();
@@ -20,9 +23,12 @@ _position(0,0,0)
     nLightInstances++;
 }
 
-Light::Light(const Light& that)
+Light::Light(const Light& that) :
+    _position(that._position),
+    _intensity(that._intensity),
+    _ambientIntensity(that._ambientIntensity),
+    _attenuation(that._attenuation)
 {
-    _position = that._position;
     if (nLightInstances==0) {
         InitializeGLObjects();
     }
@@ -32,6 +38,9 @@ Light::Light(const Light& that)
 Light& Light::operator=(const Light& that)
 {
     _position = that._position;
+    _intensity = that._intensity;
+    _ambientIntensity = that._ambientIntensity;
+    _attenuation = that._attenuation;
     
     return *this;
 }
@@ -44,50 +53,94 @@ Light::~Light()
     }
 }
 
+void Light::makeActive()
+{
+    if (this != _activeLight) {
+        _activeLight = this;
+        UpdateGLObjects();
+    }
+}
+
 glm::vec3 Light::position() const
 {
-    return _glShared.worldLightPosition;
+    return _position;
+//    return _glShared.worldLightPosition;
 }
 glm::vec4 Light::intensity() const
 {
-    return _glShared.lightIntensity;
+    return _intensity;
+//    return _glShared.lightIntensity;
 }
 glm::vec4 Light::ambientIntensity() const
 {
-    return _glShared.ambientIntensity;
+    return _ambientIntensity;
+//    return _glShared.ambientIntensity;
 }
 float Light::attenuation() const
 {
-    return _glShared.lightAttenuation;
+    return _attenuation;
+//    return _glShared.lightAttenuation;
 }
 
 void Light::setPosition(glm::vec3 pos)
 {
-    if (_glShared.worldLightPosition != pos) {
-        _glShared.worldLightPosition = pos;
-        UpdateGLObjects();
+    if (_position != pos) {
+        _position = pos;
+        if (this == _activeLight) {
+            UpdateGLObjects();
+        }
     }
+//    if (_glShared.worldLightPosition != pos) {
+//        _glShared.worldLightPosition = pos;
+//        if (this == _activeLight) {
+//            UpdateGLObjects();
+//        }
+//    }
 }
 void Light::setIntensity(glm::vec4 color)
 {
-    if (_glShared.lightIntensity != color) {
-        _glShared.lightIntensity = color;
-        UpdateGLObjects();
+    if (_intensity != color) {
+        _intensity = color;
+        if (this == _activeLight) {
+            UpdateGLObjects();
+        }
     }
+//    if (_glShared.lightIntensity != color) {
+//        _glShared.lightIntensity = color;
+//        if (this == _activeLight) {
+//            UpdateGLObjects();
+//        }
+//    }
 }
 void Light::setAmbientIntensity(glm::vec4 color)
 {
-    if (_glShared.ambientIntensity != color) {
-        _glShared.ambientIntensity = color;
-        UpdateGLObjects();
+    if (_ambientIntensity != color) {
+        _ambientIntensity = color;
+        if (this == _activeLight) {
+            UpdateGLObjects();
+        }
     }
+//    if (_glShared.ambientIntensity != color) {
+//        _glShared.ambientIntensity = color;
+//        if (this == _activeLight) {
+//            UpdateGLObjects();
+//        }
+//    }
 }
 void Light::setAttenuation(float atten)
 {
-    if (_glShared.lightAttenuation != atten) {
-        _glShared.lightAttenuation = atten;
-        UpdateGLObjects();
+    if (_attenuation != atten) {
+        _attenuation = atten;
+        if (this == _activeLight) {
+            UpdateGLObjects();
+        }
     }
+//    if (_glShared.lightAttenuation != atten) {
+//        _glShared.lightAttenuation = atten;
+//        if (this == _activeLight) {
+//            UpdateGLObjects();
+//        }
+//    }
 }
 
 GLuint Light::getUBO()
@@ -126,6 +179,11 @@ void Light::InitializeGLObjects()
 
 void Light::UpdateGLObjects()
 {
+    _glShared.worldLightPosition = _position;
+    _glShared.lightIntensity = _intensity;
+    _glShared.ambientIntensity = _ambientIntensity;
+    _glShared.lightAttenuation = _attenuation;
+    
     glUseProgram(_glProgram);
     glBindBuffer(GL_UNIFORM_BUFFER, _glObject.uniformBuffer);
     
@@ -149,4 +207,5 @@ void Light::DestroyGLObjects()
 GLuint Light::_glProgram;
 Light::GLObjects Light::_glObject;
 Light::GLSharedUniforms Light::_glShared;
+Light* Light::_activeLight = NULL;
 size_t Light::nLightInstances = 0;

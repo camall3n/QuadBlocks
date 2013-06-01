@@ -15,18 +15,30 @@
 #include "light.h"
 #include "tetromino.h"
 
+
+enum COMMAND {
+    NONE,
+    MOVE_LEFT,
+    MOVE_RIGHT,
+    ROTATE_CW,
+    ROTATE_CCW,
+    HOLD
+};
+
 class World
 {
 public:
     World();
     
+    void update();
     void draw();
     
 private:
 //    Block b;
     Camera c;
     Tetromino piece;
-    Light light;
+    Light frontLight;
+    Light topLight;
     
     std::list<Block> blocks;
     

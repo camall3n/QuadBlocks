@@ -62,8 +62,9 @@ public:
     glm::vec2 offset() const;
     float rotation() const;
     void setPosition(glm::vec2 pos);
+    void setPosition(glm::vec3 pos);
     void setOffset(glm::vec2 offset);
-    void setRotation(float angle);
+    void setRotation(float angle);// range [0,1)
     
     static size_t getNumBlockInstances();
     static void useCamera(Camera &camera);// Requires at least one block instance to exist
@@ -77,7 +78,7 @@ private:
     BLOCK::STATE _state;
     glm::vec3 _position;
     glm::vec3 _offset;
-    float _rotation;
+    float _rotation;// range [0,1)
     glm::vec4 _color;
     glm::mat4 _offsetModel;
     glm::mat4 _rotateToOrientation;

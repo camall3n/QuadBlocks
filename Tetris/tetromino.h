@@ -32,18 +32,6 @@ namespace TETROMINO {
         UPCOMING,
         GHOST
     };
-    
-    enum COMMAND {
-        NONE,
-        MOVE_LEFT,
-        MOVE_RIGHT,
-        ROTATE_CW,
-        ROTATE_CCW,
-        SOFT_DROP,
-        HARD_DROP,
-        HOLD,
-        UNHOLD
-    };
 };
 
 
@@ -51,29 +39,35 @@ class Tetromino
 {
 public:
     Tetromino(TETROMINO::TYPE type=TETROMINO::I);
+//    Tetromino(const Tetromino& that);
+//    Tetromino& operator=(const Tetromino& that);
 //    ~Tetromino();
     
     void draw();
-    void update(TETROMINO::COMMAND command);
     
     void setPosition(glm::vec2 pos);
-    void setRotation(float angle);
-
+    void setRotation(float angle);// range [0,1)
+    
+    glm::mat4 collisionSquare();// bottom- and left-justified
+    int collisionSquareSize();// number of blocks on a side
+    
 private:
     TETROMINO::TYPE _type;
     TETROMINO::STATE _state;
-    TETROMINO::COMMAND _currentCommand;
 
     glm::vec4 _color;
     glm::vec2 _position;
     glm::vec2 _center;
-    float _rotation;
+    float _rotation;// range [0,1)
     
     std::list<Block> _blocksList;
+    static std::vector<glm::vec2> _baseOffsets;
     
     static glm::vec4 getColor(TETROMINO::TYPE type);
     static glm::vec2 getCenter(TETROMINO::TYPE type);
     static std::vector<glm::vec2> getBaseOffsets(TETROMINO::TYPE type);
+    
+    float getMaxAbsOffset();
 };
 
 #endif /* defined(__Tetris__tetromino__) */

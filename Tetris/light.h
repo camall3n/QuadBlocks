@@ -22,6 +22,8 @@ public:
     Light& operator=(const Light& that);
     ~Light();
     
+    void makeActive();
+    
     glm::vec3 position() const;
     glm::vec4 intensity() const;
     glm::vec4 ambientIntensity() const;
@@ -41,8 +43,13 @@ private:
     void UpdateGLObjects();
     void DestroyGLObjects();
     
+    //Local variables
     glm::vec3 _position;
+    glm::vec4 _intensity;
+    glm::vec4 _ambientIntensity;
+    float _attenuation;
     
+    //Shared variables
     struct GLObjects {
         GLuint uniformBuffer;
         GLuint uniformBlockBinding;
@@ -57,6 +64,7 @@ private:
     static GLuint _glProgram;
     static GLObjects _glObject;
     static GLSharedUniforms _glShared;
+    static Light* _activeLight;
     
     static size_t nLightInstances;
     

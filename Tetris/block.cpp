@@ -11,6 +11,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "ResourcePath.h"
 #include "utility.h"
+#include "math.h"
 
 Block::Block(glm::vec4 color) :
     _state(BLOCK::USER_CONTROL),
@@ -114,6 +115,15 @@ void Block::setPosition(glm::vec2 pos)
         _translateToWorld[3] = glm::vec4(_position, 1.f);
     }
 }
+void Block::setPosition(glm::vec3 pos)
+{
+    glm::vec3 xyz = pos;
+    if (_position != xyz) {
+        _position = xyz;
+        _translateToWorld = glm::mat4(1.f);
+        _translateToWorld[3] = glm::vec4(_position, 1.f);
+    }
+}
 void Block::setOffset(glm::vec2 offset)
 {
     glm::vec3 xyz = glm::vec3(offset, 0.f);
@@ -127,11 +137,12 @@ void Block::setRotation(float angle)
 {
     if (_rotation != angle) {
         _rotation = angle;
+        float theta = 2*glm::pi<float>()*angle;
         _rotateToOrientation = glm::mat4(1.f);
-        _rotateToOrientation[0].x =  cos(angle);
-        _rotateToOrientation[0].y = -sin(angle);
-        _rotateToOrientation[1].x =  sin(angle);
-        _rotateToOrientation[1].y =  cos(angle);
+        _rotateToOrientation[0].x =  cos(theta);
+        _rotateToOrientation[0].y = -sin(theta);
+        _rotateToOrientation[1].x =  sin(theta);
+        _rotateToOrientation[1].y =  cos(theta);
     }
 }
 

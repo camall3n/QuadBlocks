@@ -14,7 +14,8 @@
 Camera::Camera() :
     _position(0,0,1),
     _target(0,0,0),
-    _upDir(0,1,0)
+    _upDir(0,1,0),
+    _viewingAngle(60)
 {
     if (nCameraInstances==0) {
         InitializeGLObjects();
@@ -22,11 +23,11 @@ Camera::Camera() :
     nCameraInstances++;
 }
 
-Camera::Camera(const Camera& that)
+Camera::Camera(const Camera& that) :
+    _position(that._position),
+    _target(that._target),
+    _upDir(that._upDir)
 {
-    _position = that._position;
-    _target = that._target;
-    _upDir = that._upDir;
     if (nCameraInstances==0) {
         InitializeGLObjects();
     }
@@ -70,6 +71,10 @@ glm::vec3 Camera::orientation() const
 {
     return _upDir;
 }
+float Camera::viewingAngle() const
+{
+    return _viewingAngle;
+}
 
 void Camera::setPosition(glm::vec3 pos)
 {
@@ -93,6 +98,15 @@ void Camera::setOrientation(glm::vec3 up)
 {
     if (_upDir != up) {
         _upDir = up;
+        if (this == _activeCamera) {
+            UpdateGLObjects();
+        }
+    }
+}
+void Camera::setViewingAngle(float angle)
+{
+    if (_viewingAngle != angle) {
+        _viewingAngle = angle;
         if (this == _activeCamera) {
             UpdateGLObjects();
         }
@@ -170,22 +184,22 @@ glm::mat4 Camera::CalcLookAtMatrix()
 	glm::vec3 perpUpDir = glm::cross(rightDir, lookDir);
     
     glm::mat4 rotMat(1.f);
-    std::cout << "position = " << _position << endl;
-    std::cout << "target = " << _target << endl;
-    std::cout << "upDir = " << _upDir << endl;
+//    std::cout << "position = " << _position << endl;
+//    std::cout << "target = " << _target << endl;
+//    std::cout << "upDir = " << _upDir << endl;
     rotMat[0] = glm::vec4(rightDir, 0.f);
     rotMat[1] = glm::vec4(perpUpDir, 0.f);
     rotMat[2] = glm::vec4(-lookDir, 0.f);
     rotMat = glm::transpose(rotMat);
-    
-    std::cout << "rotMat=" << std::endl;
-    std::cout << rotMat << std::endl;
+//    
+//    std::cout << "rotMat=" << std::endl;
+//    std::cout << rotMat << std::endl;
     
     glm::mat4 transMat(1.f);
     transMat[3] = glm::vec4(-_position, 1.f);
-    
-    std::cout << "transMat=" << std::endl;
-    std::cout << transMat << std::endl;
+//    
+//    std::cout << "transMat=" << std::endl;
+//    std::cout << transMat << std::endl;
     
     return rotMat * transMat;
 }
@@ -201,8 +215,7 @@ glm::mat4 Camera::PerspectiveMatrix()
 {
     glm::mat4 perspectiveMat(1.f);
     
-    float viewAngle = 30;//degrees
-    float frustumScale = CalcFrustumScale(viewAngle);
+    float frustumScale = CalcFrustumScale(_viewingAngle);
     float zNear = 1.f;
     float zFar = 45.f;
     
