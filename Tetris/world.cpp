@@ -14,7 +14,7 @@
 #include "utility.h"
 
 World::World() :
-    piece(TETROMINO::S)
+    piece(TETROMINO::T)
 {
     for (int i=0; i<10; i++) {
         for (int j=0; j<22; j++) {
@@ -36,23 +36,19 @@ World::World() :
     c.makeActive();
 
     topLight.setPosition(glm::vec3(5,40,35));
-    topLight.setIntensity(glm::vec4(.5,.5,.5,1));
-//    topLight.setAmbientIntensity(glm::vec4(.1,.1,.1,1));
-    topLight.setAmbientIntensity(glm::vec4(0,0,0,1));
+    topLight.setLightColor(glm::vec3(1,1,1));
+    topLight.setDarkColor(glm::vec3(0,0,0));
     topLight.setAttenuation(.15);
 
     frontLight.setPosition(glm::vec3(5,10,80));
-    frontLight.setIntensity(glm::vec4(.5,.5,.5,1));
-    //    frontLight.setAmbientIntensity(glm::vec4(.1,.1,.1,1));
-    frontLight.setAmbientIntensity(glm::vec4(0,0,0,1));
+    frontLight.setLightColor(glm::vec3(0.5,0.5,0.5));
+    frontLight.setDarkColor(glm::vec3(0,0,0));
     frontLight.setAttenuation(.15);
     
     frontLight.makeActive();
         
     piece.setPosition(glm::vec2(0,0));
     piece.setRotation(0);
-    
-    std::cout << piece.collisionSquare() << std::endl;
 }
 
 void World::update()

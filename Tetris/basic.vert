@@ -14,8 +14,8 @@ layout(std140) uniform TransformUniforms
 layout(std140) uniform LightingUniforms
 {
     vec3 worldLightPosition;
-    vec4 lightIntensity;
-    vec4 ambientIntensity;
+    vec3 lightColor;
+    vec3 darkColor;
     float lightAttenuation;
 };
 
@@ -26,8 +26,8 @@ out vec3 fragNormal;
 out vec4 fragDiffuseColor;
 
 out vec3 fragClipLightPosition;
-//out vec4 fragLightIntensity;
-//out vec4 fragAmbientIntensity;
+out vec3 fragLightColor;
+out vec3 fragDarkColor;
 //out float fragLightAttenuation;
 
 
@@ -45,8 +45,8 @@ void main(){
     
     vec4 clipLightPosition = worldToClipMatrix * vec4(worldLightPosition, 1.0);
     fragClipLightPosition = clipLightPosition.xyz;
-//    fragLightIntensity = lightIntensity;
-//    fragAmbientIntensity = ambientIntensity;
+    fragLightColor = lightColor;
+    fragDarkColor = darkColor;
 //    fragLightAttenuation = lightAttenuation;
 }
 

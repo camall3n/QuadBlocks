@@ -8,13 +8,15 @@
 
 #include "light.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/swizzle.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "utility.h"
 
 Light::Light() :
     _position(0,0,0),
-    _intensity(0),
-    _ambientIntensity(0),
+    _lightColor(0),
+    _darkColor(0),
     _attenuation(0)
 {
     if (nLightInstances==0) {
@@ -25,8 +27,8 @@ Light::Light() :
 
 Light::Light(const Light& that) :
     _position(that._position),
-    _intensity(that._intensity),
-    _ambientIntensity(that._ambientIntensity),
+    _lightColor(that._lightColor),
+    _darkColor(that._darkColor),
     _attenuation(that._attenuation)
 {
     if (nLightInstances==0) {
@@ -38,8 +40,8 @@ Light::Light(const Light& that) :
 Light& Light::operator=(const Light& that)
 {
     _position = that._position;
-    _intensity = that._intensity;
-    _ambientIntensity = that._ambientIntensity;
+    _lightColor = that._lightColor;
+    _darkColor = that._darkColor;
     _attenuation = that._attenuation;
     
     return *this;
@@ -66,14 +68,14 @@ glm::vec3 Light::position() const
     return _position;
 //    return _glShared.worldLightPosition;
 }
-glm::vec4 Light::intensity() const
+glm::vec3 Light::lightColor() const
 {
-    return _intensity;
+    return _lightColor;
 //    return _glShared.lightIntensity;
 }
-glm::vec4 Light::ambientIntensity() const
+glm::vec3 Light::darkColor() const
 {
-    return _ambientIntensity;
+    return _darkColor;
 //    return _glShared.ambientIntensity;
 }
 float Light::attenuation() const
@@ -90,42 +92,24 @@ void Light::setPosition(glm::vec3 pos)
             UpdateGLObjects();
         }
     }
-//    if (_glShared.worldLightPosition != pos) {
-//        _glShared.worldLightPosition = pos;
-//        if (this == _activeLight) {
-//            UpdateGLObjects();
-//        }
-//    }
 }
-void Light::setIntensity(glm::vec4 color)
+void Light::setLightColor(glm::vec3 color)
 {
-    if (_intensity != color) {
-        _intensity = color;
+    if (_lightColor != color) {
+        _lightColor = color;
         if (this == _activeLight) {
             UpdateGLObjects();
         }
     }
-//    if (_glShared.lightIntensity != color) {
-//        _glShared.lightIntensity = color;
-//        if (this == _activeLight) {
-//            UpdateGLObjects();
-//        }
-//    }
 }
-void Light::setAmbientIntensity(glm::vec4 color)
+void Light::setDarkColor(glm::vec3 color)
 {
-    if (_ambientIntensity != color) {
-        _ambientIntensity = color;
+    if (_darkColor != color) {
+        _darkColor = color;
         if (this == _activeLight) {
             UpdateGLObjects();
         }
     }
-//    if (_glShared.ambientIntensity != color) {
-//        _glShared.ambientIntensity = color;
-//        if (this == _activeLight) {
-//            UpdateGLObjects();
-//        }
-//    }
 }
 void Light::setAttenuation(float atten)
 {
@@ -135,12 +119,6 @@ void Light::setAttenuation(float atten)
             UpdateGLObjects();
         }
     }
-//    if (_glShared.lightAttenuation != atten) {
-//        _glShared.lightAttenuation = atten;
-//        if (this == _activeLight) {
-//            UpdateGLObjects();
-//        }
-//    }
 }
 
 GLuint Light::getUBO()
@@ -179,15 +157,15 @@ void Light::InitializeGLObjects()
 
 void Light::UpdateGLObjects()
 {
-    _glShared.worldLightPosition = _position;
-    _glShared.lightIntensity = _intensity;
-    _glShared.ambientIntensity = _ambientIntensity;
+    _glShared.worldLightPosition = glm::vec4(_position,1);
+    _glShared.lightColor = glm::vec4(_lightColor,0);
+    _glShared.darkColor = glm::vec4(_darkColor,0);
     _glShared.lightAttenuation = _attenuation;
     
     glUseProgram(_glProgram);
     glBindBuffer(GL_UNIFORM_BUFFER, _glObject.uniformBuffer);
     
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(GLSharedUniforms), &_glShared);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(_glShared), &_glShared);
     
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
     glUseProgram(0);
@@ -209,3 +187,5 @@ Light::GLObjects Light::_glObject;
 Light::GLSharedUniforms Light::_glShared;
 Light* Light::_activeLight = NULL;
 size_t Light::nLightInstances = 0;
+
+#undef GLM_SWIZZLE

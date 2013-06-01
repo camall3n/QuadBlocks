@@ -25,13 +25,13 @@ public:
     void makeActive();
     
     glm::vec3 position() const;
-    glm::vec4 intensity() const;
-    glm::vec4 ambientIntensity() const;
+    glm::vec3 lightColor() const;
+    glm::vec3 darkColor() const;
     float attenuation() const;
     
     void setPosition(glm::vec3 pos);
-    void setIntensity(glm::vec4 color);
-    void setAmbientIntensity(glm::vec4 color);
+    void setLightColor(glm::vec3 color);
+    void setDarkColor(glm::vec3 color);
     void setAttenuation(float atten);
     
     GLuint getUBO();
@@ -45,8 +45,8 @@ private:
     
     //Local variables
     glm::vec3 _position;
-    glm::vec4 _intensity;
-    glm::vec4 _ambientIntensity;
+    glm::vec3 _lightColor;
+    glm::vec3 _darkColor;
     float _attenuation;
     
     //Shared variables
@@ -55,9 +55,12 @@ private:
         GLuint uniformBlockBinding;
     };
     struct GLSharedUniforms {
-        glm::vec3 worldLightPosition = glm::vec3(0.f);
-        glm::vec4 lightIntensity = glm::vec4(0.f);
-        glm::vec4 ambientIntensity = glm::vec4(0.f);
+        // Note: Even though the GLSL counterparts are vec3s, they are padded to
+        //       be the same size as vec4s. In order to match layout(std140),
+        //       you need to pad these variables out to glm::vec4s.
+        glm::vec4 worldLightPosition = glm::vec4(0.f);
+        glm::vec4 lightColor = glm::vec4(0.f);
+        glm::vec4 darkColor = glm::vec4(0.f);
         float lightAttenuation = 0.f;
     };
     
