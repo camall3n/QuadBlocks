@@ -123,11 +123,6 @@ Controller::Button::Button(int type)
     _type = type;
     _pressed = false;
 }
-Controller::Button::Button()
-{
-    _type = UNINITIALIZED;
-    _pressed = false;
-}
 
 void Controller::Button::update(unsigned char pressed)
 {
@@ -151,9 +146,13 @@ bool Controller::Button::isPressed()
  *----------------------------------------------------------------------------*/
 #pragma mark
 #pragma mark Thumbstick
-Controller::Thumbstick::Thumbstick(int type)
+Controller::Thumbstick::Thumbstick(int type) :
+    _type(type),
+    _x(0.0),
+    _y(0.0),
+    _pressed(false),
+    _moving(N_MOTIONS, false)
 {
-    _type = type;
     if (type == XBOX_THUMBSTICK_LEFT) {
         _axisX = XBOX_AXIS_LS_HORIZONTAL;
         _axisY = XBOX_AXIS_LS_VERTICAL;
@@ -163,21 +162,7 @@ Controller::Thumbstick::Thumbstick(int type)
         _axisX = XBOX_AXIS_RS_HORIZONTAL;
         _axisY = XBOX_AXIS_RS_VERTICAL;
         _buttonType = XBOX_BUTTON_RS;
-    }
-    
-    _x = 0.0;
-    _y = 0.0;
-    _pressed = false;
-}
-Controller::Thumbstick::Thumbstick()
-{
-    _type = UNINITIALIZED;
-    _axisX = UNINITIALIZED;
-    _axisY = UNINITIALIZED;
-    _buttonType = UNINITIALIZED;
-    _x = 0.0;
-    _y = 0.0;
-    _pressed = false;
+    }    
 }
 
 void Controller::Thumbstick::update(unsigned char pressed)
@@ -206,8 +191,37 @@ void Controller::Thumbstick::update(float x, float y)
     if ( (new_x != old_x) ||
          (new_y != old_y) )
     {
-        signal.moved(new_x,new_y,_type);
+        signal.moved(new_x, new_y);
     }
+    
+    if ( new_x >= old_x + THUMBSTICK_DEADZONE )
+    {
+        _moving[MOTION_LEFT] = false;
+        
+        if ( !_moving[MOTION_RIGHT] && (new_x > 0) ) {
+            signal.movedRight();
+            _moving[MOTION_RIGHT] = true;
+        }
+    }
+    else if ( new_x <= old_x - THUMBSTICK_DEADZONE )
+    {
+        _moving[MOTION_RIGHT] = false;
+        
+        if ( !_moving[MOTION_LEFT] && (new_x < 0) ) {
+            signal.movedLeft();
+            _moving[MOTION_LEFT] = true;
+        }
+    }
+    
+    if ( new_y > THUMBSTICK_DEADZONE && old_y < THUMBSTICK_DEADZONE)
+    {
+        signal.movedUp();
+    }
+    else if ( new_y < -THUMBSTICK_DEADZONE && old_y > -THUMBSTICK_DEADZONE)
+    {
+        signal.movedDown();
+    }
+
 }
 
 float Controller::Thumbstick::x(){
@@ -238,12 +252,6 @@ Controller::Trigger::Trigger(int type)
     else if (type == XBOX_TRIGGER_RIGHT) {
         _axis = XBOX_AXIS_RTRIGGER;
     }
-    _z = 0.0;
-}
-Controller::Trigger::Trigger()
-{
-    _type = UNINITIALIZED;
-    _axis = UNINITIALIZED;
     _z = 0.0;
 }
 

@@ -26,6 +26,8 @@
 		FD36E0261753FAD30041A762 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E0241753FAD30041A762 /* light.cpp */; };
 		FD36E043175A925E0041A762 /* well.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E041175A925D0041A762 /* well.cpp */; };
 		FD36E046175A933F0041A762 /* garbage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E044175A933F0041A762 /* garbage.cpp */; };
+		FD36E04A175C260C0041A762 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E049175C260C0041A762 /* timer.cpp */; };
+		FD36E04D175C2BB10041A762 /* event_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E04B175C2BB00041A762 /* event_manager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,6 +83,10 @@
 		FD36E044175A933F0041A762 /* garbage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = garbage.cpp; sourceTree = "<group>"; };
 		FD36E045175A933F0041A762 /* garbage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = garbage.h; sourceTree = "<group>"; };
 		FD36E047175AA0A50041A762 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
+		FD36E048175C260B0041A762 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
+		FD36E049175C260C0041A762 /* timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timer.cpp; sourceTree = "<group>"; };
+		FD36E04B175C2BB00041A762 /* event_manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = event_manager.cpp; sourceTree = "<group>"; };
+		FD36E04C175C2BB10041A762 /* event_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event_manager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +149,8 @@
 				FD36E047175AA0A50041A762 /* constants.h */,
 				32DFB0371711073500515349 /* controller.cpp */,
 				32DFB0361711073500515349 /* controller.h */,
+				FD36E04B175C2BB00041A762 /* event_manager.cpp */,
+				FD36E04C175C2BB10041A762 /* event_manager.h */,
 				FD36E044175A933F0041A762 /* garbage.cpp */,
 				FD36E045175A933F0041A762 /* garbage.h */,
 				FD36E0241753FAD30041A762 /* light.cpp */,
@@ -152,6 +160,8 @@
 				FD13B3201735FF9800705C91 /* mesh.h */,
 				32AD906C171A68AB008E0827 /* tetromino.cpp */,
 				32AD906D171A68AB008E0827 /* tetromino.h */,
+				FD36E049175C260C0041A762 /* timer.cpp */,
+				FD36E048175C260B0041A762 /* timer.h */,
 				FD16CB95173B0EEF00688EDC /* utility.cpp */,
 				FD16CB96173B0EF000688EDC /* utility.h */,
 				FD36E041175A925D0041A762 /* well.cpp */,
@@ -273,6 +283,8 @@
 				FD36E0261753FAD30041A762 /* light.cpp in Sources */,
 				FD36E043175A925E0041A762 /* well.cpp in Sources */,
 				FD36E046175A933F0041A762 /* garbage.cpp in Sources */,
+				FD36E04A175C260C0041A762 /* timer.cpp in Sources */,
+				FD36E04D175C2BB10041A762 /* event_manager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,25 +14,30 @@
 #include <stdlib.h>
 
 #include "block.h"
+#include "constants.h"
 #include "controller.h"
+#include "event_manager.h"
 #include "mesh.h"
 #include "ResourcePath.h"
+#include "timer.h"
 #include "utility.h"
 #include "world.h"
 
 //Constants
 #pragma mark Constants
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 800;
-const int SCREEN_BPP = 32;
-const int FRAMES_PER_SECOND = 60;
+extern const int SCREEN_WIDTH;
+extern const int SCREEN_HEIGHT;
+extern const int SCREEN_BPP;
+extern const int FRAMES_PER_SECOND;
 const char* const WINDOW_TITLE = "Tetris";
 
 //Globals
 #pragma mark
 #pragma mark Globals
 bool should_quit = false;
+EventManager eventManager;
 Controller controller;
+Timer timer;
 World* w = NULL;
 
 // Declarations
@@ -42,6 +47,7 @@ void init();
 void input();
 void update();
 void display();
+void waitForFrame();
 void cleanup();
 
 void initGLFW();
@@ -60,9 +66,13 @@ int main(int argc, char* argv[]) {
     
 	while( !should_quit && glfwGetWindowParam(GLFW_OPENED) )
     {
+        timer.start();
+        
         input();
         update();
         display();
+        
+        waitForFrame();
     }
     
     cleanup();
@@ -76,6 +86,10 @@ int main(int argc, char* argv[]) {
 void init() {
     initGLFW();
     w = new World();
+    
+    eventManager.setController(&controller);
+    eventManager.setWorld(w);
+    eventManager.activate();
 }
 
 void input() {
@@ -94,13 +108,18 @@ void display() {
         glClearColor(0, 0, 0, 0);
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-//    glfwGetTime();
-    
+        
     w->draw();
     
     glfwSwapBuffers();
     checkError();
+}
+
+void waitForFrame()
+{
+    if ( timer.getTime() < 1/FRAMES_PER_SECOND ) {
+        glfwSleep( (1/FRAMES_PER_SECOND) - timer.getTime() );
+    }
 }
 
 void cleanup() {

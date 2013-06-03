@@ -7,8 +7,10 @@
 #ifndef SDLJoystick_controller_h
 #define SDLJoystick_controller_h
 
+#include <GL/glew.h>
 #include <GL/glfw.h>
 #include <boost/signals2.hpp>
+#include <vector>
 namespace bs2 = boost::signals2;
 
 const int UNINITIALIZED = -1;
@@ -63,8 +65,7 @@ public:
     class Button
     {
     public:
-        Button();
-        Button(int type);
+        Button(int type = UNINITIALIZED);
         void update(unsigned char pressed);
         
         bool isPressed();
@@ -82,8 +83,7 @@ public:
     class Thumbstick
     {
     public:
-        Thumbstick();
-        Thumbstick(int type);
+        Thumbstick(int type = UNINITIALIZED);
         void update(unsigned char pressed);
         void update(float x, float y);
         
@@ -94,7 +94,11 @@ public:
         struct signalList {
             bs2::signal<void (int type)> pressed;
             bs2::signal<void (int type)> released;
-            bs2::signal<void (float x, float y, int type)> moved;
+            bs2::signal<void (float x, float y)> moved;
+            bs2::signal<void ()> movedUp;
+            bs2::signal<void ()> movedDown;
+            bs2::signal<void ()> movedLeft;
+            bs2::signal<void ()> movedRight;
         } signal;
         
     private:
@@ -105,13 +109,21 @@ public:
         int   _axisY;
         int   _buttonType;
         int   _type;
+        enum MOTION {
+            MOTION_LEFT = 0,
+            MOTION_RIGHT,
+            MOTION_UP,
+            MOTION_DOWN,
+            //--------------
+            N_MOTIONS
+        };
+        std::vector<bool> _moving;
     };
     
     class Trigger
     {
     public:
-        Trigger();
-        Trigger(int type);
+        Trigger(int type = UNINITIALIZED);
         void update(float z);
         
         float z();
