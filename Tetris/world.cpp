@@ -77,3 +77,45 @@ void World::moveLeft()
     
     piece = newPiece;
 }
+
+void World::rotateCW()
+{
+    float angle = piece.rotation();
+    
+    angle+=.25;
+    Tetromino newPiece = piece;
+    newPiece.setRotation(angle);
+    
+    piece = newPiece;
+}
+
+void World::rotateCCW()
+{
+    float angle = piece.rotation();
+    
+    angle-=.25;
+    Tetromino newPiece = piece;
+    newPiece.setRotation(angle);
+    
+    piece = newPiece;
+}
+
+void World::hardDrop()
+{
+//    std::cout << "Hard Drop" << std::endl;
+}
+
+void World::softDrop()
+{
+//    std::cout << "Soft Drop" << std::endl;
+}
+
+void World::hold()
+{
+//    std::cout << "Hold" << std::endl;
+}
+
+void World::pause()
+{
+//    std::cout << "Pause" << std::endl;
+}

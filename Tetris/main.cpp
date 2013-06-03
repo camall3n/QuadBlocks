@@ -102,10 +102,7 @@ void update() {
 
 void display() {
     // Clear the screen
-    if (controller.Start.isPressed())
-        glClearColor(1.f, 0, 0.5f, 1);
-    else
-        glClearColor(0, 0, 0, 0);
+    glClearColor(0, 0, 0, 0);
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         

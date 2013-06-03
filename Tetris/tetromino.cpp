@@ -40,6 +40,11 @@ glm::vec2 Tetromino::position()
     return glm::vec2(_position.x, _position.y);
 }
 
+float Tetromino::rotation()
+{
+    return fmod(_rotation, 1.0);
+}
+
 void Tetromino::setPosition(glm::vec2 pos)
 {
 //    if (_position != pos) {

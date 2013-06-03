@@ -50,6 +50,8 @@ public:
     void moveLeft();
     void rotateCW();
     void rotateCCW();
+    void hardDrop();
+    void softDrop();
     void hold();
     void pause();
     

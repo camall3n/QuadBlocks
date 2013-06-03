@@ -87,6 +87,7 @@
 		FD36E049175C260C0041A762 /* timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timer.cpp; sourceTree = "<group>"; };
 		FD36E04B175C2BB00041A762 /* event_manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = event_manager.cpp; sourceTree = "<group>"; };
 		FD36E04C175C2BB10041A762 /* event_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event_manager.h; sourceTree = "<group>"; };
+		FD36E04E175C4EFD0041A762 /* features-list.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "features-list.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +143,7 @@
 		32FFC06C1710F65900667EFC /* Tetris */ = {
 			isa = PBXGroup;
 			children = (
+				FD36E04E175C4EFD0041A762 /* features-list.txt */,
 				32AD9075171B31DE008E0827 /* block.cpp */,
 				32AD9076171B31DE008E0827 /* block.h */,
 				FD16CBB11748920800688EDC /* camera.cpp */,

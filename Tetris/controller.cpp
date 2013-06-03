@@ -128,11 +128,11 @@ void Controller::Button::update(unsigned char pressed)
 {
     if (_pressed == false && pressed == GLFW_PRESS) {
         _pressed = true;
-        signal.pressed(_type);
+        signal.pressed();
     }
     else if (_pressed == true && pressed == GLFW_RELEASE) {
         _pressed = false;
-        signal.released(_type);
+        signal.released();
     }
 }
 
@@ -169,11 +169,11 @@ void Controller::Thumbstick::update(unsigned char pressed)
 {
     if (_pressed == false && pressed == GLFW_PRESS) {
         _pressed = true;
-        signal.pressed(_type);
+        signal.pressed();
     }
     else if (_pressed == true && pressed == GLFW_RELEASE) {
         _pressed = false;
-        signal.released(_type);
+        signal.released();
     }
 }
 
@@ -243,7 +243,8 @@ bool Controller::Thumbstick::isPressed(){
  *----------------------------------------------------------------------------*/
 #pragma mark
 #pragma mark Trigger
-Controller::Trigger::Trigger(int type)
+Controller::Trigger::Trigger(int type) :
+    _moving(N_MOTIONS, false)
 {
     _type = type;
     if (type == XBOX_TRIGGER_LEFT) {
@@ -266,13 +267,28 @@ void Controller::Trigger::update(float z)
     
     if (new_z != old_z)
     {
-        signal.moved(new_z, _type);
-//        if (new_z > old_z)
-//            signal.pressed();
-//        else
-//            signal.released();
+        signal.moved(new_z);
     }
-//    printf("%f\n", this->z());
+    
+    if (new_z >= old_z + TRIGGER_DEADZONE)
+    {
+        _moving[MOTION_OUT] = false;
+        
+        if ( !_moving[MOTION_IN] ) {
+            signal.pressed();
+            _moving[MOTION_IN] = true;
+        }
+    }
+    
+    if (new_z <= old_z - TRIGGER_DEADZONE)
+    {
+        _moving[MOTION_IN] = false;
+        
+        if ( !_moving[MOTION_OUT] ) {
+            signal.released();
+            _moving[MOTION_OUT] = true;
+        }
+    }
 }
 
 float Controller::Trigger::z()

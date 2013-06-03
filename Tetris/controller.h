@@ -71,8 +71,8 @@ public:
         bool isPressed();
         
         struct signalList {
-            bs2::signal<void (int type)> pressed;
-            bs2::signal<void (int type)> released;
+            bs2::signal<void ()> pressed;
+            bs2::signal<void ()> released;
         } signal;
         
     private:
@@ -92,8 +92,8 @@ public:
         bool isPressed();
         
         struct signalList {
-            bs2::signal<void (int type)> pressed;
-            bs2::signal<void (int type)> released;
+            bs2::signal<void ()> pressed;
+            bs2::signal<void ()> released;
             bs2::signal<void (float x, float y)> moved;
             bs2::signal<void ()> movedUp;
             bs2::signal<void ()> movedDown;
@@ -129,15 +129,22 @@ public:
         float z();
         
         struct signalList {
-            bs2::signal<void (int type)> pressed;
-            bs2::signal<void (int type)> released;
-            bs2::signal<void (float z, int type)> moved;
+            bs2::signal<void ()> pressed;
+            bs2::signal<void ()> released;
+            bs2::signal<void (float z)> moved;
         } signal;
         
     private:
         float _z;
         int   _axis;
         int   _type;
+        enum MOTION {
+            MOTION_IN = 0,
+            MOTION_OUT,
+            //--------------
+            N_MOTIONS
+        };
+        std::vector<bool> _moving;
     };
     
 public:

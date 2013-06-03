@@ -46,6 +46,7 @@ public:
     void draw();
     
     glm::vec2 position();
+    float rotation();
     void setPosition(glm::vec2 pos);
     void setRotation(float angle);// range [0,1)
     

@@ -54,6 +54,36 @@ void EventManager::activate()
         controller->Left.signal.pressed.connect(
             boost::bind( &World::moveLeft, world)
         );
+        
+        // Rotate CW
+        controller->RT.signal.pressed.connect(
+            boost::bind( &World::rotateCW, world)
+        );
+        
+        // Rotate CCW
+        controller->LT.signal.pressed.connect(
+            boost::bind( &World::rotateCCW, world)
+        );
+        
+        // Hard Drop
+        controller->LS.signal.movedUp.connect(
+            boost::bind( &World::hardDrop, world)
+        );
+
+        // Soft Drop
+        controller->LS.signal.movedDown.connect(
+            boost::bind( &World::softDrop, world)
+        );
+        
+        // Hold
+        controller->A.signal.pressed.connect(
+            boost::bind( &World::hold, world)
+        );
+        
+        // Pause
+        controller->Start.signal.pressed.connect(
+            boost::bind( &World::pause, world)
+        );
     }
     else {
         if (!controller) {
