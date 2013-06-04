@@ -1,78 +1,78 @@
 Basic Functionality:
 
-Gravity
- - Basic (variable)
- - Hard drop
- - Soft drop
+- Gravity
+    - Basic (variable)
+    - Hard drop
+    - Soft drop
+
+- Collision detection
+    + Basic Movement
+        + walls
+        + floor
+        + garbage
+    - Rotation
+        + walls
+        + floor
+        + garbage
+        - kicks for intermediate rotations
+    + Wall kicks, floor kicks
+    - t-spins
+
+- Piece Locking
  
-Collision detection
-     - Basic Movement
-       - walls
-       - floor
-       - garbage
- - Rotation
-       - walls
-       - floor
-       - garbage
-    - kicks for intermediate rotations
- - Wall kicks, floor kicks
- - t-spins
- 
-Piece Locking
- 
-Scoring
- - single, double, triple, tetris
- - back-to-back tetris
- - t-spin single, double, triple
- - combo
- - score display
- - lines remaining
- 
-Modes
- - Marathon
- - Timed
-    - Hard stop
-    - Reset on level-up
- - Cascade
- - (Square)
- - (Hot-Line)
- - (Fusion)
- - (Sticky)
- - "Create" Mode, where you can select your piece
+- Scoring
+    - single, double, triple, tetris
+    - back-to-back tetris
+    - t-spin single, double, triple
+    - combo
+    - score display
+    - lines remaining
 
-Menu
- - Mode Select
- - Customizable controls
- - Sound settings
- - (Dev settings)
+- Modes
+    - Marathon
+    - Timed
+        - Hard stop
+        - Reset on level-up
+     - Cascade
+     - (Square)
+     - (Hot-Line)
+     - (Fusion)
+     - (Sticky)
+     - "Create" Mode, where you can select your piece
 
-Sound Effects
- - Movement
- - Rotation
- - Hard drop
- - Soft drop
- - Hold
- - Wall-kicks, floor-kicks
- - Line clear
- - Scoring actions
- - Game timer
- - Music
+- Menu
+    - Mode Select
+    - Customizable controls
+    - Sound settings
+    - (Dev settings)
 
-Juice it up
- - Tweens
- - Bounces
- - Motion blur
- - Explosions
- - Smoke
- - Animated on-deck pieces
- - Backgrounds
-    - Static
-    - Animated
- - Sound effects
- - Music
- - Have something trigger a flip by 180 degrees (any direction: X, Y, Z)
+- Sound Effects
+    - Movement
+    - Rotation
+    - Hard drop
+    - Soft drop
+    - Hold
+    - Wall-kicks, floor-kicks
+    - Line clear
+    - Scoring actions
+    - Game timer
+    - Music
 
+- Juice it up
+    - Tweens
+    - Bounces
+    - Motion blur
+    - Explosions
+    - Smoke
+    - Animated on-deck pieces
+    - Backgrounds
+        - Static
+        - Animated
+    - Sound effects
+    - Music
+    - Have something trigger a flip by 180 degrees (any direction: X, Y, Z)
 
-Self-contained, distributable application package
+- Self-contained, distributable application package
 
-App-store hosting
+- App-store hosting
+
