@@ -67,12 +67,14 @@ void EventManager::activate()
         
         // Hard Drop
         controller->LS.signal.movedUp.connect(
-            boost::bind( &World::hardDrop, world)
+//            boost::bind( &World::hardDrop, world)
+            boost::bind( &World::moveUp, world)
         );
 
         // Soft Drop
         controller->LS.signal.movedDown.connect(
-            boost::bind( &World::softDrop, world)
+//            boost::bind( &World::softDrop, world)
+            boost::bind( &World::moveDown, world)
         );
         
         // Hold

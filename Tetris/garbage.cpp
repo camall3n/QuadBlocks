@@ -47,3 +47,37 @@ void Garbage::draw()
         }
     }
 }
+
+static bool isValidGarbageCoord(int x, int y)
+{
+    if ((x >= 0 && x < WORLD_N_BLOCKS_X) &&
+        (y >= 0 && y < WORLD_N_BLOCKS_Y))
+        return true;
+    return false;
+}
+
+bool Garbage::checkCollision(Tetromino piece)
+{
+    glm::vec2 basePosition = piece.position();
+    glm::mat4 square = piece.collisionSquare();
+    
+    for (int i=0; i<piece.collisionSquareSize(); i++) {
+        for (int j=0; j<piece.collisionSquareSize(); j++) {
+            if (square[i][j]) {
+                glm::vec2 position = basePosition + glm::vec2(j+0.5, i+0.5);
+                int x = round(position.x)-1;
+                int y = round(position.y)-1;
+                
+                if ( isValidGarbageCoord(x, y) && (blocks[y][x]) ) {
+                    // There's a block at those coordinates
+                    return true;
+                }
+            }
+        }
+    }
+    
+    return false;
+}
+
+
+

@@ -8,6 +8,8 @@
 
 #include "well.h"
 #include <boost/foreach.hpp>
+#include <iostream>
+#include "utility.h"
 
 Well::Well(size_t width, size_t height)
 {
@@ -70,3 +72,31 @@ void Well::setTopLight(Light light)
 {
     topLight = light;
 }
+
+bool Well::checkCollision(Tetromino piece)
+{
+    float leftWallX = 0;
+    float rightWallX = WORLD_N_BLOCKS_X;
+    float floorY = 0;
+    
+    glm::vec2 basePosition = piece.position();
+    glm::mat4 blocks = piece.collisionSquare();
+    
+    for (int i=0; i<piece.collisionSquareSize(); i++) {
+        for (int j=0; j<piece.collisionSquareSize(); j++) {
+            if (blocks[i][j]) {
+                glm::vec2 position = basePosition + glm::vec2(j+0.5, i+0.5);
+                if ((position.x < leftWallX) ||
+                    (position.x > rightWallX) ||
+                    (position.y < floorY))
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    
+    return false;
+}
+
+

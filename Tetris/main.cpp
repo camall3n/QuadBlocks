@@ -94,6 +94,10 @@ void init() {
 
 void input() {
     controller.update();
+    
+    if (controller.Back.isPressed()) {
+        should_quit = true;
+    }
 }
 
 void update() {

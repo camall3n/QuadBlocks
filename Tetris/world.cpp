@@ -15,8 +15,9 @@
 #include "utility.h"
 
 World::World() :
-    piece(TETROMINO::T)
-{    
+    piece(TETROMINO::I),
+    gravity(1/60)
+{
     Block::useCamera(c);
     c.setPosition(glm::vec3(5,10,80));
     c.setTarget(glm::vec3(5,10,0));
@@ -56,6 +57,31 @@ void World::draw()
     piece.draw();    
 }
 
+void World::moveUp()
+{
+    glm::vec2 pos = piece.position();
+    
+    pos.y++;
+    Tetromino newPiece = piece;
+    newPiece.setPosition(pos);
+    
+    if (!checkCollision(newPiece))
+        piece = newPiece;
+
+}
+
+void World::moveDown()
+{
+    glm::vec2 pos = piece.position();
+    
+    pos.y--;
+    Tetromino newPiece = piece;
+    newPiece.setPosition(pos);
+    
+    if (!checkCollision(newPiece))
+        piece = newPiece;
+}
+
 void World::moveRight()
 {
     glm::vec2 pos = piece.position();
@@ -64,7 +90,8 @@ void World::moveRight()
     Tetromino newPiece = piece;
     newPiece.setPosition(pos);
     
-    piece = newPiece;
+    if (!checkCollision(newPiece))
+        piece = newPiece;
 }
 
 void World::moveLeft()
@@ -75,7 +102,8 @@ void World::moveLeft()
     Tetromino newPiece = piece;
     newPiece.setPosition(pos);
     
-    piece = newPiece;
+    if (!checkCollision(newPiece))
+        piece = newPiece;
 }
 
 void World::rotateCW()
@@ -86,7 +114,15 @@ void World::rotateCW()
     Tetromino newPiece = piece;
     newPiece.setRotation(angle);
     
-    piece = newPiece;
+    if (!checkCollision(newPiece)) {
+        piece = newPiece;
+    }
+    else {
+        Tetromino kickedPiece = tryWallKick(newPiece);
+        if (kickedPiece != newPiece) {
+            piece = kickedPiece;
+        }
+    }
 }
 
 void World::rotateCCW()
@@ -97,7 +133,15 @@ void World::rotateCCW()
     Tetromino newPiece = piece;
     newPiece.setRotation(angle);
     
-    piece = newPiece;
+    if (!checkCollision(newPiece)) {
+        piece = newPiece;
+    }
+    else {
+        Tetromino kickedPiece = tryWallKick(newPiece);
+        if (kickedPiece != newPiece) {
+            piece = kickedPiece;
+        }
+    }
 }
 
 void World::hardDrop()
@@ -119,3 +163,60 @@ void World::pause()
 {
 //    std::cout << "Pause" << std::endl;
 }
+
+bool World::checkCollision(Tetromino piece)
+{
+    return ( well.checkCollision(piece) || garbage.checkCollision(piece) );
+}
+
+Tetromino World::tryWallKick(Tetromino piece)
+{
+    Tetromino tryRight = piece;
+    tryRight.setPosition(piece.position()+glm::vec2(1,0));
+    
+    Tetromino tryLeft = piece;
+    tryLeft.setPosition(piece.position()+glm::vec2(-1,0));
+    
+    Tetromino tryUp = piece;
+    tryUp.setPosition(piece.position()+glm::vec2(0,1));
+    
+//    Tetromino tryDown = piece;
+//    tryDown.setPosition(piece.position()+glm::vec2(0,-1));
+    
+    if (!checkCollision(tryRight)) {
+        piece = tryRight;
+    }
+    else if (!checkCollision(tryLeft)) {
+        piece = tryLeft;
+    }
+    else if (!checkCollision(tryUp)) {
+        piece = tryUp;
+    }
+//    else if (!checkCollision(tryDown)) {
+//        piece = tryDown;
+//    }
+    else {
+        Tetromino tryDoubleRight = tryRight;
+        tryDoubleRight.setPosition(tryRight.position()+glm::vec2(1,0));
+        
+        Tetromino tryDoubleLeft = tryLeft;
+        tryDoubleLeft.setPosition(tryLeft.position()+glm::vec2(-1,0));
+        
+        Tetromino tryDoubleUp = tryUp;
+        tryDoubleUp.setPosition(tryUp.position()+glm::vec2(0,1));
+        
+        if (!checkCollision(tryDoubleRight)) {
+            piece = tryDoubleRight;
+        }
+        else if (!checkCollision(tryDoubleLeft)) {
+            piece = tryDoubleLeft;
+        }
+        else if (!checkCollision(tryDoubleUp)) {
+            piece = tryDoubleUp;
+        }
+    }
+    
+    return piece;
+}
+
+

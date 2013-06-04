@@ -28,6 +28,26 @@ Tetromino::Tetromino(TETROMINO::TYPE type) :
     }
 }
 
+bool Tetromino::operator==(const Tetromino& that)
+{
+    if ((_type == that._type) &&
+        (_position == that._position) &&
+        (_rotation == that._rotation) &&
+        (_center == that._center) &&
+        (_color == that._color) &&
+        (_state == that._state))
+        return true;
+    
+    return false;
+}
+bool Tetromino::operator!=(const Tetromino& that)
+{
+    if (*this == that)
+        return false;
+    
+    return true;
+}
+
 void Tetromino::draw()
 {
     BOOST_FOREACH(Block b, _blocks) {
@@ -57,7 +77,7 @@ void Tetromino::setPosition(glm::vec2 pos)
 
 void Tetromino::setRotation(float angle)
 {
-    angle = fmod(angle + 0.5, 1.0) - 0.5;//map angle onto [-0.5, 0.5)
+    angle = remainder(angle, 1.0);//map angle onto [-0.5, 0.5)
     if (_rotation != angle) {
         _rotation = angle;
         BOOST_FOREACH(Block& b, _blocks) {
@@ -94,7 +114,7 @@ glm::mat4 Tetromino::collisionSquare()
             row = floor( offset.y + offsetAdjustment);
             col = floor(-offset.x + offsetAdjustment);
         }
-        square[3-col][row] = 1;
+        square[col][row] = 1;
     }
     
     return square;

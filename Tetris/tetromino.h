@@ -42,16 +42,18 @@ public:
 //    Tetromino(const Tetromino& that);
 //    Tetromino& operator=(const Tetromino& that);
 //    ~Tetromino();
+    bool operator==(const Tetromino& that);
+    bool operator!=(const Tetromino& that);
     
     void draw();
     
     glm::vec2 position();
     float rotation();
     void setPosition(glm::vec2 pos);
-    void setRotation(float angle);// range [0,1)
+    void setRotation(float angle);// range: [0, 1)
     
     
-    glm::mat4 collisionSquare();// bottom- and left-justified
+    glm::mat4 collisionSquare();// lower-left is mat[0][0]
     int collisionSquareSize();// number of blocks on a side
     
 private:
@@ -61,7 +63,7 @@ private:
     glm::vec4 _color;
     glm::vec2 _position;
     glm::vec2 _center;
-    float _rotation;// range [0,1)
+    float _rotation;// range: [-0.5, 0.5)
     
     std::list<Block> _blocks;
     static std::vector<glm::vec2> _baseOffsets;

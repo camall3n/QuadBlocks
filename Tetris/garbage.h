@@ -12,6 +12,7 @@
 #include <vector>
 #include "block.h"
 #include "constants.h"
+#include "tetromino.h"
 
 class Garbage
 {
@@ -20,6 +21,8 @@ public:
     ~Garbage();
     
     void draw();
+    
+    bool checkCollision(Tetromino piece);
     
 private:
     std::vector<std::vector<Block*>> blocks;

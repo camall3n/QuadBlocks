@@ -13,6 +13,7 @@
 #include "block.h"
 #include "constants.h"
 #include "light.h"
+#include "tetromino.h"
 
 class Well
 {
@@ -20,6 +21,8 @@ public:
     Well(size_t width = WORLD_N_BLOCKS_X, size_t height = WORLD_N_BLOCKS_Y);
     
     void draw();
+    
+    bool checkCollision(Tetromino piece);
     
     void setFrontLight(Light light);
     void setTopLight(Light light);

@@ -55,13 +55,19 @@ public:
     void hold();
     void pause();
     
+    // Dev Actions
+    void moveUp();
+    void moveDown();
+    
 private:
     Camera c;
     Tetromino piece;
     Light light;
     
-    direction_t checkCollision(Tetromino piece, Well well);
-    direction_t checkCollision(Tetromino piece, Garbage garbage);
+    float gravity;
+    
+    bool checkCollision(Tetromino piece);
+    Tetromino tryWallKick(Tetromino piece);
 
     Well well;
     Garbage garbage;
