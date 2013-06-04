@@ -1,10 +1,5 @@
 Basic Functionality:
 
-- Gravity
-    - Basic (variable)
-    - Hard drop
-    - Soft drop
-
 - Collision detection
     + Basic Movement
         + walls
@@ -18,7 +13,14 @@ Basic Functionality:
     + Wall kicks, floor kicks
     - t-spins
 
+- Gravity
+    - Basic (variable)
+    - Hard drop
+    - Soft drop
+
 - Piece Locking
+
+- Line Clears
  
 - Scoring
     - single, double, triple, tetris
