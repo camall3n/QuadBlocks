@@ -46,6 +46,16 @@ public:
     void draw();
 
     // User Actions
+    void queueMoveRight();
+    void queueMoveLeft();
+    void queueRotateCW();
+    void queueRotateCCW();
+    void queueHardDrop();
+    void queueSoftDrop();
+    void queueHold();
+    void togglePause();
+    
+    // World Functions
     void moveRight();
     void moveLeft();
     void rotateCW();
@@ -54,6 +64,7 @@ public:
     void softDrop();
     void hold();
     void pause();
+    void unpause();
     
     // Dev Actions
     void moveUp();
@@ -64,7 +75,22 @@ private:
     Tetromino piece;
     Light light;
     
+    struct QueuedActions {
+        bool moveRight = false;
+        bool moveLeft = false;
+        bool rotateCW = false;
+        bool rotateCCW = false;
+        bool hardDrop = false;
+        bool softDrop = false;
+        bool hold = false;
+    } queuedAction;
+    
+    bool isPaused;
+    
+    float baseGravity;
     float gravity;
+    
+    void applyGravity();
     
     bool checkCollision(Tetromino piece);
     Tetromino tryWallKick(Tetromino piece);

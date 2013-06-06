@@ -16,7 +16,9 @@
 
 World::World() :
     piece(TETROMINO::I),
-    gravity(1/60)
+    isPaused(false),
+    baseGravity(1.0/60),
+    gravity(baseGravity)
 {
     Block::useCamera(c);
     c.setPosition(glm::vec3(5,10,80));
@@ -38,15 +40,41 @@ World::World() :
 
 void World::update()
 {
-    // Hold
-    
-    // Rotate
-    
-    // Horizontal shift
-    
-    // Gravity
-    
-    // Lock
+    if (!isPaused) {
+        // Hold
+        if (queuedAction.hold) {
+            hold();
+            queuedAction.hold = false;
+        }
+        
+        // Rotation
+        if (queuedAction.rotateCW) {
+            rotateCW();
+            queuedAction.rotateCW = false;
+        }
+        else if (queuedAction.rotateCCW) {
+            rotateCCW();
+            queuedAction.rotateCCW = false;
+        }
+        
+        // Horizontal Movement
+        if (queuedAction.moveLeft) {
+            moveLeft();
+            queuedAction.moveLeft = false;
+        }
+        else if (queuedAction.moveRight) {
+            moveRight();
+            queuedAction.moveRight = false;
+        }
+        
+        // Gravity
+        applyGravity();
+        
+        
+        // Lock
+        
+        
+    }
 }
 
 void World::draw()
@@ -55,6 +83,43 @@ void World::draw()
     well.draw();
     garbage.draw();
     piece.draw();    
+}
+
+
+void World::queueMoveRight() {
+    queuedAction.moveRight = true;
+    queuedAction.moveLeft = false;
+}
+void World::queueMoveLeft() {
+    queuedAction.moveLeft = true;
+    queuedAction.moveRight = false;
+}
+void World::queueRotateCW() {
+    queuedAction.rotateCW = true;
+    queuedAction.rotateCCW = false;
+}
+void World::queueRotateCCW() {
+    queuedAction.rotateCCW = true;
+    queuedAction.rotateCW = false;
+}
+void World::queueHardDrop() {
+    queuedAction.hardDrop = true;
+    queuedAction.softDrop = false;
+}
+void World::queueSoftDrop() {
+    queuedAction.softDrop = true;
+    queuedAction.hardDrop = false;
+}
+void World::queueHold() {
+    queuedAction.hold = true;
+}
+void World::togglePause() {
+    if (isPaused) {
+        unpause();
+    }
+    else {
+        pause();
+    }
 }
 
 void World::moveUp()
@@ -146,23 +211,101 @@ void World::rotateCCW()
 
 void World::hardDrop()
 {
-//    std::cout << "Hard Drop" << std::endl;
+// gravity = 20;
+    
 }
 
 void World::softDrop()
 {
-//    std::cout << "Soft Drop" << std::endl;
+// gravity = 2*baseGravity;
 }
 
 void World::hold()
 {
-//    std::cout << "Hold" << std::endl;
+
 }
 
 void World::pause()
 {
-//    std::cout << "Pause" << std::endl;
+    isPaused = true;
+    
+    // Display menu?
 }
+
+void World::unpause()
+{
+    // Display "get ready" or something?
+    
+    isPaused = false;
+}
+
+
+void World::applyGravity()
+{
+    // Gravity Modifiers
+    if (queuedAction.hardDrop) {
+        gravity = 20;
+    }
+    else if (queuedAction.softDrop) {
+        gravity = 2*baseGravity;
+    }
+    
+    
+    // Account for gravity speed
+    int maximumFall = 0;
+    if (gravity > 0.0 && gravity < 1.0) {
+        static float lowGravityCounter = 0.0;
+        
+        if (lowGravityCounter >= 1.0) {
+            maximumFall = 1;
+            lowGravityCounter = 0.0;
+        }
+        else {
+            maximumFall = 0;
+            lowGravityCounter += gravity;
+        }
+    }
+    else if (gravity == 1.0) {
+        maximumFall = 1;
+    }
+    else if (gravity > 1.0 && gravity <= 20) {
+        maximumFall = floor(gravity);
+    }
+    else {
+        std::cerr << "Error: Invalid gravity value. G = " << gravity << std::endl;
+    }
+    
+    
+    // Compute new piece position
+    bool atBottom = false;
+    for (int i=1; i<=maximumFall; i++) {
+        Tetromino newPiece(piece);
+        glm::vec2 pos = piece.position();
+        pos += glm::vec2(0, -1);
+        newPiece.setPosition(pos);
+        if (checkCollision(newPiece)) {
+            atBottom = true;
+            break;
+        }
+        else {
+            piece = newPiece;
+        }
+    }
+    
+    // Do lock-related things if necessary
+    if (atBottom) {
+        
+    }
+    
+    
+    // Turn off gravity modifiers
+    if (queuedAction.hardDrop || queuedAction.softDrop) {
+        gravity = baseGravity;
+        queuedAction.hardDrop = false;
+        queuedAction.softDrop = false;
+    }
+}
+
 
 bool World::checkCollision(Tetromino piece)
 {

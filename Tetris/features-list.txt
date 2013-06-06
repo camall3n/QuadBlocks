@@ -21,7 +21,7 @@ Basic Functionality:
 - Piece Locking
 
 - Line Clears
- 
+
 - Scoring
     - single, double, triple, tetris
     - back-to-back tetris
@@ -29,6 +29,8 @@ Basic Functionality:
     - combo
     - score display
     - lines remaining
+
+- Hold piece
 
 - Modes
     - Marathon

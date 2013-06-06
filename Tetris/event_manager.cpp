@@ -35,34 +35,34 @@ void EventManager::activate()
     if (controller && world) {
         // Move Right
         controller->LS.signal.movedRight.connect(
-            boost::bind( &World::moveRight, world)
+            boost::bind( &World::queueMoveRight, world)
         );
         controller->RB.signal.pressed.connect(
-            boost::bind( &World::moveRight, world)
+            boost::bind( &World::queueMoveRight, world)
         );
         controller->Right.signal.pressed.connect(
-            boost::bind( &World::moveRight, world)
+            boost::bind( &World::queueMoveRight, world)
         );
         
         // Move Left
         controller->LS.signal.movedLeft.connect(
-            boost::bind( &World::moveLeft, world)
+            boost::bind( &World::queueMoveLeft, world)
         );
         controller->LB.signal.pressed.connect(
-            boost::bind( &World::moveLeft, world)
+            boost::bind( &World::queueMoveLeft, world)
         );
         controller->Left.signal.pressed.connect(
-            boost::bind( &World::moveLeft, world)
+            boost::bind( &World::queueMoveLeft, world)
         );
         
         // Rotate CW
         controller->RT.signal.pressed.connect(
-            boost::bind( &World::rotateCW, world)
+            boost::bind( &World::queueRotateCW, world)
         );
         
         // Rotate CCW
         controller->LT.signal.pressed.connect(
-            boost::bind( &World::rotateCCW, world)
+            boost::bind( &World::queueRotateCCW, world)
         );
         
         // Hard Drop
