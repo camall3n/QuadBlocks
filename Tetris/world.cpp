@@ -396,8 +396,6 @@ int World::getFallDistance()
 void World::lock()
 {
     garbage.addTetromino(piece);
-        
-    // garbage.checkLineClears();
     
     //  get new piece
     piece.setPosition(glm::vec2(5,17));
