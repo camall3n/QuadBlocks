@@ -64,6 +64,7 @@ public:
     void setPosition(glm::vec3 pos);
     void setOffset(glm::vec2 offset);
     void setRotation(float angle);// range [0,1)
+    void setColor(glm::vec4 color);
     
     static size_t getNumBlockInstances();
     static void useCamera(Camera &camera);// Requires at least one block instance to exist

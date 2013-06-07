@@ -17,7 +17,7 @@
 const double LockDelay = 1.0;
 
 World::World() :
-    piece(TETROMINO::T),
+    piece(TETROMINO::I),
     isPaused(false),
     baseGravity(1.0/60),
     gravity(baseGravity)
@@ -42,6 +42,10 @@ World::World() :
 
 void World::update()
 {
+    if (garbage.isClearing()) {
+        garbage.update();
+    }
+    
     if (!isPaused) {
         // Hold
         if (queuedAction.hold) {

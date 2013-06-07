@@ -146,6 +146,11 @@ void Block::setRotation(float angle)
     }
 }
 
+void Block::setColor(glm::vec4 color)
+{
+    _color = color;
+}
+
 size_t Block::getNumBlockInstances()
 {
     return nBlockInstances;

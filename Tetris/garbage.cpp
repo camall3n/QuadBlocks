@@ -9,21 +9,24 @@
 #include "garbage.h"
 
 #include <boost/foreach.hpp>
+#include <functional>
 #include "constants.h"
 #include "utility.h"
+
+const double LINE_CLEAR_TIMEOUT = 0.25;
 
 Garbage::Garbage(size_t width, size_t height) :
     blocks(height, std::vector<Block*>(width, NULL))
 {
-    for (int j=0; j<height/3; j++) {
-        for (int i=0; i<width; i++) {
-            if ( randint(0, 5) ) {
-                Block* b = new Block(BLOCK::COLOR::NUMBER[randint(0, BLOCK::COLOR::MAX_NUMBER-1)]);
-                b->setPosition(glm::vec3(i+0.5, j+0.5, 0));
-                blocks[j][i] = b;
-            }
-        }
-    }
+//    for (int j=0; j<height/3; j++) {
+//        for (int i=0; i<width; i++) {
+//            if ( randint(0, 5) ) {
+//                Block* b = new Block(BLOCK::COLOR::NUMBER[randint(0, BLOCK::COLOR::MAX_NUMBER-1)]);
+//                b->setPosition(glm::vec3(i+0.5, j+0.5, 0));
+//                blocks[j][i] = b;
+//            }
+//        }
+//    }
 }
 
 Garbage::~Garbage()
@@ -46,6 +49,23 @@ void Garbage::draw()
             }
         }
     }
+}
+
+void Garbage::update()
+{
+    if ( lineClearTimer.isStarted() ) {
+        if (lineClearTimer.getTime() > LINE_CLEAR_TIMEOUT) {
+            clearLines();
+        }
+    }
+    else {
+        std::cerr << "Warning: Garbage::update() called when no lines were clearing." << std::endl;
+    }
+}
+
+bool Garbage::isClearing()
+{
+    return _isClearing;
 }
 
 static bool isValidGarbageCoord(int x, int y)
@@ -85,6 +105,8 @@ void Garbage::addTetromino(Tetromino piece)
     glm::mat4 square = piece.collisionSquare();
     Block refBlock = piece.blocks().front();
     
+    std::list<int> rowsWithNewBlocks;
+    
     for (int i=0; i<piece.collisionSquareSize(); i++) {
         for (int j=0; j<piece.collisionSquareSize(); j++) {
             if (square[i][j]) {
@@ -103,6 +125,10 @@ void Garbage::addTetromino(Tetromino piece)
                     blockCopy->setOffset(glm::vec2(0,0));
                     blockCopy->setRotation(0);
                     blocks[row][col] = blockCopy;
+                    if (rowsWithNewBlocks.empty() || (rowsWithNewBlocks.back() < row))
+                    {
+                        rowsWithNewBlocks.push_back(row);
+                    }
                 }
                 else {
                     // top-out!!
@@ -111,7 +137,88 @@ void Garbage::addTetromino(Tetromino piece)
         }
     }
     
-//    checkLineClears();
+    checkLineClears(rowsWithNewBlocks);
+}
+
+bool Garbage::checkLineClears(std::list<int> rows)
+{
+    // Put highest numbered row at the beginning
+    rows.sort(std::greater<int>());
     
+    std::list<int> linesToClear;
+    
+    BOOST_FOREACH(int row, rows) {
+        int nBlocksInRow = 0;
+        BOOST_FOREACH(Block* block, blocks[row]) {
+            if (block) {
+                nBlocksInRow++;
+            }
+        }
+        if (nBlocksInRow == WORLD_N_BLOCKS_X) {
+            linesToClear.push_back(row);
+        }
+    }
+    
+    if (!linesToClear.empty()) {
+        markLinesForClearing(linesToClear);
+        return true;
+    }
+    
+    return false;
+}
+
+void Garbage::markLinesForClearing(std::list<int> rows)
+{
+    if (rows.empty()) {
+        return;
+    }
+    
+    BOOST_FOREACH(int row, rows) {
+        BOOST_FOREACH(Block* block, blocks[row]) {
+            if (block) {
+                block->setColor(BLOCK::COLOR::WHITE);
+            }
+            else {
+                std::cerr << "Error: Marking block for clearing that does not exist." << std::endl;
+            }
+        }
+    }
+    
+    _isClearing = true;
+    pendingClearLines = rows;
+    lineClearTimer.start();
+}
+
+void Garbage::clearLines()
+{
+    BOOST_FOREACH(int row, pendingClearLines) {
+        
+        // Delete blocks in that row
+        BOOST_FOREACH(Block* &block, blocks[row]) {
+            if (block) {
+                delete block;
+                block = NULL;
+            }
+            else {
+                std::cerr << "Error: Clearing block that does not exist." << std::endl;
+            }
+        }
+        
+        // Shift higher rows down
+        for (int j=row+1; j<WORLD_N_BLOCKS_Y; j++) {
+            for (int i=0; i<WORLD_N_BLOCKS_X; i++) {
+                if ( blocks[j][i] ) {
+                    glm::vec2 pos = blocks[j][i]->position();
+                    blocks[j][i]->setPosition(pos+glm::vec2(0,-1));
+                    blocks[j-1][i] = blocks[j][i];
+                    blocks[j][i] = NULL;
+                }
+            }
+        }
+    }
+    
+    pendingClearLines.clear();
+    lineClearTimer.stop();
+    _isClearing = false;
 }
 

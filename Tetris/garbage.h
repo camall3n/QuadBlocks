@@ -13,6 +13,7 @@
 #include "block.h"
 #include "constants.h"
 #include "tetromino.h"
+#include "timer.h"
 
 class Garbage
 {
@@ -21,12 +22,23 @@ public:
     ~Garbage();
     
     void draw();
+    void update();
     
     bool checkCollision(Tetromino piece);
     void addTetromino(Tetromino piece);
     
+    bool isClearing();
+    
 private:
     std::vector<std::vector<Block*>> blocks;
+    std::list<int> pendingClearLines;
+    Timer lineClearTimer;
+    bool _isClearing;
+    
+    bool checkLineClears(std::list<int> rows);
+    void markLinesForClearing(std::list<int> rows);
+    void clearLines();
+
 };
 
 #endif /* defined(__Tetris__garbage__) */

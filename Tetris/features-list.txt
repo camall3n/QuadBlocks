@@ -22,7 +22,7 @@ Basic Functionality:
 
 + Piece Locking
 
-- Line Clears
++ Line Clears
 
 - Top-outs
 
