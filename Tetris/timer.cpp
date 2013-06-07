@@ -43,12 +43,12 @@ void Timer::unpause()
 {
     if (paused==true) {
         paused = false;
-        startTime = glfwGetTime() - pausedTime;
+//        startTime = glfwGetTime() - pausedTime;
         pausedTime = 0;
     }
 }
 
-int Timer::getTime()
+double Timer::getTime()
 {
     if (started==true) {
         if (paused==true) {

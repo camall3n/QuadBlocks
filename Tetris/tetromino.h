@@ -52,6 +52,7 @@ public:
     void setPosition(glm::vec2 pos);
     void setRotation(float angle);// range: [0, 1)
     
+    std::list<Block> blocks();
     
     glm::mat4 collisionSquare();// lower-left is mat[0][0]
     int collisionSquareSize();// number of blocks on a side

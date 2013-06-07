@@ -19,7 +19,7 @@ public:
     void pause();
     void unpause();
     
-    int getTime();
+    double getTime();// Since start,
     
     //Check the status of the timer
     bool isStarted();
@@ -27,10 +27,10 @@ public:
     
 private:
     //The clock time when the timer started
-    int startTime;
+    double startTime;
     
     //The time stored when the timer was paused
-    int pausedTime;
+    double pausedTime;
     
     //The timer status
     bool paused;

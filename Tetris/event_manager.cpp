@@ -67,24 +67,24 @@ void EventManager::activate()
         
         // Hard Drop
         controller->LS.signal.movedUp.connect(
-//            boost::bind( &World::hardDrop, world)
-            boost::bind( &World::moveUp, world)
+            boost::bind( &World::queueHardDrop, world)
+//            boost::bind( &World::moveUp, world)
         );
 
         // Soft Drop
         controller->LS.signal.movedDown.connect(
-//            boost::bind( &World::softDrop, world)
-            boost::bind( &World::moveDown, world)
+            boost::bind( &World::queueSoftDrop, world)
+//            boost::bind( &World::moveDown, world)
         );
         
         // Hold
         controller->A.signal.pressed.connect(
-            boost::bind( &World::hold, world)
+            boost::bind( &World::queueHold, world)
         );
         
         // Pause
         controller->Start.signal.pressed.connect(
-            boost::bind( &World::pause, world)
+            boost::bind( &World::togglePause, world)
         );
     }
     else {

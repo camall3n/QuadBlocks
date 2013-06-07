@@ -14,8 +14,10 @@
 #include "constants.h"
 #include "utility.h"
 
+const double LockDelay = 1.0;
+
 World::World() :
-    piece(TETROMINO::I),
+    piece(TETROMINO::T),
     isPaused(false),
     baseGravity(1.0/60),
     gravity(baseGravity)
@@ -34,7 +36,7 @@ World::World() :
     Block::useLight(light);
     light.makeActive();
     
-    piece.setPosition(glm::vec2(5,10));
+    piece.setPosition(glm::vec2(5,17));
     piece.setRotation(0);
 }
 
@@ -69,10 +71,6 @@ void World::update()
         
         // Gravity
         applyGravity();
-        
-        
-        // Lock
-        
         
     }
 }
@@ -211,13 +209,15 @@ void World::rotateCCW()
 
 void World::hardDrop()
 {
-// gravity = 20;
-    
+    gravity = 20;
 }
-
 void World::softDrop()
 {
-// gravity = 2*baseGravity;
+    gravity = 2*baseGravity;
+}
+void World::normalDrop()
+{
+    gravity = baseGravity;
 }
 
 void World::hold()
@@ -244,37 +244,14 @@ void World::applyGravity()
 {
     // Gravity Modifiers
     if (queuedAction.hardDrop) {
-        gravity = 20;
+        hardDrop();
     }
     else if (queuedAction.softDrop) {
-        gravity = 2*baseGravity;
+        softDrop();
     }
-    
     
     // Account for gravity speed
-    int maximumFall = 0;
-    if (gravity > 0.0 && gravity < 1.0) {
-        static float lowGravityCounter = 0.0;
-        
-        if (lowGravityCounter >= 1.0) {
-            maximumFall = 1;
-            lowGravityCounter = 0.0;
-        }
-        else {
-            maximumFall = 0;
-            lowGravityCounter += gravity;
-        }
-    }
-    else if (gravity == 1.0) {
-        maximumFall = 1;
-    }
-    else if (gravity > 1.0 && gravity <= 20) {
-        maximumFall = floor(gravity);
-    }
-    else {
-        std::cerr << "Error: Invalid gravity value. G = " << gravity << std::endl;
-    }
-    
+    int maximumFall = getFallDistance();    
     
     // Compute new piece position
     bool atBottom = false;
@@ -292,15 +269,37 @@ void World::applyGravity()
         }
     }
     
-    // Do lock-related things if necessary
-    if (atBottom) {
+    if (maximumFall>0) {
+        // If the piece was supposed to fall
         
+        if (atBottom) {
+            // Do lock-related things if necessary
+
+            if (queuedAction.hardDrop) {
+                lock();
+                normalDrop();
+                lockTimer.stop();
+            }
+            
+            if (lockTimer.isStarted()) {
+                if (lockTimer.getTime() > LockDelay) {
+                    lock();
+                    normalDrop();
+                    lockTimer.stop();
+                }
+            }
+            else {
+                lockTimer.start();
+            }
+        }
+        else {
+            lockTimer.stop();
+        }
     }
-    
     
     // Turn off gravity modifiers
     if (queuedAction.hardDrop || queuedAction.softDrop) {
-        gravity = baseGravity;
+        normalDrop();
         queuedAction.hardDrop = false;
         queuedAction.softDrop = false;
     }
@@ -361,5 +360,53 @@ Tetromino World::tryWallKick(Tetromino piece)
     
     return piece;
 }
+
+
+int World::getFallDistance()
+{
+    if (gravity > 0.0 && gravity < 1.0) {
+        static float lowGravityCounter = 0.0;
+        
+        if (lowGravityCounter >= 1.0) {
+            lowGravityCounter = 0.0;
+            return 1;
+        }
+        else {
+            lowGravityCounter += gravity;
+            return 0;
+        }
+    }
+    else if (gravity == 1.0) {
+        return 1;
+    }
+    else if (gravity > 1.0 && gravity <= 20) {
+        return floor(gravity);
+    }
+    else {
+        std::cerr << "Error: Invalid gravity value. G = " << gravity << std::endl;
+    }
+    
+    return 0;
+}
+
+void World::lock()
+{
+    garbage.addTetromino(piece);
+        
+    // garbage.checkLineClears();
+    
+    //  get new piece
+    piece.setPosition(glm::vec2(5,17));
+    piece.setRotation(0);
+    if (checkCollision(piece)) {
+        // top out!!
+        std::cout << "TOP OUT!!" << std::endl;
+    }
+    
+    //  update world traits
+    
+}
+
+
 
 

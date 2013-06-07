@@ -17,9 +17,9 @@ Garbage::Garbage(size_t width, size_t height) :
 {
     for (int j=0; j<height/3; j++) {
         for (int i=0; i<width; i++) {
-            if ( randint(0, 6) ) {
-                Block* b = new Block(BLOCK::COLOR::NUMBER[randint(0, BLOCK::COLOR::MAX_NUMBER)]);
-                b->setPosition(glm::vec3(i+0.5, j+0.5,-0.2));
+            if ( randint(0, 5) ) {
+                Block* b = new Block(BLOCK::COLOR::NUMBER[randint(0, BLOCK::COLOR::MAX_NUMBER-1)]);
+                b->setPosition(glm::vec3(i+0.5, j+0.5, 0));
                 blocks[j][i] = b;
             }
         }
@@ -79,5 +79,39 @@ bool Garbage::checkCollision(Tetromino piece)
     return false;
 }
 
+void Garbage::addTetromino(Tetromino piece)
+{
+    glm::vec2 basePos = piece.position();
+    glm::mat4 square = piece.collisionSquare();
+    Block refBlock = piece.blocks().front();
+    
+    for (int i=0; i<piece.collisionSquareSize(); i++) {
+        for (int j=0; j<piece.collisionSquareSize(); j++) {
+            if (square[i][j]) {
+                glm::vec2 blockPos = basePos + glm::vec2(j, i);
+                int row = round(blockPos.y);
+                int col = round(blockPos.x);
+                
+                if (row < WORLD_N_BLOCKS_Y) {
+                    if (blocks[row][col]) {
+                        std::cerr << "Error: Added piece to garbage that overlapped a garbage block." << std::endl;
+                        delete blocks[row][col];
+                    }
 
+                    Block* blockCopy = new Block(refBlock);
+                    blockCopy->setPosition(glm::vec3(blockPos.x+0.5, blockPos.y+0.5, 0));
+                    blockCopy->setOffset(glm::vec2(0,0));
+                    blockCopy->setRotation(0);
+                    blocks[row][col] = blockCopy;
+                }
+                else {
+                    // top-out!!
+                }
+            }
+        }
+    }
+    
+//    checkLineClears();
+    
+}
 

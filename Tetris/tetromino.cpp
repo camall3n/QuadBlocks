@@ -86,6 +86,11 @@ void Tetromino::setRotation(float angle)
     }
 }
 
+std::list<Block> Tetromino::blocks()
+{
+    return _blocks;
+}
+
 glm::mat4 Tetromino::collisionSquare()
 {
     glm::mat4 square(0);

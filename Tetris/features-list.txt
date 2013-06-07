@@ -10,17 +10,21 @@ Basic Functionality:
         + floor
         + garbage
         - kicks for intermediate rotations
+        - I-piece end-block rotations
     + Wall kicks, floor kicks
     - t-spins
 
 - Gravity
+    + Basic (static)
     - Basic (variable)
-    - Hard drop
-    - Soft drop
+    + Hard drop
+    + Soft drop
 
-- Piece Locking
++ Piece Locking
 
 - Line Clears
+
+- Top-outs
 
 - Scoring
     - single, double, triple, tetris

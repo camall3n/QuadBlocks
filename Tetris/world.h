@@ -15,27 +15,9 @@
 #include "garbage.h"
 #include "light.h"
 #include "tetromino.h"
+#include "timer.h"
 #include "well.h"
 
-typedef const char direction_t;
-namespace DIRECTION {
-    direction_t NONE = 0x00;
-    
-    direction_t N = 0x01;
-    direction_t S = 0x02;
-    direction_t E = 0x03;
-    direction_t W = 0x04;
-    
-    direction_t NW = N | W;
-    direction_t NE = N | E;
-    direction_t SW = S | W;
-    direction_t SE = S | E;
-
-    direction_t UP    = N;
-    direction_t RIGHT = E;
-    direction_t DOWN  = S;
-    direction_t LEFT  = W;
-}
 
 class World
 {
@@ -55,26 +37,26 @@ public:
     void queueHold();
     void togglePause();
     
-    // World Functions
-    void moveRight();
-    void moveLeft();
-    void rotateCW();
-    void rotateCCW();
-    void hardDrop();
-    void softDrop();
-    void hold();
-    void pause();
-    void unpause();
-    
     // Dev Actions
     void moveUp();
     void moveDown();
     
 private:
+    // Objects
     Camera c;
     Tetromino piece;
     Light light;
+    Well well;
+    Garbage garbage;
+    Timer lockTimer;//
+    int nLockAttempts;//
+
+    // World traits
+    bool isPaused;
+    float baseGravity;
+    float gravity;
     
+    // User actions
     struct QueuedActions {
         bool moveRight = false;
         bool moveLeft = false;
@@ -85,18 +67,27 @@ private:
         bool hold = false;
     } queuedAction;
     
-    bool isPaused;
-    
-    float baseGravity;
-    float gravity;
-    
-    void applyGravity();
-    
+    // Piece movement
+    void moveRight();
+    void moveLeft();
+    void rotateCW();
+    void rotateCCW();
+    void hold();
+
     bool checkCollision(Tetromino piece);
     Tetromino tryWallKick(Tetromino piece);
+    void lock();
+    
+    // Gravity
+    int getFallDistance();
+    void hardDrop();
+    void softDrop();
+    void normalDrop();
+    void applyGravity();
 
-    Well well;
-    Garbage garbage;
+    // Menu functions
+    void pause();
+    void unpause();
     
 };
 

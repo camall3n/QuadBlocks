@@ -95,6 +95,10 @@ void init() {
 void input() {
     controller.update();
     
+    if (controller.LS.y() < 0) {
+        w->queueSoftDrop();
+    }
+    
     if (controller.Back.isPressed()) {
         should_quit = true;
     }

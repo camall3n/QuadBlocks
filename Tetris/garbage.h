@@ -23,6 +23,7 @@ public:
     void draw();
     
     bool checkCollision(Tetromino piece);
+    void addTetromino(Tetromino piece);
     
 private:
     std::vector<std::vector<Block*>> blocks;
