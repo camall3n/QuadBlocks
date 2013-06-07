@@ -95,8 +95,21 @@ void init() {
 void input() {
     controller.update();
     
-    if (controller.LS.y() < 0) {
+    float x, y;
+    x = controller.LS.x();
+    y = controller.LS.y();
+    
+    if ( (y < 0) && (std::abs(y) > std::abs(x)) ) {
         w->queueSoftDrop();
+    }
+    else if (controller.LS.x() < 0 || controller.LB.isPressed()) {
+        w->queueDragLeft();
+    }
+    else if (controller.LS.x() > 0 || controller.RB.isPressed()) {
+        w->queueDragRight();
+    }
+    else {
+        w->stopDragging();
     }
     
     if (controller.Back.isPressed()) {

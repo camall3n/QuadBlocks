@@ -11,7 +11,7 @@
 
 
 #pragma mark Constants
-const float THUMBSTICK_DEADZONE = 0.15;
+const float THUMBSTICK_DEADZONE = 0.2;
 const float TRIGGER_DEADZONE    = 0.01;
 
 #pragma mark

@@ -19,7 +19,8 @@ public:
     void pause();
     void unpause();
     
-    double getTime();// Since start,
+    double getTime();// Since start
+    double getLapTime();// Since last getLapTime (or since start if no lap time)
     
     //Check the status of the timer
     bool isStarted();
@@ -31,6 +32,9 @@ private:
     
     //The time stored when the timer was paused
     double pausedTime;
+    
+    //The time stored when the last lapTime was requested
+    double lapTime;
     
     //The timer status
     bool paused;

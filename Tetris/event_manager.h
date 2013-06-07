@@ -28,6 +28,8 @@ public:
 private:
     Controller* controller;
     World* world;
+    
+    void LSReallyMovedUp();
 };
 
 #endif /* defined(__Tetris__event_manager__) */

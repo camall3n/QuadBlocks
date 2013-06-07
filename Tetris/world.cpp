@@ -10,11 +10,14 @@
 
 #include <boost/foreach.hpp>
 #include <iostream>
+#include <cmath>
 #include "camera.h"
 #include "constants.h"
 #include "utility.h"
 
-const double LockDelay = 1.0;
+const double LOCK_DELAY = 1.0;
+const double DRAG_DELAY = 0.25;
+const double DRAG_REPEAT = 0.1;
 
 World::World() :
     piece(TETROMINO::I),
@@ -66,11 +69,17 @@ void World::update()
         // Horizontal Movement
         if (queuedAction.moveLeft) {
             moveLeft();
-            queuedAction.moveLeft = false;
+            stopDragging();
         }
         else if (queuedAction.moveRight) {
             moveRight();
-            queuedAction.moveRight = false;
+            stopDragging();
+        }
+        else if (queuedAction.dragLeft) {
+            dragLeft();
+        }
+        else if (queuedAction.dragRight) {
+            dragRight();
         }
         
         // Gravity
@@ -91,10 +100,20 @@ void World::draw()
 void World::queueMoveRight() {
     queuedAction.moveRight = true;
     queuedAction.moveLeft = false;
+    queuedAction.dragLeft = false;
 }
 void World::queueMoveLeft() {
     queuedAction.moveLeft = true;
     queuedAction.moveRight = false;
+    queuedAction.dragRight = false;
+}
+void World::queueDragRight() {
+    queuedAction.dragRight = true;
+    queuedAction.dragLeft = false;
+}
+void World::queueDragLeft() {
+    queuedAction.dragLeft = true;
+    queuedAction.dragRight = false;
 }
 void World::queueRotateCW() {
     queuedAction.rotateCW = true;
@@ -159,6 +178,8 @@ void World::moveRight()
     
     if (!checkCollision(newPiece))
         piece = newPiece;
+    else
+        stopDragging();
 }
 
 void World::moveLeft()
@@ -171,6 +192,66 @@ void World::moveLeft()
     
     if (!checkCollision(newPiece))
         piece = newPiece;
+    else
+        stopDragging();
+}
+
+void World::dragRight()
+{
+    dragTimerLeft.stop();
+    queuedAction.dragLeft = false;
+    
+    if (dragTimerRight.isStarted())
+    {
+        static double repeat = 0.0;
+        if (dragTimerRight.getTime() > DRAG_DELAY) {
+            if (repeat==0.0 || repeat > DRAG_REPEAT) {
+                moveRight();
+                repeat = 0.0;
+            }
+            repeat += 1.0/FRAMES_PER_SECOND;
+        }
+        else {
+            repeat = 0.0;
+        }
+    }
+    else {
+        dragTimerRight.start();
+    }
+}
+
+void World::dragLeft()
+{
+    dragTimerRight.stop();
+    queuedAction.dragRight = false;
+    
+    if (dragTimerLeft.isStarted())
+    {
+        static double repeat = 0.0;
+        if (dragTimerLeft.getTime() > DRAG_DELAY) {
+            if (repeat==0.0 || repeat > DRAG_REPEAT) {
+                moveLeft();
+                repeat = 0.0;
+            }
+            repeat += 1.0/FRAMES_PER_SECOND;
+        }
+        else {
+            repeat = 0.0;
+        }
+    }
+    else {
+        dragTimerLeft.start();
+    }
+}
+
+void World::stopDragging()
+{
+    queuedAction.moveRight = false;
+    queuedAction.dragRight = false;
+    queuedAction.moveLeft = false;
+    queuedAction.dragLeft = false;
+    dragTimerLeft.stop();
+    dragTimerRight.stop();
 }
 
 void World::rotateCW()
@@ -217,7 +298,7 @@ void World::hardDrop()
 }
 void World::softDrop()
 {
-    gravity = 2*baseGravity;
+    gravity = std::fmin(10*baseGravity, 20.0);
 }
 void World::normalDrop()
 {
@@ -286,7 +367,7 @@ void World::applyGravity()
             }
             
             if (lockTimer.isStarted()) {
-                if (lockTimer.getTime() > LockDelay) {
+                if (lockTimer.getTime() > LOCK_DELAY) {
                     lock();
                     normalDrop();
                     lockTimer.stop();

@@ -30,11 +30,19 @@ public:
     // User Actions
     void queueMoveRight();
     void queueMoveLeft();
+    
+    void queueDragRight();
+    void queueDragLeft();
+    void stopDragging();
+    
     void queueRotateCW();
     void queueRotateCCW();
+    
     void queueHardDrop();
     void queueSoftDrop();
+    
     void queueHold();
+    
     void togglePause();
     
     // Dev Actions
@@ -48,8 +56,9 @@ private:
     Light light;
     Well well;
     Garbage garbage;
-    Timer lockTimer;//
-    int nLockAttempts;//
+    Timer lockTimer;
+    Timer dragTimerRight;
+    Timer dragTimerLeft;
 
     // World traits
     bool isPaused;
@@ -59,7 +68,9 @@ private:
     // User actions
     struct QueuedActions {
         bool moveRight = false;
+        bool dragRight = false;
         bool moveLeft = false;
+        bool dragLeft = false;
         bool rotateCW = false;
         bool rotateCCW = false;
         bool hardDrop = false;
@@ -69,7 +80,9 @@ private:
     
     // Piece movement
     void moveRight();
+    void dragRight();
     void moveLeft();
+    void dragLeft();
     void rotateCW();
     void rotateCCW();
     void hold();

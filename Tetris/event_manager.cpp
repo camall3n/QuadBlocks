@@ -67,7 +67,7 @@ void EventManager::activate()
         
         // Hard Drop
         controller->LS.signal.movedUp.connect(
-            boost::bind( &World::queueHardDrop, world)
+            boost::bind( &EventManager::LSReallyMovedUp, this)
 //            boost::bind( &World::moveUp, world)
         );
 
@@ -99,3 +99,10 @@ void EventManager::activate()
     }
 }
 
+
+void EventManager::LSReallyMovedUp()
+{
+    if (controller->LS.y() > controller->LS.x()) {
+        world->queueHardDrop();
+    }
+}

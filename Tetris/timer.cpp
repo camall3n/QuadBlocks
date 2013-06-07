@@ -23,6 +23,7 @@ void Timer::start()
     started = true;
     paused = false;
     startTime = glfwGetTime();
+    lapTime = startTime;
 }
 
 void Timer::stop()
@@ -35,7 +36,7 @@ void Timer::pause()
 {
     if ( (started==true) && (paused==false) ) {
         paused = true;
-        pausedTime = glfwGetTime() - startTime;
+        pausedTime = glfwGetTime();
     }
 }
 
@@ -43,7 +44,6 @@ void Timer::unpause()
 {
     if (paused==true) {
         paused = false;
-//        startTime = glfwGetTime() - pausedTime;
         pausedTime = 0;
     }
 }
@@ -54,8 +54,25 @@ double Timer::getTime()
         if (paused==true) {
             return pausedTime;
         }
-        else{
+        else {
             return glfwGetTime() - startTime;
+        }
+    }
+    return 0;
+}
+
+double Timer::getLapTime()
+{
+    if (started==true) {
+        if (paused == true) {
+            double oldLapTime = lapTime;
+            lapTime = pausedTime;
+            return pausedTime - oldLapTime;
+        }
+        else {
+            double oldLapTime = lapTime;
+            lapTime = glfwGetTime();
+            return lapTime - oldLapTime;
         }
     }
     return 0;
