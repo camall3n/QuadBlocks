@@ -1,7 +1,11 @@
 Basic Functionality:
 
++ Movement
+    + Basic
+    + Hold-to-drag
+
 - Collision detection
-    + Basic Movement
+    + Movement
         + walls
         + floor
         + garbage
