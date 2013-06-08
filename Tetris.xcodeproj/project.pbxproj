@@ -28,6 +28,7 @@
 		FD36E046175A933F0041A762 /* garbage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E044175A933F0041A762 /* garbage.cpp */; };
 		FD36E04A175C260C0041A762 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E049175C260C0041A762 /* timer.cpp */; };
 		FD36E04D175C2BB10041A762 /* event_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E04B175C2BB00041A762 /* event_manager.cpp */; };
+		FD36E0511762BC070041A762 /* next_queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E04F1762BC060041A762 /* next_queue.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -88,6 +89,8 @@
 		FD36E04B175C2BB00041A762 /* event_manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = event_manager.cpp; sourceTree = "<group>"; };
 		FD36E04C175C2BB10041A762 /* event_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event_manager.h; sourceTree = "<group>"; };
 		FD36E04E175C4EFD0041A762 /* features-list.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "features-list.txt"; sourceTree = "<group>"; };
+		FD36E04F1762BC060041A762 /* next_queue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = next_queue.cpp; sourceTree = "<group>"; };
+		FD36E0501762BC070041A762 /* next_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = next_queue.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +163,8 @@
 				32FFC0721710F65900667EFC /* main.cpp */,
 				FD13B31F1735FF9800705C91 /* mesh.cpp */,
 				FD13B3201735FF9800705C91 /* mesh.h */,
+				FD36E04F1762BC060041A762 /* next_queue.cpp */,
+				FD36E0501762BC070041A762 /* next_queue.h */,
 				32AD906C171A68AB008E0827 /* tetromino.cpp */,
 				32AD906D171A68AB008E0827 /* tetromino.h */,
 				FD36E049175C260C0041A762 /* timer.cpp */,
@@ -287,6 +292,7 @@
 				FD36E046175A933F0041A762 /* garbage.cpp in Sources */,
 				FD36E04A175C260C0041A762 /* timer.cpp in Sources */,
 				FD36E04D175C2BB10041A762 /* event_manager.cpp in Sources */,
+				FD36E0511762BC070041A762 /* next_queue.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

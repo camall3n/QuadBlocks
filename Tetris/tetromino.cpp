@@ -28,6 +28,30 @@ Tetromino::Tetromino(TETROMINO::TYPE type) :
     }
 }
 
+//Tetromino::Tetromino(const Tetromino& that) :
+//    _type(that._type),
+//    _state(that._state),
+//    _color(that._color),
+//    _position(that._position),
+//    _center(that._center),
+//    _rotation(that._rotation),
+//    _blocks(that._blocks),
+//    _baseOffsets(that._baseOffsets)
+//{
+//    
+//}
+//
+//Tetromino& Tetromino::operator=(const Tetromino& that)
+//{
+//    
+//}
+//
+//Tetromino::~Tetromino()
+//{
+//    
+//}
+
+
 bool Tetromino::operator==(const Tetromino& that)
 {
     if ((_type == that._type) &&
@@ -268,4 +292,3 @@ float Tetromino::getMaxAbsOffset()
     return max;
 }
 
-std::vector<glm::vec2> Tetromino::_baseOffsets(0);

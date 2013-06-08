@@ -14,6 +14,7 @@
 #include "camera.h"
 #include "garbage.h"
 #include "light.h"
+#include "next_queue.h"
 #include "tetromino.h"
 #include "timer.h"
 #include "well.h"
@@ -56,6 +57,7 @@ private:
     Light light;
     Well well;
     Garbage garbage;
+    NextQueue pieceQueue;
     Timer lockTimer;
     Timer dragTimerRight;
     Timer dragTimerLeft;

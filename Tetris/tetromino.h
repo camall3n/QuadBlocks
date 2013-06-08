@@ -67,7 +67,7 @@ private:
     float _rotation;// range: [-0.5, 0.5)
     
     std::list<Block> _blocks;
-    static std::vector<glm::vec2> _baseOffsets;
+    std::vector<glm::vec2> _baseOffsets;
     
     static glm::vec4 getColor(TETROMINO::TYPE type);
     static glm::vec2 getCenter(TETROMINO::TYPE type);

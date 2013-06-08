@@ -478,7 +478,9 @@ void World::lock()
 {
     garbage.addTetromino(piece);
     
-    //  get new piece
+    Tetromino nextPiece = pieceQueue.getNext();
+    piece = nextPiece;
+    
     piece.setPosition(glm::vec2(5,17));
     piece.setRotation(0);
     if (checkCollision(piece)) {
