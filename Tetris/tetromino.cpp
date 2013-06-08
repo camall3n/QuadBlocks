@@ -89,6 +89,11 @@ float Tetromino::rotation()
     return fmod(_rotation, 1.0);
 }
 
+TETROMINO::TYPE Tetromino::type()
+{
+    return _type;
+}
+
 void Tetromino::setPosition(glm::vec2 pos)
 {
 //    if (_position != pos) {

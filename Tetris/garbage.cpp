@@ -16,7 +16,8 @@
 const double LINE_CLEAR_TIMEOUT = 0.25;
 
 Garbage::Garbage(size_t width, size_t height) :
-    blocks(height, std::vector<Block*>(width, NULL))
+    blocks(height, std::vector<Block*>(width, NULL)),
+    _isClearing(false)
 {
 //    for (int j=0; j<height/3; j++) {
 //        for (int i=0; i<width; i++) {

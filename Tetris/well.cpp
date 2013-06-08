@@ -8,6 +8,7 @@
 
 #include "well.h"
 #include <boost/foreach.hpp>
+#include <glm/glm.hpp>
 #include <iostream>
 #include "utility.h"
 
@@ -39,7 +40,7 @@ Well::Well(size_t width, size_t height)
     }
     
     frontLight.setPosition(glm::vec3(5,10,80));
-    frontLight.setLightColor(glm::vec3(0.5,0.5,0.5));
+    frontLight.setLightColor(glm::vec3(0.25,0.25,0.25));
     frontLight.setDarkColor(glm::vec3(0,0,0));
     frontLight.setAttenuation(.15);
 }
@@ -51,7 +52,11 @@ void Well::draw()
     
     // Front-light the backWall blocks
     frontLight.makeActive();
+    float i=0;
     BOOST_FOREACH(Block block, backWall) {
+        glm::vec3 color = glm::mix(glm::vec3(0.25), glm::vec3(0.05), i/WORLD_N_BLOCKS_Y);
+        frontLight.setLightColor(color);
+        i = fmod(i+1, WORLD_N_BLOCKS_Y);
         block.draw();
     }
     

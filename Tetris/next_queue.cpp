@@ -11,13 +11,18 @@
 #include <algorithm>
 #include <boost/foreach.hpp>
 #include <vector>
+#include "constants.h"
 #include "tetromino.h"
+
+extern const int WORLD_N_BLOCKS_X;
+extern const int WORLD_N_BLOCKS_Y;
 
 int myrandom(int i) { return ::random() % i; }
 
 NextQueue::NextQueue() :
     typeVec(7)
 {
+    srand ( (unsigned int) time(NULL) );
     for (int i=0; i<7; i++) {
         typeVec[i] = (TETROMINO::TYPE) i;
     }
@@ -25,31 +30,64 @@ NextQueue::NextQueue() :
     std::random_shuffle(typeVec.begin(), typeVec.end(), myrandom);
     BOOST_FOREACH(TETROMINO::TYPE type, typeVec) {
         Tetromino piece(type);
-        current.push(piece);
+        current.push_back(piece);
     }
+    arrangePieces();
     
     std::random_shuffle(typeVec.begin(), typeVec.end(), myrandom);
     BOOST_FOREACH(TETROMINO::TYPE type, typeVec) {
         Tetromino piece(type);
-        next.push(piece);
+        next.push_back(piece);
     }
+}
+
+void NextQueue::draw()
+{
+    int i=0;
+    BOOST_FOREACH(Tetromino &piece, current) {
+        if (i<5) {
+            piece.draw();
+        }
+        i++;
+    }
+}
+
+void NextQueue::update()
+{
+    
 }
 
 Tetromino NextQueue::getNext()
 {
     Tetromino piece = current.front();
-    current.pop();
+    current.pop_front();
     
-    current.push(next.front());
-    next.pop();
+    current.push_back(next.front());
+    next.pop_front();
+    
+    arrangePieces();
     
     if (next.empty()) {
         std::random_shuffle(typeVec.begin(), typeVec.end(), myrandom);
         BOOST_FOREACH(TETROMINO::TYPE type, typeVec) {
             Tetromino piece(type);
-            next.push(piece);
+            next.push_back(piece);
         }
     }
     
     return piece;
+}
+
+
+void NextQueue::arrangePieces()
+{
+    int i=0;
+    BOOST_FOREACH(Tetromino &piece, current) {
+        glm::vec2 pos(WORLD_N_BLOCKS_X + 2, WORLD_N_BLOCKS_Y - 3*(i+1) );
+        if (piece.type() == TETROMINO::O) {
+            pos += glm::vec2(0,1);
+        }
+        piece.setPosition(pos);
+        i++;
+    }
 }

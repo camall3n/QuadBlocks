@@ -39,12 +39,15 @@ World::World() :
     Block::useLight(light);
     light.makeActive();
     
-    piece.setPosition(glm::vec2(5,17));
+    piece = pieceQueue.getNext();
+    piece.setPosition(glm::vec2(4,17));
     piece.setRotation(0);
 }
 
 void World::update()
 {
+    pieceQueue.update();
+    
     if (garbage.isClearing()) {
         garbage.update();
     }
@@ -93,7 +96,8 @@ void World::draw()
     light.makeActive();
     well.draw();
     garbage.draw();
-    piece.draw();    
+    piece.draw();
+    pieceQueue.draw();
 }
 
 

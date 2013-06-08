@@ -9,7 +9,7 @@
 #ifndef __Tetris__next_queue__
 #define __Tetris__next_queue__
 
-#include <queue>
+#include <list>
 #include "tetromino.h"
 
 class NextQueue
@@ -17,13 +17,18 @@ class NextQueue
 public:
     NextQueue();
     
+    void draw();
+    void update();
+    
     Tetromino getNext();
     
 private:
-    std::queue<Tetromino> current;
-    std::queue<Tetromino> next;
+    std::list<Tetromino> current;
+    std::list<Tetromino> next;
     
     std::vector<TETROMINO::TYPE> typeVec;
+    
+    void arrangePieces();
     
 };
 
