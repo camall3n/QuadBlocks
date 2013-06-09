@@ -151,7 +151,7 @@ Controller::Thumbstick::Thumbstick(int type) :
     _x(0.0),
     _y(0.0),
     _pressed(false),
-    _moving(N_MOTIONS, false)
+    _moving(N_THUMBSTICK_DIRS, false)
 {
     if (type == XBOX_THUMBSTICK_LEFT) {
         _axisX = XBOX_AXIS_LS_HORIZONTAL;
@@ -196,20 +196,20 @@ void Controller::Thumbstick::update(float x, float y)
     
     if ( new_x >= old_x + THUMBSTICK_DEADZONE )
     {
-        _moving[MOTION_LEFT] = false;
+        _moving[THUMBSTICK_LEFT] = false;
         
-        if ( !_moving[MOTION_RIGHT] && (new_x > 0) ) {
+        if ( !_moving[THUMBSTICK_RIGHT] && (new_x > 0) ) {
             signal.movedRight();
-            _moving[MOTION_RIGHT] = true;
+            _moving[THUMBSTICK_RIGHT] = true;
         }
     }
     else if ( new_x <= old_x - THUMBSTICK_DEADZONE )
     {
-        _moving[MOTION_RIGHT] = false;
+        _moving[THUMBSTICK_RIGHT] = false;
         
-        if ( !_moving[MOTION_LEFT] && (new_x < 0) ) {
+        if ( !_moving[THUMBSTICK_LEFT] && (new_x < 0) ) {
             signal.movedLeft();
-            _moving[MOTION_LEFT] = true;
+            _moving[THUMBSTICK_LEFT] = true;
         }
     }
     
@@ -244,7 +244,7 @@ bool Controller::Thumbstick::isPressed(){
 #pragma mark
 #pragma mark Trigger
 Controller::Trigger::Trigger(int type) :
-    _moving(N_MOTIONS, false)
+    _moving(N_TRIGGER_DIRS, false)
 {
     _type = type;
     if (type == XBOX_TRIGGER_LEFT) {
@@ -272,21 +272,21 @@ void Controller::Trigger::update(float z)
     
     if (new_z >= old_z + TRIGGER_DEADZONE)
     {
-        _moving[MOTION_OUT] = false;
+        _moving[TRIGGER_OUT] = false;
         
-        if ( !_moving[MOTION_IN] ) {
+        if ( !_moving[TRIGGER_IN] ) {
             signal.pressed();
-            _moving[MOTION_IN] = true;
+            _moving[TRIGGER_IN] = true;
         }
     }
     
     if (new_z <= old_z - TRIGGER_DEADZONE)
     {
-        _moving[MOTION_IN] = false;
+        _moving[TRIGGER_IN] = false;
         
-        if ( !_moving[MOTION_OUT] ) {
+        if ( !_moving[TRIGGER_OUT] ) {
             signal.released();
-            _moving[MOTION_OUT] = true;
+            _moving[TRIGGER_OUT] = true;
         }
     }
 }

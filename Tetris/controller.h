@@ -99,6 +99,10 @@ public:
             bs2::signal<void ()> movedDown;
             bs2::signal<void ()> movedLeft;
             bs2::signal<void ()> movedRight;
+            bs2::signal<void ()> holdingUp;
+            bs2::signal<void ()> holdingDown;
+            bs2::signal<void ()> holdingLeft;
+            bs2::signal<void ()> holdingRight;
         } signal;
         
     private:
@@ -109,13 +113,13 @@ public:
         int   _axisY;
         int   _buttonType;
         int   _type;
-        enum MOTION {
-            MOTION_LEFT = 0,
-            MOTION_RIGHT,
-            MOTION_UP,
-            MOTION_DOWN,
+        enum THUMBSTICK_DIR {
+            THUMBSTICK_LEFT = 0,
+            THUMBSTICK_RIGHT,
+            THUMBSTICK_UP,
+            THUMBSTICK_DOWN,
             //--------------
-            N_MOTIONS
+            N_THUMBSTICK_DIRS
         };
         std::vector<bool> _moving;
     };
@@ -138,11 +142,11 @@ public:
         float _z;
         int   _axis;
         int   _type;
-        enum MOTION {
-            MOTION_IN = 0,
-            MOTION_OUT,
+        enum TRIGGER_DIR {
+            TRIGGER_IN = 0,
+            TRIGGER_OUT,
             //--------------
-            N_MOTIONS
+            N_TRIGGER_DIRS
         };
         std::vector<bool> _moving;
     };
