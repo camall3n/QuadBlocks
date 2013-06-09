@@ -19,11 +19,16 @@ const double LOCK_DELAY = 1.0;
 const double DRAG_DELAY = 0.25;
 const double DRAG_REPEAT = 0.1;
 
+const double MAX_GRAVITY = 20;
+const glm::vec2 startingPos(4,17);
+
 World::World() :
     piece(TETROMINO::I),
     isPaused(false),
     baseGravity(1.0/60),
-    gravity(baseGravity)
+    gravity(baseGravity),
+    holdingPiece(false),
+    usedHoldPiece(false)
 {
     Block::useCamera(c);
     c.setPosition(glm::vec3(5,10,80));
@@ -40,7 +45,7 @@ World::World() :
     light.makeActive();
     
     piece = pieceQueue.getNext();
-    piece.setPosition(glm::vec2(4,17));
+    piece.setPosition(startingPos);
     piece.setRotation(0);
 }
 
@@ -88,6 +93,7 @@ void World::update()
         // Gravity
         applyGravity();
         
+        updateGhostPiece();
     }
 }
 
@@ -98,6 +104,11 @@ void World::draw()
     garbage.draw();
     piece.draw();
     pieceQueue.draw();
+    ghostPiece.draw();
+    
+    if (holdingPiece) {
+        holdPiece.draw();
+    }
 }
 
 
@@ -298,11 +309,11 @@ void World::rotateCCW()
 
 void World::hardDrop()
 {
-    gravity = 20;
+    gravity = MAX_GRAVITY;
 }
 void World::softDrop()
 {
-    gravity = std::fmin(10*baseGravity, 20.0);
+    gravity = std::fmin(10*baseGravity, MAX_GRAVITY);
 }
 void World::normalDrop()
 {
@@ -311,7 +322,30 @@ void World::normalDrop()
 
 void World::hold()
 {
-
+    if (!usedHoldPiece) {
+        usedHoldPiece = true;
+        if (holdingPiece) {
+            Tetromino temp = holdPiece;
+            temp.setPosition(startingPos);
+            temp.setRotation(piece.rotation());
+            
+            piece.setPosition(holdPiece.position());
+            piece.setRotation(holdPiece.rotation());
+            holdPiece = piece;
+            
+            piece = temp;
+        }
+        else {
+            holdPiece = piece;
+            holdPiece.setPosition(glm::vec2(-5,WORLD_N_BLOCKS_Y-3));
+            piece = pieceQueue.getNext();
+            piece.setPosition(startingPos);
+            holdingPiece = true;
+        }
+    }
+    else {
+        // Add sound?
+    }
 }
 
 void World::pause()
@@ -468,7 +502,7 @@ int World::getFallDistance()
     else if (gravity == 1.0) {
         return 1;
     }
-    else if (gravity > 1.0 && gravity <= 20) {
+    else if (gravity > 1.0 && gravity <= MAX_GRAVITY) {
         return floor(gravity);
     }
     else {
@@ -484,8 +518,9 @@ void World::lock()
     
     Tetromino nextPiece = pieceQueue.getNext();
     piece = nextPiece;
+    usedHoldPiece = false;
     
-    piece.setPosition(glm::vec2(5,17));
+    piece.setPosition(startingPos);
     piece.setRotation(0);
     if (checkCollision(piece)) {
         // top out!!
@@ -496,6 +531,27 @@ void World::lock()
     
 }
 
+void World::updateGhostPiece()
+{
+    ghostPiece = piece;
+    
+    ghostPiece.setState(TETROMINO::GHOST);
+    
+    bool atBottom = false;
+    for (int i=1; i<=MAX_GRAVITY; i++) {
+        Tetromino newPiece(ghostPiece);
+        glm::vec2 pos = ghostPiece.position();
+        pos += glm::vec2(0, -1);
+        newPiece.setPosition(pos);
+        if (checkCollision(newPiece)) {
+            atBottom = true;
+            break;
+        }
+        else {
+            ghostPiece = newPiece;
+        }
+    }
+}
 
 
 

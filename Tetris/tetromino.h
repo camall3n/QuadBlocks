@@ -52,6 +52,7 @@ public:
     TETROMINO::TYPE type();
     void setPosition(glm::vec2 pos);
     void setRotation(float angle);// range: [0, 1)
+    void setState(TETROMINO::STATE state);
     
     std::list<Block> blocks();
     
@@ -62,7 +63,7 @@ private:
     TETROMINO::TYPE _type;
     TETROMINO::STATE _state;
 
-    glm::vec4 _color;
+    glm::vec3 _color;
     glm::vec2 _position;
     glm::vec2 _center;
     float _rotation;// range: [-0.5, 0.5)
@@ -70,7 +71,7 @@ private:
     std::list<Block> _blocks;
     std::vector<glm::vec2> _baseOffsets;
     
-    static glm::vec4 getColor(TETROMINO::TYPE type);
+    static glm::vec3 getColor(TETROMINO::TYPE type);
     static glm::vec2 getCenter(TETROMINO::TYPE type);
     static std::vector<glm::vec2> getBaseOffsets(TETROMINO::TYPE type);
     

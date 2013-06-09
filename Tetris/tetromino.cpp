@@ -115,6 +115,30 @@ void Tetromino::setRotation(float angle)
     }
 }
 
+void Tetromino::setState(TETROMINO::STATE state)
+{
+    _state = state;
+    
+    switch (_state) {
+        case TETROMINO::GHOST:
+            BOOST_FOREACH(Block& b, _blocks) {
+                b.setColor(glm::mix(_color,BLOCK::COLOR::WHITE,0.5f));
+                b.setAlpha(0.5);
+            }
+            break;
+            
+        case TETROMINO::UPCOMING:
+        case TETROMINO::HOLDING:
+        case TETROMINO::ACTIVE:
+        default:
+            
+            BOOST_FOREACH(Block& b, _blocks) {
+                b.setColor(_color);
+                b.setAlpha(1.0);
+            }
+    }
+}
+
 std::list<Block> Tetromino::blocks()
 {
     return _blocks;
@@ -178,9 +202,9 @@ int Tetromino::collisionSquareSize()
 }
 
 
-glm::vec4 Tetromino::getColor(TETROMINO::TYPE type)
+glm::vec3 Tetromino::getColor(TETROMINO::TYPE type)
 {
-    glm::vec4 color(0);
+    glm::vec3 color(0);
     switch (type) {
         case TETROMINO::I:
             color = BLOCK::COLOR::CYAN; break;

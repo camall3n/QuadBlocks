@@ -19,20 +19,18 @@
 
 namespace BLOCK {
     namespace COLOR {
-        const glm::vec4 CYAN   = glm::vec4(0.0, 0.9, 0.9, 1.0);
-        const glm::vec4 YELLOW = glm::vec4(1.0, 0.9, 0.0, 1.0);
-        const glm::vec4 PURPLE = glm::vec4(0.8, 0.1, 0.9, 1.0);
-        const glm::vec4 GREEN  = glm::vec4(0.0, 0.9, 0.0, 1.0);
-        const glm::vec4 RED    = glm::vec4(1.0, 0.1, 0.1, 1.0);
-        const glm::vec4 BLUE   = glm::vec4(0.2, 0.2, 0.8, 1.0);
-        const glm::vec4 ORANGE = glm::vec4(1.0, 0.5, 0.0, 1.0);
-        const glm::vec4 BLACK  = glm::vec4(0.0, 0.0, 0.0, 1.0);
-        const glm::vec4 GRAY   = glm::vec4(0.4, 0.4, 0.4, 1.0);
-        const glm::vec4 WHITE  = glm::vec4(1.0, 1.0, 1.0, 1.0);
-        
-        const glm::vec4 NONE   = glm::vec4(0.0, 0.0, 0.0, 0.0);
-        
-        const glm::vec4 NUMBER[] = {
+        const glm::vec3 CYAN   = glm::vec3(0.0, 0.9, 0.9);
+        const glm::vec3 YELLOW = glm::vec3(1.0, 0.9, 0.0);
+        const glm::vec3 PURPLE = glm::vec3(0.8, 0.1, 0.9);
+        const glm::vec3 GREEN  = glm::vec3(0.0, 0.9, 0.0);
+        const glm::vec3 RED    = glm::vec3(1.0, 0.1, 0.1);
+        const glm::vec3 BLUE   = glm::vec3(0.2, 0.2, 0.8);
+        const glm::vec3 ORANGE = glm::vec3(1.0, 0.5, 0.0);
+        const glm::vec3 BLACK  = glm::vec3(0.0, 0.0, 0.0);
+        const glm::vec3 GRAY   = glm::vec3(0.4, 0.4, 0.4);
+        const glm::vec3 WHITE  = glm::vec3(1.0, 1.0, 1.0);
+                
+        const glm::vec3 NUMBER[] = {
             CYAN, YELLOW, PURPLE, GREEN, RED, BLUE, ORANGE, //BLACK, GRAY, WHITE
         };
         const int MAX_NUMBER = sizeof(NUMBER)/sizeof(NUMBER[0]);
@@ -50,7 +48,7 @@ namespace BLOCK {
 class Block
 {
 public:
-    Block(glm::vec4 color=BLOCK::COLOR::WHITE); //Constructor
+    Block(glm::vec3 color=BLOCK::COLOR::WHITE); //Constructor
     Block(const Block& that);                   //Copy constructor
     Block& operator=(const Block& that);        //Copy assignment operator
     ~Block();                                   //Destructor
@@ -64,7 +62,8 @@ public:
     void setPosition(glm::vec3 pos);
     void setOffset(glm::vec2 offset);
     void setRotation(float angle);// range [0,1)
-    void setColor(glm::vec4 color);
+    void setColor(glm::vec3 color);
+    void setAlpha(float alpha);
     
     static size_t getNumBlockInstances();
     static void useCamera(Camera &camera);// Requires at least one block instance to exist
@@ -79,7 +78,8 @@ private:
     glm::vec3 _position;
     glm::vec3 _offset;
     float _rotation;// range [0,1)
-    glm::vec4 _color;
+    glm::vec3 _color;
+    float _alpha;
     glm::mat4 _offsetModel;
     glm::mat4 _rotateToOrientation;
     glm::mat4 _translateToWorld;

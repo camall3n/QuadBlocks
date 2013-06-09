@@ -14,7 +14,7 @@
 
 Well::Well(size_t width, size_t height)
 {
-    glm::vec4 color = BLOCK::COLOR::BLACK;
+    glm::vec3 color = BLOCK::COLOR::BLACK;
     
     for (int i = -1; i < (int)height+1; i++) {
         Block left = Block(color);

@@ -54,6 +54,8 @@ private:
     // Objects
     Camera c;
     Tetromino piece;
+    Tetromino holdPiece;
+    Tetromino ghostPiece;
     Light light;
     Well well;
     Garbage garbage;
@@ -63,6 +65,8 @@ private:
     Timer dragTimerLeft;
 
     // World traits
+    bool holdingPiece;
+    bool usedHoldPiece;
     bool isPaused;
     float baseGravity;
     float gravity;
@@ -99,6 +103,7 @@ private:
     void softDrop();
     void normalDrop();
     void applyGravity();
+    void updateGhostPiece();
 
     // Menu functions
     void pause();

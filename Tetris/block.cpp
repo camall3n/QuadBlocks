@@ -13,12 +13,13 @@
 #include "utility.h"
 #include "math.h"
 
-Block::Block(glm::vec4 color) :
+Block::Block(glm::vec3 color) :
     _state(BLOCK::USER_CONTROL),
     _position(0,0,0),
     _offset(0,0,0),
     _rotation(0),
     _color(color),
+    _alpha(1.0),
     _offsetModel(1.f),
     _rotateToOrientation(1.f),
     _translateToWorld(1.f),
@@ -37,6 +38,7 @@ Block::Block(const Block& that) :
     _offset(that._offset),
     _rotation(that._rotation),
     _color(that._color),
+    _alpha(that._alpha),
     _offsetModel(that._offsetModel),
     _rotateToOrientation(that._rotateToOrientation),
     _translateToWorld(that._translateToWorld),
@@ -56,6 +58,7 @@ Block& Block::operator=(const Block& that)
     _offset = that._offset;
     _rotation = that._rotation;
     _color = that._color;
+    _alpha = that._alpha;
     _offsetModel = that._offsetModel;
     _rotateToOrientation = that._rotateToOrientation;
     _translateToWorld = that._translateToWorld;
@@ -76,12 +79,13 @@ Block::~Block()
 void Block::draw()
 {
     _modelToWorld = _translateToWorld * _rotateToOrientation * _offsetModel;
+    glm::vec4 color = glm::vec4(_color, _alpha);
 
     glUseProgram(_glProgram);
     
     glBindVertexArray(_glObject.vertexArray);
     {
-        glUniform4fv(_glUniform.diffuseColor, 1, glm::value_ptr(_color));
+        glUniform4fv(_glUniform.diffuseColor, 1, glm::value_ptr(color));
         glUniformMatrix4fv(_glUniform.modelToWorld, 1, GL_FALSE, glm::value_ptr(_modelToWorld));
         
         glDrawElements(GL_TRIANGLES, _mesh.nIndices, GL_UNSIGNED_SHORT, 0);
@@ -146,9 +150,14 @@ void Block::setRotation(float angle)
     }
 }
 
-void Block::setColor(glm::vec4 color)
+void Block::setColor(glm::vec3 color)
 {
     _color = color;
+}
+
+void Block::setAlpha(float alpha)
+{
+    _alpha = alpha;
 }
 
 size_t Block::getNumBlockInstances()

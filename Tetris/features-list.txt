@@ -28,6 +28,12 @@ Basic Functionality:
 
 + Line Clears
 
++ Next pieces
+
++ Hold piece
+
++ Ghost piece
+
 - Top-outs
 
 - Scoring
@@ -37,8 +43,6 @@ Basic Functionality:
     - combo
     - score display
     - lines remaining
-
-- Hold piece
 
 - Modes
     - Marathon

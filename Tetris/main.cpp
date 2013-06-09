@@ -38,7 +38,7 @@ bool should_quit = false;
 EventManager eventManager;
 Controller controller;
 Timer timer;
-World* w = NULL;
+World* world = NULL;
 
 // Declarations
 #pragma mark
@@ -85,10 +85,10 @@ int main(int argc, char* argv[]) {
 
 void init() {
     initGLFW();
-    w = new World();
+    world = new World();
     
     eventManager.setController(&controller);
-    eventManager.setWorld(w);
+    eventManager.setWorld(world);
     eventManager.activate();
 }
 
@@ -100,16 +100,16 @@ void input() {
     y = controller.LS.y();
     
     if ( (y < 0) && (std::abs(y) > std::abs(x)) ) {
-        w->queueSoftDrop();
+        world->queueSoftDrop();
     }
     else if (controller.LS.x() < 0 || controller.LB.isPressed()) {
-        w->queueDragLeft();
+        world->queueDragLeft();
     }
     else if (controller.LS.x() > 0 || controller.RB.isPressed()) {
-        w->queueDragRight();
+        world->queueDragRight();
     }
     else {
-        w->stopDragging();
+        world->stopDragging();
     }
     
     if (controller.Back.isPressed()) {
@@ -118,7 +118,7 @@ void input() {
 }
 
 void update() {
-    w->update();
+    world->update();
 }
 
 void display() {
@@ -127,7 +127,7 @@ void display() {
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-    w->draw();
+    world->draw();
     
     glfwSwapBuffers();
     checkError();
@@ -141,7 +141,7 @@ void waitForFrame()
 }
 
 void cleanup() {
-    delete w;
+    delete world;
     glfwTerminate();
 }
 
