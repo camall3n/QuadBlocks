@@ -16,6 +16,7 @@ Well::Well(size_t width, size_t height)
 {
     glm::vec3 color = BLOCK::COLOR::BLACK;
     
+    // Border (sides)
     for (int i = -1; i < (int)height+1; i++) {
         Block left = Block(color);
         Block right = left;
@@ -25,16 +26,18 @@ Well::Well(size_t width, size_t height)
         border.push_back(right);
     }
     
+    // Border (bottom)
     for (int i=0; i<(int)width; i++) {
         Block block = Block(color);
         block.setPosition(glm::vec2(i+0.5, -0.5));
         border.push_back(block);
     }
     
+    // Back wall
     for (int i=0; i<(int)width; i++) {
         for (int j=0; j<(int)height; j++) {
             Block b = Block(BLOCK::COLOR::BLACK);
-            b.setPosition(glm::vec3(i+0.5, j+0.5, 0));
+            b.setPosition(glm::vec3(i+0.5, j+0.5, -0.2));
             backWall.push_back(b);
         }
     }

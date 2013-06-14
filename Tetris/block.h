@@ -62,6 +62,7 @@ public:
     void setPosition(glm::vec3 pos);
     void setOffset(glm::vec2 offset);
     void setRotation(float angle);// range [0,1)
+    void setScale(float angle);
     void setColor(glm::vec3 color);
     void setAlpha(float alpha);
     
@@ -78,9 +79,11 @@ private:
     glm::vec3 _position;
     glm::vec3 _offset;
     float _rotation;// range [0,1)
+    float _scale;
     glm::vec3 _color;
     float _alpha;
     glm::mat4 _offsetModel;
+    glm::mat4 _scaleModel;
     glm::mat4 _rotateToOrientation;
     glm::mat4 _translateToWorld;
     glm::mat4 _modelToWorld;

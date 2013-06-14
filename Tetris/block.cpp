@@ -18,9 +18,11 @@ Block::Block(glm::vec3 color) :
     _position(0,0,0),
     _offset(0,0,0),
     _rotation(0),
+    _scale(1),
     _color(color),
     _alpha(1.0),
     _offsetModel(1.f),
+    _scaleModel(1.f),
     _rotateToOrientation(1.f),
     _translateToWorld(1.f),
     _modelToWorld(1.f)
@@ -37,9 +39,11 @@ Block::Block(const Block& that) :
     _position(that._position),
     _offset(that._offset),
     _rotation(that._rotation),
+    _scale(that._scale),
     _color(that._color),
     _alpha(that._alpha),
     _offsetModel(that._offsetModel),
+    _scaleModel(that._scaleModel),
     _rotateToOrientation(that._rotateToOrientation),
     _translateToWorld(that._translateToWorld),
     _modelToWorld(that._modelToWorld)
@@ -57,9 +61,11 @@ Block& Block::operator=(const Block& that)
     _position = that._position;
     _offset = that._offset;
     _rotation = that._rotation;
+    _scale = that._scale;
     _color = that._color;
     _alpha = that._alpha;
     _offsetModel = that._offsetModel;
+    _scaleModel = that._scaleModel;
     _rotateToOrientation = that._rotateToOrientation;
     _translateToWorld = that._translateToWorld;
     _modelToWorld = that._modelToWorld;
@@ -78,7 +84,7 @@ Block::~Block()
 
 void Block::draw()
 {
-    _modelToWorld = _translateToWorld * _rotateToOrientation * _offsetModel;
+    _modelToWorld = _translateToWorld * _rotateToOrientation * _offsetModel * _scaleModel;
     glm::vec4 color = glm::vec4(_color, _alpha);
 
     glUseProgram(_glProgram);
@@ -147,6 +153,15 @@ void Block::setRotation(float angle)
         _rotateToOrientation[0].y = -sin(theta);
         _rotateToOrientation[1].x =  sin(theta);
         _rotateToOrientation[1].y =  cos(theta);
+    }
+}
+void Block::setScale(float scale)
+{
+    if (_scale != scale) {
+        _scale = scale;
+        _scaleModel = glm::mat4(1.f);
+        _scaleModel[0].x = _scale;
+        _scaleModel[1].y = _scale;
     }
 }
 
