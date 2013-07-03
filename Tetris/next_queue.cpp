@@ -17,14 +17,15 @@
 extern const int WORLD_N_BLOCKS_X;
 extern const int WORLD_N_BLOCKS_Y;
 
-int myrandom(int i) { return ::random() % i; }
+int myrandom(int i) { return ::rand() % i; }
 
 NextQueue::NextQueue() :
     typeVec(7)
 {
     srand ( (unsigned int) time(NULL) );
+    int type0 = rand() % 7;
     for (int i=0; i<7; i++) {
-        typeVec[i] = (TETROMINO::TYPE) i;
+        typeVec[i] = (TETROMINO::TYPE) ((type0+i) % 7);
     }
     
     std::random_shuffle(typeVec.begin(), typeVec.end(), myrandom);

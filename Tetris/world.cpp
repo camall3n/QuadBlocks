@@ -19,16 +19,18 @@ const double LOCK_DELAY = 1.0;
 const double DRAG_DELAY = 0.25;
 const double DRAG_REPEAT = 0.1;
 
+const double MIN_GRAVITY = 1.03/FRAMES_PER_SECOND;
 const double MAX_GRAVITY = 20;
 const glm::vec2 startingPos(4,17);
 
 World::World() :
     piece(TETROMINO::I),
     isPaused(false),
-    baseGravity(1.0/60),
+    baseGravity(MIN_GRAVITY),
     gravity(baseGravity),
     holdingPiece(false),
-    usedHoldPiece(false)
+    usedHoldPiece(false),
+    _isDirty(true)
 {
     Block::useCamera(c);
     c.setPosition(glm::vec3(5,10,80));
@@ -47,6 +49,7 @@ World::World() :
     piece = pieceQueue.getNext();
     piece.setPosition(startingPos);
     piece.setRotation(0);
+    
 }
 
 void World::update()
@@ -95,20 +98,30 @@ void World::update()
         
         updateGhostPiece();
     }
+    else {
+        _isDirty = true;
+    }
 }
 
 void World::draw()
 {
-    light.makeActive();
-    well.draw();
-    garbage.draw();
-    piece.draw();
-    pieceQueue.draw();
-    ghostPiece.draw();
-    
-    if (holdingPiece) {
-        holdPiece.draw();
+    if (true || _isDirty) {
+        light.makeActive();
+        well.draw();
+        garbage.draw();
+        piece.draw();
+        pieceQueue.draw();
+        ghostPiece.draw();
+        
+        if (holdingPiece) {
+            holdPiece.draw();
+        }
+        _isDirty = false;
     }
+}
+
+bool World::isDirty() {
+    return _isDirty;
 }
 
 
@@ -166,8 +179,10 @@ void World::moveUp()
     Tetromino newPiece = piece;
     newPiece.setPosition(pos);
     
-    if (!checkCollision(newPiece))
+    if (!checkCollision(newPiece)) {
         piece = newPiece;
+        _isDirty = true;
+    }
 
 }
 
@@ -179,8 +194,10 @@ void World::moveDown()
     Tetromino newPiece = piece;
     newPiece.setPosition(pos);
     
-    if (!checkCollision(newPiece))
+    if (!checkCollision(newPiece)) {
         piece = newPiece;
+        _isDirty = true;
+    }
 }
 
 void World::moveRight()
@@ -191,10 +208,13 @@ void World::moveRight()
     Tetromino newPiece = piece;
     newPiece.setPosition(pos);
     
-    if (!checkCollision(newPiece))
+    if (!checkCollision(newPiece)) {
         piece = newPiece;
-    else
+        _isDirty = true;
+    }
+    else {
         stopDragging();
+    }
 }
 
 void World::moveLeft()
@@ -205,10 +225,13 @@ void World::moveLeft()
     Tetromino newPiece = piece;
     newPiece.setPosition(pos);
     
-    if (!checkCollision(newPiece))
+    if (!checkCollision(newPiece)) {
         piece = newPiece;
-    else
+        _isDirty = true;
+    }
+    else {
         stopDragging();
+    }
 }
 
 void World::dragRight()
@@ -279,11 +302,13 @@ void World::rotateCW()
     
     if (!checkCollision(newPiece)) {
         piece = newPiece;
+        _isDirty = true;
     }
     else {
         Tetromino kickedPiece = tryWallKick(newPiece);
         if (kickedPiece != newPiece) {
             piece = kickedPiece;
+            _isDirty = true;
         }
     }
 }
@@ -298,11 +323,13 @@ void World::rotateCCW()
     
     if (!checkCollision(newPiece)) {
         piece = newPiece;
+        _isDirty = true;
     }
     else {
         Tetromino kickedPiece = tryWallKick(newPiece);
         if (kickedPiece != newPiece) {
             piece = kickedPiece;
+            _isDirty = true;
         }
     }
 }
@@ -334,6 +361,7 @@ void World::hold()
             holdPiece = piece;
             
             piece = temp;
+            _isDirty = true;
         }
         else {
             holdPiece = piece;
@@ -341,6 +369,7 @@ void World::hold()
             piece = pieceQueue.getNext();
             piece.setPosition(startingPos);
             holdingPiece = true;
+            _isDirty = true;
         }
     }
     else {
@@ -389,6 +418,7 @@ void World::applyGravity()
         }
         else {
             piece = newPiece;
+            _isDirty = true;
         }
     }
     
@@ -527,8 +557,9 @@ void World::lock()
         std::cout << "TOP OUT!!" << std::endl;
     }
     
-    //  update world traits
+    //  update world traits?
     
+    _isDirty = true;
 }
 
 void World::updateGhostPiece()
@@ -549,6 +580,7 @@ void World::updateGhostPiece()
         }
         else {
             ghostPiece = newPiece;
+            _isDirty = true;
         }
     }
 }

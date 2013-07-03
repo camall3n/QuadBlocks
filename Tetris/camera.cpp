@@ -153,7 +153,6 @@ void Camera::UpdateGLObjects()
     glm::mat4 cameraToClipMatrix = PerspectiveMatrix();
     
     _glShared.worldToClipMatrix = cameraToClipMatrix * worldToCameraMatrix;
-
     
     glUseProgram(_glProgram);
     glBindBuffer(GL_UNIFORM_BUFFER, _glObject.uniformBuffer);
@@ -204,11 +203,11 @@ float CalcFrustumScale(float fFovDeg)
 
 glm::mat4 Camera::PerspectiveMatrix()
 {
-    glm::mat4 perspectiveMat(1.f);
+    glm::mat4 perspectiveMat(0.f);
     
     float frustumScale = CalcFrustumScale(_viewingAngle);
     float zNear = 1.f;
-    float zFar = 45.f;
+    float zFar = 150.f;
     
     perspectiveMat[0].x = frustumScale;
     perspectiveMat[1].y = frustumScale;

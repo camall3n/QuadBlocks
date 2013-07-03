@@ -34,6 +34,12 @@ Basic Functionality:
 
 + Ghost piece
 
++ Fix depth clamping
+
++ Fix framerate (30 fps)
+
++ Fix random pieces
+
 - Better controls
 
 - Top-outs

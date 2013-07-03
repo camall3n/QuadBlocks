@@ -86,7 +86,7 @@ void Block::draw()
 {
     _modelToWorld = _translateToWorld * _rotateToOrientation * _offsetModel * _scaleModel;
     glm::vec4 color = glm::vec4(_color, _alpha);
-
+    
     glUseProgram(_glProgram);
     
     glBindVertexArray(_glObject.vertexArray);

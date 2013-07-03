@@ -27,6 +27,7 @@ public:
     
     void update();
     void draw();
+    bool isDirty();
 
     // User Actions
     void queueMoveRight();
@@ -70,6 +71,9 @@ private:
     bool isPaused;
     float baseGravity;
     float gravity;
+    
+    // Other variables
+    bool _isDirty;
     
     // User actions
     struct QueuedActions {

@@ -63,6 +63,7 @@ int  GLFWCALL onClose();
 int main(int argc, char* argv[]) {
     
     init();
+    update();
     
 	while( !should_quit && glfwGetWindowParam(GLFW_OPENED) )
     {
@@ -123,20 +124,37 @@ void update() {
 
 void display() {
     // Clear the screen
-    glClearColor(0, 0, 0, 0);
+    glClearColor(0, 0, 0, 1);
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-    world->draw();
     
-    glfwSwapBuffers();
+//    if (world->isDirty()) {
+        world->draw();
+        glfwSwapBuffers();
+//    }
     checkError();
 }
 
 void waitForFrame()
 {
-    if ( timer.getTime() < 1/FRAMES_PER_SECOND ) {
-        glfwSleep( (1/FRAMES_PER_SECOND) - timer.getTime() );
+    double const nFrames = FRAMES_PER_SECOND;
+    static double start = glfwGetTime();
+    static int count = 1;
+    
+    if (count >= nFrames) {
+        double now = glfwGetTime();
+        double fps = nFrames / (now - start);
+        cout << fps << endl;
+        
+        start = now;
+        count = 0;
+    } else {
+        count++;
+    }
+    
+    double time = timer.getTime();
+    if ( time < 1.0/FRAMES_PER_SECOND ) {
+        glfwSleep( (1.0/FRAMES_PER_SECOND) - timer.getTime() );
     }
 }
 
@@ -160,11 +178,11 @@ void initGLFW() {
     glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 8);
+    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 2);
     glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
     
     // Open a window and create its OpenGL context
-	if( !glfwOpenWindow( SCREEN_WIDTH, SCREEN_HEIGHT, 0,0,0,0, SCREEN_BPP,0, GLFW_WINDOW ) )
+	if( !glfwOpenWindow( SCREEN_WIDTH, SCREEN_HEIGHT, 0,0,0,0, SCREEN_BPP, 8, GLFW_WINDOW ) )
 	{
 		fprintf( stderr, "Failed to open GLFW window as an OpenGL 3.2 context.\n" );
 		glfwTerminate();
@@ -205,7 +223,7 @@ void initGLFW() {
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
     glDepthRange(0.f, 1.f);
-    glEnable(GL_DEPTH_CLAMP);
+//    glEnable(GL_DEPTH_CLAMP);
     checkError("while setting up depth mask");
     
     glEnable(GL_BLEND);
