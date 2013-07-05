@@ -20,6 +20,7 @@
 #include "mesh.h"
 #include "ResourcePath.h"
 #include "timer.h"
+#include "ui.h"
 #include "utility.h"
 #include "world.h"
 
@@ -39,6 +40,7 @@ EventManager eventManager;
 Controller controller;
 Timer timer;
 World* world = NULL;
+UI* ui = NULL;
 
 // Declarations
 #pragma mark
@@ -87,6 +89,7 @@ int main(int argc, char* argv[]) {
 void init() {
     initGLFW();
     world = new World();
+    ui = new UI();
     
     eventManager.setController(&controller);
     eventManager.setWorld(world);
@@ -120,6 +123,7 @@ void input() {
 
 void update() {
     world->update();
+    ui->update();
 }
 
 void display() {
@@ -128,10 +132,10 @@ void display() {
     glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-//    if (world->isDirty()) {
-        world->draw();
-        glfwSwapBuffers();
-//    }
+    world->draw();
+    ui->draw();
+    glfwSwapBuffers();
+
     checkError();
 }
 
@@ -160,6 +164,7 @@ void waitForFrame()
 
 void cleanup() {
     delete world;
+    delete ui;
     glfwTerminate();
 }
 

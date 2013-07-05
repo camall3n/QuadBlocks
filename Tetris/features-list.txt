@@ -40,6 +40,8 @@ Basic Functionality:
 
 + Fix random pieces
 
+- UI
+
 - Better controls
 
 - Top-outs

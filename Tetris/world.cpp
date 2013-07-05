@@ -19,7 +19,7 @@ const double LOCK_DELAY = 1.0;
 const double DRAG_DELAY = 0.25;
 const double DRAG_REPEAT = 0.1;
 
-const double MIN_GRAVITY = 1.03/FRAMES_PER_SECOND;
+const double MIN_GRAVITY = 1.0/FRAMES_PER_SECOND;
 const double MAX_GRAVITY = 20;
 const glm::vec2 startingPos(4,17);
 
