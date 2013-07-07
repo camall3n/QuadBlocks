@@ -14,6 +14,11 @@ using namespace Awesomium;
 #include <GL/glew.h>
 #include <GL/glfw.h>
 //#include <glm/glm.hpp>
+#include "constants.h"
+
+
+const int TEXTURE_WIDTH = SCREEN_WIDTH;
+const int TEXTURE_HEIGHT = SCREEN_HEIGHT;
 
 class UI
 {

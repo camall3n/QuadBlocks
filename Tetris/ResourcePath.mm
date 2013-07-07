@@ -9,6 +9,9 @@
 
 std::string ResourcePath(const char *Name)
 {
+    if (strlen(Name) == 0) {
+        return [[[NSBundle mainBundle] resourcePath] UTF8String];
+    }
     return [[[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:Name] ofType:nil] UTF8String];
 }
 

@@ -9,8 +9,8 @@
 #ifndef Tetris_constants_h
 #define Tetris_constants_h
 
-const int SCREEN_WIDTH = 512;
-const int SCREEN_HEIGHT = 512;
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 800;
 const int SCREEN_BPP = 24;
 const int FRAMES_PER_SECOND = 30;
 

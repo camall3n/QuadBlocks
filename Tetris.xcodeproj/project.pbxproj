@@ -29,6 +29,7 @@
 		FD36E04A175C260C0041A762 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E049175C260C0041A762 /* timer.cpp */; };
 		FD36E04D175C2BB10041A762 /* event_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E04B175C2BB00041A762 /* event_manager.cpp */; };
 		FD36E0511762BC070041A762 /* next_queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E04F1762BC060041A762 /* next_queue.cpp */; };
+		FD3C17521788585500C0C8DD /* ui.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD3C17511788583F00C0C8DD /* ui.html */; };
 		FDE7EB961784A7F300A30B8A /* ui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDE7EB941784A7F300A30B8A /* ui.cpp */; };
 		FDE7EBC71784D83000A30B8A /* Awesomium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDE7EB921784A7BF00A30B8A /* Awesomium.framework */; };
 		FDE7EBC91784DAE600A30B8A /* Awesomium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FDE7EB921784A7BF00A30B8A /* Awesomium.framework */; };
@@ -47,6 +48,7 @@
 				FD16CBA4173DEC8C00688EDC /* basic.frag in CopyFiles */,
 				FDE7EBCE1784ED7100A30B8A /* ui.vert in CopyFiles */,
 				FDE7EBCF1784ED7100A30B8A /* ui.frag in CopyFiles */,
+				FD3C17521788585500C0C8DD /* ui.html in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +110,7 @@
 		FD36E04E175C4EFD0041A762 /* features-list.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "features-list.txt"; sourceTree = "<group>"; };
 		FD36E04F1762BC060041A762 /* next_queue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = next_queue.cpp; sourceTree = "<group>"; };
 		FD36E0501762BC070041A762 /* next_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = next_queue.h; sourceTree = "<group>"; };
+		FD3C17511788583F00C0C8DD /* ui.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = ui.html; sourceTree = "<group>"; };
 		FDE7EB921784A7BF00A30B8A /* Awesomium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Awesomium.framework; path = Tetris/Awesomium.framework; sourceTree = "<group>"; };
 		FDE7EB941784A7F300A30B8A /* ui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ui.cpp; sourceTree = "<group>"; };
 		FDE7EB951784A7F300A30B8A /* ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
@@ -225,6 +228,7 @@
 		FD13B31E1735FD9A00705C91 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FD3C17511788583F00C0C8DD /* ui.html */,
 				FD36E0221753EA660041A762 /* block.xml */,
 			);
 			name = Resources;

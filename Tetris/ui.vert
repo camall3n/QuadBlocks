@@ -7,5 +7,5 @@ out vec2 texPosition;
 
 void main(){
     gl_Position = vec4(position, 1);
-    texPosition = position.xy;
+    texPosition = vec2(0.5*position.x+0.5, 0.5-0.5*position.y);
 }

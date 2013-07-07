@@ -13,10 +13,12 @@
 #include <GL/glfw.h>
 #include <Awesomium/STLHelpers.h>
 #include <Awesomium/BitmapSurface.h>
+#include <Awesomium/WebCore.h>
 using namespace Awesomium;
+#include <unistd.h>
 
-#include "constants.h"
 #include "utility.h"
+#include "ResourcePath.h"
 
 const float vertexData[] = {
     -1,  1, 0,
@@ -26,38 +28,49 @@ const float vertexData[] = {
 };
 
 const GLshort indexData[] = {
-    0, 1, 2,
-    0, 2, 3,
+    0, 1, 3,
+    1, 2, 3,
 };
 
 const int g_TexUnit = 0;
 GLuint g_textureSampler = 0;
 
+static WebURL FileURL(const char * filename) {
+    WebString prefix(WSLit("file://"));
+    WebString path(WSLit(ResourcePath(filename).c_str()));
+    
+    return WebURL(prefix.Append(path));
+}
+static WebURL FileURL(const std::string filename) {
+    return FileURL(filename.c_str());
+}
+
 UI::UI() :
     webCore(NULL),
     webView(NULL)
 {
-    WebString my_string(WSLit("Hello World!"));
-    
-    std::cout << my_string << std::endl;
-    
     webCore = WebCore::Initialize(WebConfig());
     if (!webCore) {
         std::cout << "no web core" << std::endl;
     }
     
-    webView = webCore->CreateWebView(SCREEN_WIDTH, SCREEN_HEIGHT);
+    webView = webCore->CreateWebView(TEXTURE_WIDTH, TEXTURE_HEIGHT);
     if (!webView) {
         std::cout << "no web view" << std::endl;
     }
-    
-    WebURL url(WSLit("http://www.google.com"));    
+        
+    WebURL url = FileURL("ui.html");
     if (!url.IsValid())
         std::cerr << "Error! URL was unable to be parsed.";
     webView->LoadURL(url);
+    webView->SetTransparent(true);
     
     while (webView->IsLoading())
         webCore->Update();
+
+//    usleep(20000);
+    sleep(2);
+    webCore->Update();
     
     InitializeGLObjects();
 }
@@ -75,8 +88,7 @@ void UI::draw()
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _glObject.textureBuffer);
-    glBindSampler(0, _glObject.sampler);
-//    glBindSampler(g_TexUnit, g_textureSampler);
+//    glBindSampler(0, _glObject.sampler);
     
     glBindVertexArray(_glObject.vertexArray);
     {
@@ -84,7 +96,6 @@ void UI::draw()
     }
     glBindVertexArray(0);
     
-//    glBindSampler(g_TexUnit, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glUseProgram(0);
     
@@ -129,12 +140,12 @@ void UI::InitializeGLObjects()
     glUniform1i(_glUniform.texture, 0);
     glUseProgram(0);
 
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
     glBindTexture(GL_TEXTURE_2D, 0);
     checkError("during texture creation");
@@ -163,6 +174,7 @@ void UI::InitializeGLObjects()
     checkError("during VAO creation");
 
     BitmapSurface* surface = (BitmapSurface*) webView->surface();
+    
     if (surface) {
         glBindTexture(GL_TEXTURE_2D, _glObject.textureBuffer);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, surface->width(), surface->height(), GL_BGRA, GL_UNSIGNED_BYTE, surface->buffer());

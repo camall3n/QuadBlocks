@@ -134,6 +134,7 @@ void display() {
     
     world->draw();
     ui->draw();
+    
     glfwSwapBuffers();
 
     checkError();
