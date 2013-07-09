@@ -15,11 +15,16 @@
 		32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC07B1710F65900667EFC /* MainMenu.xib */; };
 		32FFC0841710F6C100667EFC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32FFC0831710F6C100667EFC /* OpenGL.framework */; };
 		32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */ = {isa = PBXBuildFile; fileRef = 32FFC0891710F8E500667EFC /* Tetris.icns */; };
+		FD029129178BAD390097A871 /* ui.css in Resources */ = {isa = PBXBuildFile; fileRef = FD029128178BAD390097A871 /* ui.css */; };
+		FD02912E178C71790097A871 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = FD16CB9B173DE27500688EDC /* basic.vert */; };
+		FD02912F178C71790097A871 /* basic.frag in Resources */ = {isa = PBXBuildFile; fileRef = FD16CB9C173DE27500688EDC /* basic.frag */; };
+		FD029130178C71790097A871 /* ui.vert in Resources */ = {isa = PBXBuildFile; fileRef = FDE7EBCA1784EBA100A30B8A /* ui.vert */; };
+		FD029131178C71790097A871 /* ui.frag in Resources */ = {isa = PBXBuildFile; fileRef = FDE7EBCC1784EBAE00A30B8A /* ui.frag */; };
+		FD029132178C71790097A871 /* ui.html in Resources */ = {isa = PBXBuildFile; fileRef = FD3C17511788583F00C0C8DD /* ui.html */; };
+		FD029133178C71790097A871 /* ui.js in Resources */ = {isa = PBXBuildFile; fileRef = FD02912B178BB8E30097A871 /* ui.js */; };
 		FD13B3211735FF9800705C91 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD13B31F1735FF9800705C91 /* mesh.cpp */; };
 		FD16CB9317361D2200688EDC /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB9117361D2200688EDC /* ResourcePath.mm */; };
 		FD16CB97173B0EF000688EDC /* utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB95173B0EEF00688EDC /* utility.cpp */; };
-		FD16CBA3173DEC8C00688EDC /* basic.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD16CB9B173DE27500688EDC /* basic.vert */; };
-		FD16CBA4173DEC8C00688EDC /* basic.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD16CB9C173DE27500688EDC /* basic.frag */; };
 		FD16CBB31748920800688EDC /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBB11748920800688EDC /* camera.cpp */; };
 		FD16CBB6175011A300688EDC /* world.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBB4175011A200688EDC /* world.cpp */; };
 		FD36E0231753EA660041A762 /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD36E0221753EA660041A762 /* block.xml */; };
@@ -29,29 +34,12 @@
 		FD36E04A175C260C0041A762 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E049175C260C0041A762 /* timer.cpp */; };
 		FD36E04D175C2BB10041A762 /* event_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E04B175C2BB00041A762 /* event_manager.cpp */; };
 		FD36E0511762BC070041A762 /* next_queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E04F1762BC060041A762 /* next_queue.cpp */; };
-		FD3C17521788585500C0C8DD /* ui.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD3C17511788583F00C0C8DD /* ui.html */; };
 		FDE7EB961784A7F300A30B8A /* ui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDE7EB941784A7F300A30B8A /* ui.cpp */; };
 		FDE7EBC71784D83000A30B8A /* Awesomium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDE7EB921784A7BF00A30B8A /* Awesomium.framework */; };
 		FDE7EBC91784DAE600A30B8A /* Awesomium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FDE7EB921784A7BF00A30B8A /* Awesomium.framework */; };
-		FDE7EBCE1784ED7100A30B8A /* ui.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = FDE7EBCA1784EBA100A30B8A /* ui.vert */; };
-		FDE7EBCF1784ED7100A30B8A /* ui.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = FDE7EBCC1784EBAE00A30B8A /* ui.frag */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		FD16CBA0173DEC6100688EDC /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 7;
-			files = (
-				FD16CBA3173DEC8C00688EDC /* basic.vert in CopyFiles */,
-				FD16CBA4173DEC8C00688EDC /* basic.frag in CopyFiles */,
-				FDE7EBCE1784ED7100A30B8A /* ui.vert in CopyFiles */,
-				FDE7EBCF1784ED7100A30B8A /* ui.frag in CopyFiles */,
-				FD3C17521788585500C0C8DD /* ui.html in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		FDE7EBC81784DAD600A30B8A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -83,6 +71,8 @@
 		32FFC07C1710F65900667EFC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		32FFC0831710F6C100667EFC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		32FFC0891710F8E500667EFC /* Tetris.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Tetris.icns; sourceTree = SOURCE_ROOT; };
+		FD029128178BAD390097A871 /* ui.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ui.css; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.css; };
+		FD02912B178BB8E30097A871 /* ui.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ui.js; sourceTree = "<group>"; };
 		FD13B31F1735FF9800705C91 /* mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mesh.cpp; sourceTree = "<group>"; };
 		FD13B3201735FF9800705C91 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 		FD16CB9117361D2200688EDC /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
@@ -228,7 +218,9 @@
 		FD13B31E1735FD9A00705C91 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FD029128178BAD390097A871 /* ui.css */,
 				FD3C17511788583F00C0C8DD /* ui.html */,
+				FD02912B178BB8E30097A871 /* ui.js */,
 				FD36E0221753EA660041A762 /* block.xml */,
 			);
 			name = Resources;
@@ -255,7 +247,6 @@
 				32FFC05F1710F65900667EFC /* Sources */,
 				32FFC0601710F65900667EFC /* Frameworks */,
 				32FFC0611710F65900667EFC /* Resources */,
-				FD16CBA0173DEC6100688EDC /* CopyFiles */,
 				FDE7EBC81784DAD600A30B8A /* CopyFiles */,
 			);
 			buildRules = (
@@ -301,6 +292,13 @@
 				32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */,
 				32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */,
 				FD36E0231753EA660041A762 /* block.xml in Resources */,
+				FD02912E178C71790097A871 /* basic.vert in Resources */,
+				FD02912F178C71790097A871 /* basic.frag in Resources */,
+				FD029130178C71790097A871 /* ui.vert in Resources */,
+				FD029131178C71790097A871 /* ui.frag in Resources */,
+				FD029132178C71790097A871 /* ui.html in Resources */,
+				FD029129178BAD390097A871 /* ui.css in Resources */,
+				FD029133178C71790097A871 /* ui.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

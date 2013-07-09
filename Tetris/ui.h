@@ -13,7 +13,8 @@
 using namespace Awesomium;
 #include <GL/glew.h>
 #include <GL/glfw.h>
-//#include <glm/glm.hpp>
+#include <string>
+
 #include "constants.h"
 
 
@@ -29,12 +30,20 @@ public:
     void draw();
     void update();
     
+    void SetScore(int score);
+    void SetLines(int lines);
+    void SetTime(int minutes, int seconds);
+    
 private:
     WebCore* webCore;
     WebView* webView;
+    bool isDirty;
     
     void InitializeGLObjects();
     void DestroyGLObjects();
+    
+    bool SetValue(std::string id, std::string value);
+    bool SetValue(std::string id, int value);
     
     struct GLAttributes {
         GLuint position;

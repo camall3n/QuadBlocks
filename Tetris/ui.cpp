@@ -8,6 +8,7 @@
 
 #include "ui.h"
 
+#include <boost/lexical_cast.hpp>
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/glfw.h>
@@ -92,7 +93,7 @@ void UI::draw()
     
     glBindVertexArray(_glObject.vertexArray);
     {
-        glDrawElements(GL_TRIANGLES, 1*3, GL_UNSIGNED_SHORT, 0);
+        glDrawElements(GL_TRIANGLES, 2*3, GL_UNSIGNED_SHORT, 0);
     }
     glBindVertexArray(0);
     
@@ -104,7 +105,62 @@ void UI::draw()
 
 void UI::update()
 {
+    SetScore(12345);
+    SetLines(24);
+    SetTime(01, 10);
     webCore->Update();
+    
+    BitmapSurface* surface = (BitmapSurface*) webView->surface();
+    if (surface) {
+        glBindTexture(GL_TEXTURE_2D, _glObject.textureBuffer);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, surface->width(), surface->height(), GL_BGRA, GL_UNSIGNED_BYTE, surface->buffer());
+        glBindTexture(GL_TEXTURE_2D, 0);
+    } else {
+        std::cout << "NO SURFACE!!" << std::endl;
+    }
+}
+
+bool UI::SetValue(std::string id, std::string value)
+{
+    std::string command;
+    command = "setValue('" + id + "', '" + value + "');";
+    WebString script(WSLit(command.c_str()));
+    JSValue j = webView->ExecuteJavascriptWithResult(script, WebString(WSLit("")));
+    if (j.IsBoolean() && j.ToBoolean()) {
+        return true;
+    }
+    return false;
+}
+bool UI::SetValue(std::string id, int value) {
+    return SetValue(id, boost::lexical_cast<std::string>(value));
+}
+
+void UI::SetScore(int score)
+{
+    if (!SetValue("score", score)) {
+        std::cout << "JavaScript Error" << std::endl;
+    }
+}
+void UI::SetLines(int lines)
+{
+    if (!SetValue("lines", lines)) {
+        std::cout << "JavaScript Error" << std::endl;
+    }
+}
+void UI::SetTime(int minutes, int seconds)
+{
+    assert(minutes >= 0);
+    assert(seconds >= 0 && seconds < 60);
+
+    std::string time = boost::lexical_cast<std::string>(minutes++) + ":";
+    if (seconds < 10) {
+        time += "0";
+    }
+    time += boost::lexical_cast<std::string>( (seconds++)%60);
+
+    if (!SetValue("time", time)) {
+        std::cout << "JavaScript Error" << std::endl;
+    }
 }
 
 void UI::InitializeGLObjects()
