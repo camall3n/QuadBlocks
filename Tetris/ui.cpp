@@ -48,7 +48,8 @@ static WebURL FileURL(const std::string filename) {
 
 UI::UI() :
     webCore(NULL),
-    webView(NULL)
+    webView(NULL),
+    isDirty(true)
 {
     webCore = WebCore::Initialize(WebConfig());
     if (!webCore) {
@@ -105,23 +106,25 @@ void UI::draw()
 
 void UI::update()
 {
-    SetScore(12345);
-    SetLines(24);
-    SetTime(01, 10);
     webCore->Update();
     
-    BitmapSurface* surface = (BitmapSurface*) webView->surface();
-    if (surface) {
-        glBindTexture(GL_TEXTURE_2D, _glObject.textureBuffer);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, surface->width(), surface->height(), GL_BGRA, GL_UNSIGNED_BYTE, surface->buffer());
-        glBindTexture(GL_TEXTURE_2D, 0);
-    } else {
-        std::cout << "NO SURFACE!!" << std::endl;
+    if (isDirty) {
+        isDirty = false;
+        
+        BitmapSurface* surface = (BitmapSurface*) webView->surface();
+        if (surface) {
+            glBindTexture(GL_TEXTURE_2D, _glObject.textureBuffer);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, surface->width(), surface->height(), GL_BGRA, GL_UNSIGNED_BYTE, surface->buffer());
+            glBindTexture(GL_TEXTURE_2D, 0);
+        } else {
+            std::cout << "NO SURFACE!!" << std::endl;
+        }
     }
 }
 
 bool UI::SetValue(std::string id, std::string value)
 {
+    isDirty = true;
     std::string command;
     command = "setValue('" + id + "', '" + value + "');";
     WebString script(WSLit(command.c_str()));

@@ -90,6 +90,9 @@ void init() {
     initGLFW();
     world = new World();
     ui = new UI();
+    ui->SetScore(0);
+    ui->SetLines(10);
+    ui->SetTime(1, 00);
     
     eventManager.setController(&controller);
     eventManager.setWorld(world);
