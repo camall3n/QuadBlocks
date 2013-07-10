@@ -12,8 +12,11 @@
 #include <vector>
 
 #include "controller.h"
+#include "keyboard.h"
 #include "timer.h"
+#include "ui.h"
 #include "world.h"
+
 
 class EventManager
 {
@@ -22,12 +25,16 @@ public:
     
     void setController(Controller* controller);
     void setWorld(World* world);
+    void setKeyboard(Keyboard* keyboard);
+    void setUI(UI* ui);
     
     void activate();
     
 private:
     Controller* controller;
+    Keyboard* keyboard;
     World* world;
+    UI* ui;
     
     void LSReallyMovedUp();
 };

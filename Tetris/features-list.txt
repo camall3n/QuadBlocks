@@ -40,19 +40,22 @@ Basic Functionality:
 
 + Fix random pieces
 
-- UI
++ UI
+
++ Keyboard support
+   - Known bug: for some reason putting the std::map<int, Keyboard::Key*> Keys inside of keyboard.cpp or keyboard.h was causing EXC_BAD_ACCESS. Had to put it into main, before the Keyboard declaration to fix the issue. Need to investigate more...
 
 - Better controls
 
 - Top-outs
 
 - Scoring
-    - single, double, triple, tetris
-    - back-to-back tetris
+    + single, double, triple, tetris
+    + back-to-back tetris
     - t-spin single, double, triple
-    - combo
-    - score display
-    - lines remaining
+    + combo
+    + score display
+    + lines remaining
 
 - Modes
     - Marathon

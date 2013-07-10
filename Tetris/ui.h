@@ -32,6 +32,7 @@ public:
     
     void SetScore(int score);
     void SetLines(int lines);
+    void SetLevel(int level);
     void SetTime(int minutes, int seconds);
     
 private:

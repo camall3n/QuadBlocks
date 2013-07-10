@@ -4,3 +4,8 @@ function setValue(id, val)
     
     return true;
 }
+
+function getValue(id)
+{
+    return document.getElementById(id).innerHTML;
+}

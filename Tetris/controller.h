@@ -4,8 +4,8 @@
 //  Created by Cam Allen on 11/4/12.
 //
 
-#ifndef SDLJoystick_controller_h
-#define SDLJoystick_controller_h
+#ifndef Joystick_controller_h
+#define Joystick_controller_h
 
 #include <GL/glew.h>
 #include <GL/glfw.h>

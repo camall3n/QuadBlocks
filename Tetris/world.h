@@ -10,11 +10,15 @@
 #define __Tetris__world__
 
 #include <list>
+#include <boost/signals2.hpp>
+namespace bs2 = boost::signals2;
+
 #include "block.h"
 #include "camera.h"
 #include "garbage.h"
 #include "light.h"
 #include "next_queue.h"
+#include "scorekeeper.h"
 #include "tetromino.h"
 #include "timer.h"
 #include "well.h"
@@ -28,6 +32,13 @@ public:
     void update();
     void draw();
     bool isDirty();
+    
+    struct signalList {
+        bs2::signal<void (int)> scoreChanged;
+        bs2::signal<void (int)> linesLeftChanged;
+        bs2::signal<void (int)> levelChanged;
+        bs2::signal<void (int, int)> timeChanged;
+    } signal;
 
     // User Actions
     void queueMoveRight();
@@ -64,6 +75,8 @@ private:
     Timer lockTimer;
     Timer dragTimerRight;
     Timer dragTimerLeft;
+    ScoreKeeper scoreKeeper;
+    
 
     // World traits
     bool holdingPiece;
@@ -97,6 +110,7 @@ private:
     void rotateCCW();
     void hold();
 
+    void updateUserPiece();
     bool checkCollision(Tetromino piece);
     Tetromino tryWallKick(Tetromino piece);
     void lock();
@@ -113,6 +127,10 @@ private:
     void pause();
     void unpause();
     
+    // Scoring functions
+    void scoreChanged(int points);
+    void linesChanged(int lines);
+    void levelChanged(int level);
 };
 
 #endif /* defined(__Tetris__world__) */

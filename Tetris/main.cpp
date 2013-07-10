@@ -17,6 +17,7 @@
 #include "constants.h"
 #include "controller.h"
 #include "event_manager.h"
+#include "keyboard.h"
 #include "mesh.h"
 #include "ResourcePath.h"
 #include "timer.h"
@@ -38,6 +39,8 @@ const char* const WINDOW_TITLE = "Tetris";
 bool should_quit = false;
 EventManager eventManager;
 Controller controller;
+std::map<int, Keyboard::Key*> Keys;
+Keyboard keyboard;
 Timer timer;
 World* world = NULL;
 UI* ui = NULL;
@@ -63,6 +66,8 @@ int  GLFWCALL onClose();
 #pragma mark
 #pragma mark Main
 int main(int argc, char* argv[]) {
+    
+    std::cout << ResourcePath("") << std::endl;
     
     init();
     update();
@@ -92,15 +97,19 @@ void init() {
     ui = new UI();
     ui->SetScore(0);
     ui->SetLines(10);
-    ui->SetTime(1, 00);
+    ui->SetLevel(1);
+//    ui->SetTime(2, 00);
     
     eventManager.setController(&controller);
     eventManager.setWorld(world);
+    eventManager.setUI(ui);
+    eventManager.setKeyboard(&keyboard);
     eventManager.activate();
 }
 
 void input() {
     controller.update();
+    keyboard.update();
     
     float x, y;
     x = controller.LS.x();
@@ -115,7 +124,7 @@ void input() {
     else if (controller.LS.x() > 0 || controller.RB.isPressed()) {
         world->queueDragRight();
     }
-    else {
+    else if (!keyboard.A.isPressed() && !keyboard.D.isPressed()) {
         world->stopDragging();
     }
     
@@ -238,6 +247,8 @@ void initGLFW() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     checkError("while setting up alpha blending");
+    
+    glfwEnable( GLFW_STICKY_KEYS );
     
     controller.init(0);
 }

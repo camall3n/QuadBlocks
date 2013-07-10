@@ -21,7 +21,7 @@ const double DRAG_REPEAT = 0.1;
 
 const double MIN_GRAVITY = 1.0/FRAMES_PER_SECOND;
 const double MAX_GRAVITY = 20;
-const glm::vec2 startingPos(4,17);
+const glm::vec2 startingPos(4,18);
 
 World::World() :
     piece(TETROMINO::I),
@@ -47,9 +47,23 @@ World::World() :
     light.makeActive();
     
     piece = pieceQueue.getNext();
-    piece.setPosition(startingPos);
+    if (piece.type() == TETROMINO::TYPE::I) {
+        piece.setPosition(startingPos + glm::vec2(-1,0));
+    }
+    else {
+        piece.setPosition(startingPos);
+    }
     piece.setRotation(0);
     
+    scoreKeeper.signal.scoreChanged.connect(
+        boost::bind( &World::scoreChanged, this, _1)
+    );
+    scoreKeeper.signal.linesChanged.connect(
+        boost::bind( &World::linesChanged, this, _1)
+    );
+    scoreKeeper.signal.levelChanged.connect(
+        boost::bind( &World::levelChanged, this, _1)
+    );
 }
 
 void World::update()
@@ -61,46 +75,50 @@ void World::update()
     }
     
     if (!isPaused) {
-        // Hold
-        if (queuedAction.hold) {
-            hold();
-            queuedAction.hold = false;
-        }
-        
-        // Rotation
-        if (queuedAction.rotateCW) {
-            rotateCW();
-            queuedAction.rotateCW = false;
-        }
-        else if (queuedAction.rotateCCW) {
-            rotateCCW();
-            queuedAction.rotateCCW = false;
-        }
-        
-        // Horizontal Movement
-        if (queuedAction.moveLeft) {
-            moveLeft();
-            stopDragging();
-        }
-        else if (queuedAction.moveRight) {
-            moveRight();
-            stopDragging();
-        }
-        else if (queuedAction.dragLeft) {
-            dragLeft();
-        }
-        else if (queuedAction.dragRight) {
-            dragRight();
-        }
-        
-        // Gravity
-        applyGravity();
-        
-        updateGhostPiece();
+        updateUserPiece();
     }
     else {
         _isDirty = true;
     }
+}
+
+void World::updateUserPiece() {
+    // Hold
+    if (queuedAction.hold) {
+        hold();
+        queuedAction.hold = false;
+    }
+    
+    // Rotation
+    if (queuedAction.rotateCW) {
+        rotateCW();
+        queuedAction.rotateCW = false;
+    }
+    else if (queuedAction.rotateCCW) {
+        rotateCCW();
+        queuedAction.rotateCCW = false;
+    }
+    
+    // Horizontal Movement
+    if (queuedAction.moveLeft) {
+        moveLeft();
+        stopDragging();
+    }
+    else if (queuedAction.moveRight) {
+        moveRight();
+        stopDragging();
+    }
+    else if (queuedAction.dragLeft) {
+        dragLeft();
+    }
+    else if (queuedAction.dragRight) {
+        dragRight();
+    }
+    
+    // Gravity
+    applyGravity();
+    
+    updateGhostPiece();
 }
 
 void World::draw()
@@ -109,9 +127,10 @@ void World::draw()
         light.makeActive();
         well.draw();
         garbage.draw();
-        piece.draw();
         pieceQueue.draw();
+        
         ghostPiece.draw();
+        piece.draw();
         
         if (holdingPiece) {
             holdPiece.draw();
@@ -365,7 +384,7 @@ void World::hold()
         }
         else {
             holdPiece = piece;
-            holdPiece.setPosition(glm::vec2(-5,WORLD_N_BLOCKS_Y-3));
+            holdPiece.setPosition(glm::vec2(-5,WORLD_N_BLOCKS_Y-4));
             piece = pieceQueue.getNext();
             piece.setPosition(startingPos);
             holdingPiece = true;
@@ -403,7 +422,8 @@ void World::applyGravity()
     }
     
     // Account for gravity speed
-    int maximumFall = getFallDistance();    
+    int maximumFall = getFallDistance();
+    int actualFall = 0;
     
     // Compute new piece position
     bool atBottom = false;
@@ -418,7 +438,17 @@ void World::applyGravity()
         }
         else {
             piece = newPiece;
+            actualFall++;
             _isDirty = true;
+        }
+    }
+    
+    if (actualFall>0) {
+        if (queuedAction.hardDrop) {
+            scoreKeeper.hardDrop(actualFall);
+        }
+        else if (queuedAction.softDrop) {
+            scoreKeeper.softDrop(actualFall);
         }
     }
     
@@ -544,13 +574,19 @@ int World::getFallDistance()
 
 void World::lock()
 {
-    garbage.addTetromino(piece);
+    int linesCleared = garbage.addTetromino(piece);
+    scoreKeeper.linesCleared(linesCleared);
     
     Tetromino nextPiece = pieceQueue.getNext();
     piece = nextPiece;
     usedHoldPiece = false;
     
-    piece.setPosition(startingPos);
+    if (piece.type() == TETROMINO::TYPE::I) {
+        piece.setPosition(startingPos + glm::vec2(-1,0));
+    }
+    else {
+        piece.setPosition(startingPos);
+    }
     piece.setRotation(0);
     if (checkCollision(piece)) {
         // top out!!
@@ -568,14 +604,12 @@ void World::updateGhostPiece()
     
     ghostPiece.setState(TETROMINO::GHOST);
     
-    bool atBottom = false;
     for (int i=1; i<=MAX_GRAVITY; i++) {
         Tetromino newPiece(ghostPiece);
         glm::vec2 pos = ghostPiece.position();
         pos += glm::vec2(0, -1);
         newPiece.setPosition(pos);
         if (checkCollision(newPiece)) {
-            atBottom = true;
             break;
         }
         else {
@@ -585,5 +619,18 @@ void World::updateGhostPiece()
     }
 }
 
+void World::scoreChanged(int score) {
+    signal.scoreChanged(score);
+}
+
+void World::linesChanged(int lines) {
+    signal.linesLeftChanged(lines);
+}
+
+void World::levelChanged(int level) {
+    signal.levelChanged(level);
+    baseGravity *= 1.5;
+    gravity = baseGravity;
+}
 
 

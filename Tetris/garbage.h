@@ -25,7 +25,7 @@ public:
     void update();
     
     bool checkCollision(Tetromino piece);
-    void addTetromino(Tetromino piece);
+    int addTetromino(Tetromino piece);// returns lineClears
     
     bool isClearing();
     
@@ -35,7 +35,7 @@ private:
     Timer lineClearTimer;
     bool _isClearing;
     
-    bool checkLineClears(std::list<int> rows);
+    int checkLineClears(std::list<int> rows);
     void markLinesForClearing(std::list<int> rows);
     void clearLines();
 

@@ -124,11 +124,20 @@ void UI::update()
 
 bool UI::SetValue(std::string id, std::string value)
 {
-    isDirty = true;
+    WebString none(WSLit(""));
+
     std::string command;
+    command = "getValue('" + id + "');";
+    
+    JSValue prior = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (prior.ToString() == WSLit(value.c_str())) {
+        return true;
+    }
+    
+    isDirty = true;
     command = "setValue('" + id + "', '" + value + "');";
     WebString script(WSLit(command.c_str()));
-    JSValue j = webView->ExecuteJavascriptWithResult(script, WebString(WSLit("")));
+    JSValue j = webView->ExecuteJavascriptWithResult(script, none);
     if (j.IsBoolean() && j.ToBoolean()) {
         return true;
     }
@@ -150,16 +159,22 @@ void UI::SetLines(int lines)
         std::cout << "JavaScript Error" << std::endl;
     }
 }
+void UI::SetLevel(int level)
+{
+    if (!SetValue("level", level)) {
+        std::cout << "JavaScript Error" << std::endl;
+    }
+}
 void UI::SetTime(int minutes, int seconds)
 {
     assert(minutes >= 0);
     assert(seconds >= 0 && seconds < 60);
 
-    std::string time = boost::lexical_cast<std::string>(minutes++) + ":";
+    std::string time = boost::lexical_cast<std::string>(minutes) + ":";
     if (seconds < 10) {
         time += "0";
     }
-    time += boost::lexical_cast<std::string>( (seconds++)%60);
+    time += boost::lexical_cast<std::string>(seconds);
 
     if (!SetValue("time", time)) {
         std::cout << "JavaScript Error" << std::endl;

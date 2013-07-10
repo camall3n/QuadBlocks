@@ -100,7 +100,7 @@ bool Garbage::checkCollision(Tetromino piece)
     return false;
 }
 
-void Garbage::addTetromino(Tetromino piece)
+int Garbage::addTetromino(Tetromino piece)
 {
     glm::vec2 basePos = piece.position();
     glm::mat4 square = piece.collisionSquare();
@@ -138,10 +138,10 @@ void Garbage::addTetromino(Tetromino piece)
         }
     }
     
-    checkLineClears(rowsWithNewBlocks);
+    return checkLineClears(rowsWithNewBlocks);
 }
 
-bool Garbage::checkLineClears(std::list<int> rows)
+int Garbage::checkLineClears(std::list<int> rows)
 {
     // Put highest numbered row at the beginning
     rows.sort(std::greater<int>());
@@ -162,10 +162,10 @@ bool Garbage::checkLineClears(std::list<int> rows)
     
     if (!linesToClear.empty()) {
         markLinesForClearing(linesToClear);
-        return true;
+        return linesToClear.size();
     }
     
-    return false;
+    return 0;
 }
 
 void Garbage::markLinesForClearing(std::list<int> rows)

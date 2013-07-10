@@ -22,6 +22,8 @@
 		FD029131178C71790097A871 /* ui.frag in Resources */ = {isa = PBXBuildFile; fileRef = FDE7EBCC1784EBAE00A30B8A /* ui.frag */; };
 		FD029132178C71790097A871 /* ui.html in Resources */ = {isa = PBXBuildFile; fileRef = FD3C17511788583F00C0C8DD /* ui.html */; };
 		FD029133178C71790097A871 /* ui.js in Resources */ = {isa = PBXBuildFile; fileRef = FD02912B178BB8E30097A871 /* ui.js */; };
+		FD029136178C96730097A871 /* scorekeeper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD029134178C96730097A871 /* scorekeeper.cpp */; };
+		FD029139178CC2690097A871 /* keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD029137178CC2680097A871 /* keyboard.cpp */; };
 		FD13B3211735FF9800705C91 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD13B31F1735FF9800705C91 /* mesh.cpp */; };
 		FD16CB9317361D2200688EDC /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB9117361D2200688EDC /* ResourcePath.mm */; };
 		FD16CB97173B0EF000688EDC /* utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB95173B0EEF00688EDC /* utility.cpp */; };
@@ -73,6 +75,10 @@
 		32FFC0891710F8E500667EFC /* Tetris.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Tetris.icns; sourceTree = SOURCE_ROOT; };
 		FD029128178BAD390097A871 /* ui.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ui.css; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.css; };
 		FD02912B178BB8E30097A871 /* ui.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ui.js; sourceTree = "<group>"; };
+		FD029134178C96730097A871 /* scorekeeper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scorekeeper.cpp; sourceTree = "<group>"; };
+		FD029135178C96730097A871 /* scorekeeper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scorekeeper.h; sourceTree = "<group>"; };
+		FD029137178CC2680097A871 /* keyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = keyboard.cpp; sourceTree = "<group>"; };
+		FD029138178CC2680097A871 /* keyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = keyboard.h; sourceTree = "<group>"; };
 		FD13B31F1735FF9800705C91 /* mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mesh.cpp; sourceTree = "<group>"; };
 		FD13B3201735FF9800705C91 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 		FD16CB9117361D2200688EDC /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
@@ -175,6 +181,8 @@
 				FD36E04C175C2BB10041A762 /* event_manager.h */,
 				FD36E044175A933F0041A762 /* garbage.cpp */,
 				FD36E045175A933F0041A762 /* garbage.h */,
+				FD029137178CC2680097A871 /* keyboard.cpp */,
+				FD029138178CC2680097A871 /* keyboard.h */,
 				FD36E0241753FAD30041A762 /* light.cpp */,
 				FD36E0251753FAD30041A762 /* light.h */,
 				32FFC0721710F65900667EFC /* main.cpp */,
@@ -182,6 +190,8 @@
 				FD13B3201735FF9800705C91 /* mesh.h */,
 				FD36E04F1762BC060041A762 /* next_queue.cpp */,
 				FD36E0501762BC070041A762 /* next_queue.h */,
+				FD029134178C96730097A871 /* scorekeeper.cpp */,
+				FD029135178C96730097A871 /* scorekeeper.h */,
 				32AD906C171A68AB008E0827 /* tetromino.cpp */,
 				32AD906D171A68AB008E0827 /* tetromino.h */,
 				FD36E049175C260C0041A762 /* timer.cpp */,
@@ -325,6 +335,8 @@
 				FD36E04D175C2BB10041A762 /* event_manager.cpp in Sources */,
 				FD36E0511762BC070041A762 /* next_queue.cpp in Sources */,
 				FDE7EB961784A7F300A30B8A /* ui.cpp in Sources */,
+				FD029136178C96730097A871 /* scorekeeper.cpp in Sources */,
+				FD029139178CC2690097A871 /* keyboard.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
