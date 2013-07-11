@@ -21,7 +21,6 @@ const double DRAG_REPEAT = 0.1;
 
 const double MIN_GRAVITY = 1.0/FRAMES_PER_SECOND;
 const double MAX_GRAVITY = 20;
-const glm::vec2 startingPos(4,18);
 
 World::World() :
     piece(TETROMINO::I),
@@ -47,13 +46,7 @@ World::World() :
     light.makeActive();
     
     piece = pieceQueue.getNext();
-    if (piece.type() == TETROMINO::TYPE::I) {
-        piece.setPosition(startingPos + glm::vec2(-1,0));
-    }
-    else {
-        piece.setPosition(startingPos);
-    }
-    piece.setRotation(0);
+    piece.resetPosition();
     
     scoreKeeper.signal.scoreChanged.connect(
         boost::bind( &World::scoreChanged, this, _1)
@@ -372,11 +365,9 @@ void World::hold()
         usedHoldPiece = true;
         if (holdingPiece) {
             Tetromino temp = holdPiece;
-            temp.setPosition(startingPos);
-            temp.setRotation(piece.rotation());
+            temp.resetPosition();
             
-            piece.setPosition(holdPiece.position());
-            piece.setRotation(holdPiece.rotation());
+            piece.holdPosition();
             holdPiece = piece;
             
             piece = temp;
@@ -384,9 +375,11 @@ void World::hold()
         }
         else {
             holdPiece = piece;
-            holdPiece.setPosition(glm::vec2(-5,WORLD_N_BLOCKS_Y-4));
+            
+            holdPiece.holdPosition();
+            
             piece = pieceQueue.getNext();
-            piece.setPosition(startingPos);
+            piece.resetPosition();
             holdingPiece = true;
             _isDirty = true;
         }
@@ -581,13 +574,7 @@ void World::lock()
     piece = nextPiece;
     usedHoldPiece = false;
     
-    if (piece.type() == TETROMINO::TYPE::I) {
-        piece.setPosition(startingPos + glm::vec2(-1,0));
-    }
-    else {
-        piece.setPosition(startingPos);
-    }
-    piece.setRotation(0);
+    piece.resetPosition();
     if (checkCollision(piece)) {
         // top out!!
         std::cout << "TOP OUT!!" << std::endl;

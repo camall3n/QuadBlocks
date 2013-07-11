@@ -67,7 +67,7 @@ int  GLFWCALL onClose();
 #pragma mark Main
 int main(int argc, char* argv[]) {
     
-    std::cout << ResourcePath("") << std::endl;
+//    std::cout << ResourcePath("") << std::endl;
     
     init();
     update();
@@ -115,13 +115,15 @@ void input() {
     x = controller.LS.x();
     y = controller.LS.y();
     
-    if ( (y < 0) && (std::abs(y) > std::abs(x)) ) {
+    if ( ((y < 0) && (std::abs(y) > std::abs(x))) || keyboard.S.isPressed()) {
         world->queueSoftDrop();
     }
-    else if (controller.LS.x() < 0 || controller.LB.isPressed()) {
+    else if (controller.LS.x() < 0 || controller.LB.isPressed() ||
+             keyboard.A.isPressed()) {
         world->queueDragLeft();
     }
-    else if (controller.LS.x() > 0 || controller.RB.isPressed()) {
+    else if (controller.LS.x() > 0 || controller.RB.isPressed() ||
+             keyboard.D.isPressed()) {
         world->queueDragRight();
     }
     else if (!keyboard.A.isPressed() && !keyboard.D.isPressed()) {

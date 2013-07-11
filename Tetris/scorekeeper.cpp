@@ -117,11 +117,11 @@ void ScoreKeeper::tSpin(int lines, bool kick)
 }
 
 void ScoreKeeper::hardDrop(int distance) {
-//    updateScore(2*distance);
+    updateScore(2*distance);
 }
 
 void ScoreKeeper::softDrop(int distance) {
-//    updateScore(1*distance);
+    updateScore(1*distance);
 }
 
 void ScoreKeeper::resetCombo() {

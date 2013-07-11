@@ -51,6 +51,8 @@ public:
     float rotation();
     TETROMINO::TYPE type();
     void setPosition(glm::vec2 pos);
+    void resetPosition();
+    void holdPosition();
     void setRotation(float angle);// range: [0, 1)
     void setState(TETROMINO::STATE state);
     

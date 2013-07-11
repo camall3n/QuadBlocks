@@ -104,6 +104,34 @@ void Tetromino::setPosition(glm::vec2 pos)
 //    }
 }
 
+void Tetromino::resetPosition()
+{
+    const glm::vec2 startingPos(4,18);
+
+    if (this->type() == TETROMINO::TYPE::I) {
+        this->setPosition(startingPos + glm::vec2(-1,0));
+    }
+    else {
+        this->setPosition(startingPos);
+    }
+    this->setRotation(0);
+}
+
+void Tetromino::holdPosition()
+{
+    glm::vec2 holdPos = glm::vec2(-5,20-4);
+    if (this->type() == TETROMINO::TYPE::O) {
+        this->setPosition(holdPos+glm::vec2(1,1));
+    }
+    else if (this->type() == TETROMINO::TYPE::I) {
+        this->setPosition(holdPos+glm::vec2(-1,0));
+    }
+    else {
+        this->setPosition(holdPos);
+    }
+    this->setRotation(0);
+}
+
 void Tetromino::setRotation(float angle)
 {
     angle = remainder(angle, 1.0);//map angle onto [-0.5, 0.5)
