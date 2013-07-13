@@ -4,23 +4,22 @@ Basic Functionality:
     + Basic
     + Hold-to-drag
 
-- Collision detection
-    + Movement
-        + walls
-        + floor
-        + garbage
-    - Rotation
-        + walls
-        + floor
-        + garbage
-        - kicks for intermediate rotations
-        - I-piece end-block rotations
-    + Wall kicks, floor kicks
-    - t-spins
++ Rotation
 
-- Gravity
++ Collision detection
+    + walls
+    + floor
+    + garbage
+
+- Wall kicks
+
+- T-spins
+    - detection
+    - scoring
+
++ Gravity
     + Basic (static)
-    - Basic (variable)
+    + Basic (increasing with level)
     + Hard drop
     + Soft drop
 
@@ -37,6 +36,7 @@ Basic Functionality:
 + Fix depth clamping
 
 + Fix framerate (30 fps)
+   + Account for scheduler overhead
 
 + Fix random pieces
 
@@ -56,12 +56,13 @@ Basic Functionality:
 
 - Scoring
     + single, double, triple, tetris
-    + back-to-back tetris
+    + back-to-back
     - t-spins, plus t-spin single, double, triple
     + combo
+    + bravo / perfect / all-clear
     + score display
     + lines remaining
-    + bravo / perfect / all-clear
+    + level
 
 - Modes
     - Marathon

@@ -171,8 +171,8 @@ void waitForFrame()
     }
     
     double time = timer.getTime();
-    if ( time < 1.0/FRAMES_PER_SECOND ) {
-        glfwSleep( (1.0/FRAMES_PER_SECOND) - timer.getTime() );
+    if ( time < 1.0/FRAMES_PER_SECOND*.93 ) {
+        glfwSleep( (1.0/FRAMES_PER_SECOND*.93) - timer.getTime() );
     }
 }
 
