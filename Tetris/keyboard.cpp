@@ -11,7 +11,13 @@
 
 //std::list<int> Keyboard::Keys = std::list<int>();
 typedef std::map<int, Keyboard::Key*> keymap_t;
-extern keymap_t Keys;
+//extern keymap_t Keys;
+static keymap_t& Keys()
+{
+    static keymap_t* ans = new keymap_t();
+    return *ans;
+};
+
 
 Keyboard::Keyboard() :
     Escape(GLFW_KEY_ESC),
@@ -105,7 +111,7 @@ void Keyboard::update()
 {
     glfwPollEvents();
     
-    BOOST_FOREACH( keymap_t::value_type i, Keys) {
+    BOOST_FOREACH( keymap_t::value_type i, Keys()) {
         Key* kptr = i.second;
         kptr->update(glfwGetKey(i.first));
     }
@@ -120,8 +126,7 @@ Keyboard::Key::Key(int type) :
     _type(type),
     _pressed(false)
 {
-    Keys.insert( std::pair<int, Key*>(type, this) );
-//    Keys[type] = this;
+    Keys().insert( std::pair<int, Key*>(type, this) );
 }
 
 void Keyboard::Key::update(unsigned char pressed)

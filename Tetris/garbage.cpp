@@ -69,6 +69,27 @@ bool Garbage::isClearing()
     return _isClearing;
 }
 
+int Garbage::top()
+{
+    int top = 0;
+    bool foundBlock = false;
+    int row = 1;
+    BOOST_FOREACH(std::vector<Block*> blockRow, blocks) {
+        foundBlock = false;
+        BOOST_FOREACH(Block* block, blockRow) {
+            if (block) {
+                foundBlock = true;
+                break;
+            }
+        }
+        if (foundBlock) {
+            top = row;
+        }
+        row++;
+    }
+    return top;
+}
+
 static bool isValidGarbageCoord(int x, int y)
 {
     if ((x >= 0 && x < WORLD_N_BLOCKS_X) &&

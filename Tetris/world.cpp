@@ -22,6 +22,8 @@ const double DRAG_REPEAT = 0.1;
 const double MIN_GRAVITY = 1.0/FRAMES_PER_SECOND;
 const double MAX_GRAVITY = 20;
 
+#define DEVELOPER_MODE
+
 World::World() :
     piece(TETROMINO::I),
     isPaused(false),
@@ -122,8 +124,8 @@ void World::draw()
         garbage.draw();
         pieceQueue.draw();
         
-        ghostPiece.draw();
         piece.draw();
+        ghostPiece.draw();
         
         if (holdingPiece) {
             holdPiece.draw();
@@ -361,6 +363,7 @@ void World::normalDrop()
 
 void World::hold()
 {
+#ifndef DEVELOPER_MODE
     if (!usedHoldPiece) {
         usedHoldPiece = true;
         if (holdingPiece) {
@@ -374,6 +377,7 @@ void World::hold()
             _isDirty = true;
         }
         else {
+#endif
             holdPiece = piece;
             
             holdPiece.holdPosition();
@@ -382,11 +386,13 @@ void World::hold()
             piece.resetPosition();
             holdingPiece = true;
             _isDirty = true;
+#ifndef DEVELOPER_MODE
         }
     }
     else {
         // Add sound?
     }
+#endif
 }
 
 void World::pause()
@@ -568,6 +574,9 @@ int World::getFallDistance()
 void World::lock()
 {
     int linesCleared = garbage.addTetromino(piece);
+    if (garbage.top() <= linesCleared) {
+        scoreKeeper.queueBravo();
+    }
     scoreKeeper.linesCleared(linesCleared);
     
     Tetromino nextPiece = pieceQueue.getNext();
@@ -606,17 +615,25 @@ void World::updateGhostPiece()
     }
 }
 
+int World::getScore() {
+    return scoreKeeper.getScore();
+}
+int World::getLines() {
+    return scoreKeeper.getLines();
+}
+int World::getLevel() {
+    return scoreKeeper.getLevel();
+}
+
 void World::scoreChanged(int score) {
     signal.scoreChanged(score);
 }
-
 void World::linesChanged(int lines) {
     signal.linesLeftChanged(lines);
 }
-
 void World::levelChanged(int level) {
     signal.levelChanged(level);
-    baseGravity *= 1.5;
+    baseGravity *= 1.25;
     gravity = baseGravity;
 }
 

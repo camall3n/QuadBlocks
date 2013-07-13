@@ -28,6 +28,7 @@ public:
     int addTetromino(Tetromino piece);// returns lineClears
     
     bool isClearing();
+    int top();
     
 private:
     std::vector<std::vector<Block*>> blocks;

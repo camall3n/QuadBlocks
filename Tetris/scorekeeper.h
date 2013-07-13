@@ -29,6 +29,7 @@ public:
     int getLines();
     int getLevel();
     
+    void queueBravo();
     void linesCleared(int lines);
     void tSpin(int lines, bool kick);
     void hardDrop(int distance);
@@ -41,6 +42,7 @@ private:
     int level;
     int combo;
     int difficult;
+    int bravo;
     
     void updateScore(int points);
     void updateLines(int lines);

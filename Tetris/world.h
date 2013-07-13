@@ -33,6 +33,10 @@ public:
     void draw();
     bool isDirty();
     
+    int getScore();
+    int getLines();
+    int getLevel();
+    
     struct signalList {
         bs2::signal<void (int)> scoreChanged;
         bs2::signal<void (int)> linesLeftChanged;

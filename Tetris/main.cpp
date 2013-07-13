@@ -39,7 +39,6 @@ const char* const WINDOW_TITLE = "Tetris";
 bool should_quit = false;
 EventManager eventManager;
 Controller controller;
-std::map<int, Keyboard::Key*> Keys;
 Keyboard keyboard;
 Timer timer;
 World* world = NULL;
@@ -95,9 +94,9 @@ void init() {
     initGLFW();
     world = new World();
     ui = new UI();
-    ui->SetScore(0);
-    ui->SetLines(10);
-    ui->SetLevel(1);
+    ui->SetScore(world->getScore());
+    ui->SetLines(world->getLines());
+    ui->SetLevel(world->getLevel());
 //    ui->SetTime(2, 00);
     
     eventManager.setController(&controller);
