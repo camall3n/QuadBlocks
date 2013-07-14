@@ -21,6 +21,7 @@ public:
     
     struct signalsList {
         bs2::signal<void (int)> scoreChanged;
+        bs2::signal<void (int)> newPoints;
         bs2::signal<void (int)> linesChanged;
         bs2::signal<void (int)> levelChanged;
     } signal;
@@ -34,7 +35,6 @@ public:
     void tSpin(int lines, bool kick);
     void hardDrop(int distance);
     void softDrop(int distance);
-    void resetCombo();
     
 private:
     int score;

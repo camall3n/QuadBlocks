@@ -16,6 +16,7 @@ using namespace Awesomium;
 #include <string>
 
 #include "constants.h"
+#include "timer.h"
 
 
 const int TEXTURE_WIDTH = SCREEN_WIDTH;
@@ -30,6 +31,7 @@ public:
     void draw();
     void update();
     
+    void SetNewPoints(int points);
     void SetScore(int score);
     void SetLines(int lines);
     void SetLevel(int level);
@@ -39,12 +41,15 @@ private:
     WebCore* webCore;
     WebView* webView;
     bool isDirty;
+    Timer newPointsTimer;
     
+    void UpdateFields();
+    void UpdateGLTexture();
     void InitializeGLObjects();
     void DestroyGLObjects();
     
-    bool SetValue(std::string id, std::string value);
-    bool SetValue(std::string id, int value);
+    void SetValue(std::string id, std::string value);
+    void SetValue(std::string id, int value);
     
     struct GLAttributes {
         GLuint position;

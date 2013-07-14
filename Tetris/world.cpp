@@ -51,6 +51,9 @@ World::World() :
     piece = pieceQueue.getNext();
     piece.resetPosition();
     
+    scoreKeeper.signal.newPoints.connect(
+        boost::bind( &World::newPoints, this, _1)
+    );
     scoreKeeper.signal.scoreChanged.connect(
         boost::bind( &World::scoreChanged, this, _1)
     );
@@ -655,6 +658,9 @@ int World::getLevel() {
     return scoreKeeper.getLevel();
 }
 
+void World::newPoints(int points) {
+    signal.newPoints(points);
+}
 void World::scoreChanged(int score) {
     signal.scoreChanged(score);
 }

@@ -134,6 +134,9 @@ void EventManager::activate()
         
         
         // UI signals
+        world->signal.newPoints.connect(
+            boost::bind( &UI::SetNewPoints, ui, _1)
+        );
         world->signal.scoreChanged.connect(
             boost::bind( &UI::SetScore, ui, _1)
         );

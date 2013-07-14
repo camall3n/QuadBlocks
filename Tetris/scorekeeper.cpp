@@ -152,14 +152,13 @@ void ScoreKeeper::softDrop(int distance) {
     updateScore(1*distance);
 }
 
-void ScoreKeeper::resetCombo() {
-    combo = 0;
-}
-
 void ScoreKeeper::updateScore(int points)
 {
     score += points;
     if (points > 0) {
+        if (points > 1) {
+            signal.newPoints(points);            
+        }
         signal.scoreChanged(score);
     }
 }

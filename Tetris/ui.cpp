@@ -106,23 +106,38 @@ void UI::draw()
 
 void UI::update()
 {
+    UpdateFields();
+    
     webCore->Update();
     
     if (isDirty) {
         isDirty = false;
-        
-        BitmapSurface* surface = (BitmapSurface*) webView->surface();
-        if (surface) {
-            glBindTexture(GL_TEXTURE_2D, _glObject.textureBuffer);
-            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, surface->width(), surface->height(), GL_BGRA, GL_UNSIGNED_BYTE, surface->buffer());
-            glBindTexture(GL_TEXTURE_2D, 0);
-        } else {
-            std::cout << "NO SURFACE!!" << std::endl;
-        }
+        UpdateGLTexture();
     }
 }
 
-bool UI::SetValue(std::string id, std::string value)
+static const double NEW_POINTS_DISPLAY_TIME = 0.5;
+void UI::UpdateFields()
+{
+    if (newPointsTimer.getTime() > NEW_POINTS_DISPLAY_TIME) {
+        newPointsTimer.stop();
+        SetValue("new_points", "");
+    }
+}
+
+void UI::UpdateGLTexture()
+{
+    BitmapSurface* surface = (BitmapSurface*) webView->surface();
+    if (surface) {
+        glBindTexture(GL_TEXTURE_2D, _glObject.textureBuffer);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, surface->width(), surface->height(), GL_BGRA, GL_UNSIGNED_BYTE, surface->buffer());
+        glBindTexture(GL_TEXTURE_2D, 0);
+    } else {
+        std::cout << "NO SURFACE!!" << std::endl;
+    }
+}
+
+void UI::SetValue(std::string id, std::string value)
 {
     WebString none(WSLit(""));
 
@@ -131,42 +146,37 @@ bool UI::SetValue(std::string id, std::string value)
     
     JSValue prior = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
     if (prior.ToString() == WSLit(value.c_str())) {
-        return true;
+        return;
     }
     
     isDirty = true;
     command = "setValue('" + id + "', '" + value + "');";
     WebString script(WSLit(command.c_str()));
     JSValue j = webView->ExecuteJavascriptWithResult(script, none);
-    if (j.IsBoolean() && j.ToBoolean()) {
-        return true;
-    }
-    return false;
-}
-bool UI::SetValue(std::string id, int value) {
-    return SetValue(id, boost::lexical_cast<std::string>(value));
-}
-
-void UI::SetScore(int score)
-{
-    if (!SetValue("score", score)) {
-        std::cout << "JavaScript Error" << std::endl;
+    if (!j.IsBoolean() || !j.ToBoolean()) {
+        std::cerr << "JavaScript Error" << std::endl;
     }
 }
-void UI::SetLines(int lines)
-{
-    if (!SetValue("lines", lines)) {
-        std::cout << "JavaScript Error" << std::endl;
-    }
+void UI::SetValue(std::string id, int value) {
+    SetValue(id, boost::lexical_cast<std::string>(value));
 }
-void UI::SetLevel(int level)
-{
-    if (!SetValue("level", level)) {
-        std::cout << "JavaScript Error" << std::endl;
+void UI::SetNewPoints(int points) {
+    if (newPointsTimer.isStarted()) {
+        newPointsTimer.stop();
     }
+    newPointsTimer.start();
+    SetValue("new_points", "+" + boost::lexical_cast<std::string>(points));
 }
-void UI::SetTime(int minutes, int seconds)
-{
+void UI::SetScore(int score) {
+    SetValue("score", score);
+}
+void UI::SetLines(int lines) {
+    SetValue("lines", lines);
+}
+void UI::SetLevel(int level) {
+    SetValue("level", level);
+}
+void UI::SetTime(int minutes, int seconds) {
     assert(minutes >= 0);
     assert(seconds >= 0 && seconds < 60);
 
@@ -176,9 +186,7 @@ void UI::SetTime(int minutes, int seconds)
     }
     time += boost::lexical_cast<std::string>(seconds);
 
-    if (!SetValue("time", time)) {
-        std::cout << "JavaScript Error" << std::endl;
-    }
+    SetValue("time", time);
 }
 
 void UI::InitializeGLObjects()

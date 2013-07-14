@@ -39,6 +39,7 @@ public:
     
     struct signalList {
         bs2::signal<void (int)> scoreChanged;
+        bs2::signal<void (int)> newPoints;
         bs2::signal<void (int)> linesLeftChanged;
         bs2::signal<void (int)> levelChanged;
         bs2::signal<void (int, int)> timeChanged;
@@ -144,7 +145,8 @@ private:
     void unpause();
     
     // Scoring functions
-    void scoreChanged(int points);
+    void newPoints(int points);
+    void scoreChanged(int score);
     void linesChanged(int lines);
     void levelChanged(int level);
 };

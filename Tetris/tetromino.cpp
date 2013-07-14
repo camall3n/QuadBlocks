@@ -150,8 +150,8 @@ void Tetromino::setState(TETROMINO::STATE state)
     switch (_state) {
         case TETROMINO::GHOST:
             BOOST_FOREACH(Block& b, _blocks) {
-                b.setColor(glm::mix(_color,BLOCK::COLOR::WHITE,0.5f));
-                b.setAlpha(0.5);
+                b.setColor(glm::mix(_color,BLOCK::COLOR::WHITE,0.75f));
+                b.setAlpha(0.4);
             }
             break;
             
