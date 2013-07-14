@@ -121,6 +121,36 @@ bool Garbage::checkCollision(Tetromino piece)
     return false;
 }
 
+int Garbage::getFilledTSpinCorners(Tetromino piece)
+{
+    //    [?][ ][?]
+    //    [ ] X [ ]
+    //    [?][ ][?]
+    
+    if (piece.type() != TETROMINO::T) {
+        return 0;
+    }
+
+    int nFilledCorners = 0;
+    
+    glm::vec2 basePosition = piece.position();
+    
+    for (int i=0; i<piece.collisionSquareSize(); i+=2) {
+        for (int j=0; j<piece.collisionSquareSize(); j+=2) {
+            glm::vec2 position = basePosition + glm::vec2(j+0.5, i+0.5);
+            int x = round(position.x)-1;
+            int y = round(position.y)-1;
+            if ( !isValidGarbageCoord(x, y) || (blocks[y][x]) ) {
+                // it's either outside the garbage coords (aka wall / floor)
+                // or, it's inside, and there's a block there
+                nFilledCorners++;
+            }
+        }
+    }
+
+    return nFilledCorners;
+}
+
 int Garbage::addTetromino(Tetromino piece)
 {
     glm::vec2 basePos = piece.position();

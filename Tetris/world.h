@@ -89,6 +89,15 @@ private:
     float baseGravity;
     float gravity;
     
+    enum MOTION_TYPE {
+        MOVE,
+        FALL,
+        SPIN,
+        KICKSPIN,
+        HOLD
+    };
+    MOTION_TYPE lastMotion;
+    
     // Other variables
     bool _isDirty;
     
@@ -116,7 +125,10 @@ private:
 
     void updateUserPiece();
     bool checkCollision(Tetromino piece);
-    Tetromino tryWallKick(Tetromino piece);
+    bool checkTSpin(Tetromino piece);
+    Tetromino wallKickCW(Tetromino piece);
+    Tetromino wallKickCCW(Tetromino piece);
+    Tetromino wallKick(Tetromino piece, int fromState, int rotation);
     void lock();
     
     // Gravity

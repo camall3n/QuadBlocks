@@ -13,6 +13,7 @@
 #include <cmath>
 #include "camera.h"
 #include "constants.h"
+#include "kicktable.h"
 #include "utility.h"
 
 const double LOCK_DELAY = 1.0;
@@ -20,9 +21,9 @@ const double DRAG_DELAY = 0.25;
 const double DRAG_REPEAT = 0.1;
 
 const double MIN_GRAVITY = 1.0/FRAMES_PER_SECOND;
-const double MAX_GRAVITY = 20;
+const double MAX_GRAVITY = 22;
 
-#define DEVELOPER_MODE
+//#define DEVELOPER_MODE
 
 World::World() :
     piece(TETROMINO::I),
@@ -195,6 +196,7 @@ void World::moveUp()
     
     if (!checkCollision(newPiece)) {
         piece = newPiece;
+        lastMotion = MOVE;
         _isDirty = true;
     }
 
@@ -210,6 +212,7 @@ void World::moveDown()
     
     if (!checkCollision(newPiece)) {
         piece = newPiece;
+        lastMotion = MOVE;
         _isDirty = true;
     }
 }
@@ -224,6 +227,7 @@ void World::moveRight()
     
     if (!checkCollision(newPiece)) {
         piece = newPiece;
+        lastMotion = MOVE;
         _isDirty = true;
     }
     else {
@@ -241,6 +245,7 @@ void World::moveLeft()
     
     if (!checkCollision(newPiece)) {
         piece = newPiece;
+        lastMotion = MOVE;
         _isDirty = true;
     }
     else {
@@ -316,12 +321,14 @@ void World::rotateCW()
     
     if (!checkCollision(newPiece)) {
         piece = newPiece;
+        lastMotion = SPIN;
         _isDirty = true;
     }
     else {
-        Tetromino kickedPiece = tryWallKick(newPiece);
+        Tetromino kickedPiece = wallKickCW(newPiece);
         if (kickedPiece != newPiece) {
             piece = kickedPiece;
+            lastMotion = KICKSPIN;
             _isDirty = true;
         }
     }
@@ -337,12 +344,14 @@ void World::rotateCCW()
     
     if (!checkCollision(newPiece)) {
         piece = newPiece;
+        lastMotion = SPIN;
         _isDirty = true;
     }
     else {
-        Tetromino kickedPiece = tryWallKick(newPiece);
+        Tetromino kickedPiece = wallKickCCW(newPiece);
         if (kickedPiece != newPiece) {
             piece = kickedPiece;
+            lastMotion = KICKSPIN;
             _isDirty = true;
         }
     }
@@ -375,6 +384,7 @@ void World::hold()
             
             piece = temp;
             _isDirty = true;
+            lastMotion = HOLD;
         }
         else {
 #endif
@@ -386,6 +396,7 @@ void World::hold()
             piece.resetPosition();
             holdingPiece = true;
             _isDirty = true;
+            lastMotion = HOLD;
 #ifndef DEVELOPER_MODE
         }
     }
@@ -437,6 +448,7 @@ void World::applyGravity()
         }
         else {
             piece = newPiece;
+            lastMotion = FALL;
             actualFall++;
             _isDirty = true;
         }
@@ -487,62 +499,72 @@ void World::applyGravity()
     }
 }
 
-
 bool World::checkCollision(Tetromino piece)
 {
     return ( well.checkCollision(piece) || garbage.checkCollision(piece) );
 }
 
-Tetromino World::tryWallKick(Tetromino piece)
+bool World::checkTSpin(Tetromino piece)
 {
-    Tetromino tryRight = piece;
-    tryRight.setPosition(piece.position()+glm::vec2(1,0));
-    
-    Tetromino tryLeft = piece;
-    tryLeft.setPosition(piece.position()+glm::vec2(-1,0));
-    
-    Tetromino tryUp = piece;
-    tryUp.setPosition(piece.position()+glm::vec2(0,1));
-    
-//    Tetromino tryDown = piece;
-//    tryDown.setPosition(piece.position()+glm::vec2(0,-1));
-    
-    if (!checkCollision(tryRight)) {
-        piece = tryRight;
+    if (piece.type() != TETROMINO::T) {
+        return false;
     }
-    else if (!checkCollision(tryLeft)) {
-        piece = tryLeft;
+    
+    if (lastMotion != SPIN && lastMotion != KICKSPIN) {
+        return false;
     }
-    else if (!checkCollision(tryUp)) {
-        piece = tryUp;
+    
+    if (garbage.getFilledTSpinCorners(piece) < 3) {
+        return false;
     }
-//    else if (!checkCollision(tryDown)) {
-//        piece = tryDown;
-//    }
-    else {
-        Tetromino tryDoubleRight = tryRight;
-        tryDoubleRight.setPosition(tryRight.position()+glm::vec2(1,0));
-        
-        Tetromino tryDoubleLeft = tryLeft;
-        tryDoubleLeft.setPosition(tryLeft.position()+glm::vec2(-1,0));
-        
-        Tetromino tryDoubleUp = tryUp;
-        tryDoubleUp.setPosition(tryUp.position()+glm::vec2(0,1));
-        
-        if (!checkCollision(tryDoubleRight)) {
-            piece = tryDoubleRight;
+    
+    return true;
+}
+
+Tetromino World::wallKickCW(Tetromino piece)
+{
+    float rotation = piece.rotation()*4;
+    int toState = floor(rotation);
+    int fromState = (toState+3)%4;
+    
+    return wallKick(piece, fromState, 1); // CW
+}
+
+Tetromino World::wallKickCCW(Tetromino piece)
+{
+    float rotation = piece.rotation()*4;
+    int toState = floor(rotation);
+    int fromState = (toState+1)%4;
+
+    return wallKick(piece, fromState, 0); // CCW
+}
+
+Tetromino World::wallKick(Tetromino piece, int fromState, int rotation)
+{
+    static KickTable kick;
+    
+    if (piece.type() == TETROMINO::O)
+        return piece;
+    
+    Tetromino kickedPiece(piece);
+    glm::vec2 basePos = piece.position();
+    
+    for (int i=1; i<5; i++) {
+        glm::vec2 offset;
+        if (piece.type() == TETROMINO::I) {
+            offset = kick.getIOffset(fromState, rotation, i);
         }
-        else if (!checkCollision(tryDoubleLeft)) {
-            piece = tryDoubleLeft;
+        else {
+            offset = kick.getOffset(fromState, rotation, i);
         }
-        else if (!checkCollision(tryDoubleUp)) {
-            piece = tryDoubleUp;
+        kickedPiece.setPosition(basePos + offset);
+        if (!checkCollision(kickedPiece)) {
+            return kickedPiece;
         }
     }
     
     return piece;
 }
-
 
 int World::getFallDistance()
 {
@@ -573,11 +595,19 @@ int World::getFallDistance()
 
 void World::lock()
 {
+    bool hadTSpin = checkTSpin(piece);
+    bool hadKick = (lastMotion == KICKSPIN);
+    
     int linesCleared = garbage.addTetromino(piece);
     if (garbage.top() <= linesCleared) {
         scoreKeeper.queueBravo();
     }
-    scoreKeeper.linesCleared(linesCleared);
+    if (hadTSpin) {
+        scoreKeeper.tSpin(linesCleared, hadKick);
+    }
+    else {
+        scoreKeeper.linesCleared(linesCleared);
+    }
     
     Tetromino nextPiece = pieceQueue.getNext();
     piece = nextPiece;

@@ -25,6 +25,7 @@ public:
     void update();
     
     bool checkCollision(Tetromino piece);
+    int getFilledTSpinCorners(Tetromino piece);
     int addTetromino(Tetromino piece);// returns lineClears
     
     bool isClearing();

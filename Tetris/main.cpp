@@ -161,8 +161,8 @@ void waitForFrame()
     
     if (count >= nFrames) {
         double now = glfwGetTime();
-        double fps = nFrames / (now - start);
-        cout << fps << endl;
+//        double fps = nFrames / (now - start);
+//        cout << fps << endl;
         
         start = now;
         count = 0;
@@ -230,8 +230,8 @@ void initGLFW() {
     glfwSetWindowSizeCallback(&onResize);
     glfwSetKeyCallback(&onKey);
     
-    glfwDisable(GLFW_MOUSE_CURSOR);
-    glfwSetMousePos(0, 0);
+//    glfwDisable(GLFW_MOUSE_CURSOR);
+//    glfwSetMousePos(0, 0);
     
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);

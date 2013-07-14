@@ -86,7 +86,7 @@ glm::vec2 Tetromino::position()
 
 float Tetromino::rotation()
 {
-    return fmod(_rotation, 1.0);
+    return fmod(_rotation+1, 1.0);//map angle onto [0, 1.0)
 }
 
 TETROMINO::TYPE Tetromino::type()
@@ -106,7 +106,7 @@ void Tetromino::setPosition(glm::vec2 pos)
 
 void Tetromino::resetPosition()
 {
-    const glm::vec2 startingPos(4,18);
+    const glm::vec2 startingPos(4,20);
 
     if (this->type() == TETROMINO::TYPE::I) {
         this->setPosition(startingPos + glm::vec2(-1,0));

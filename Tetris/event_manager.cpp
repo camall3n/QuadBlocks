@@ -95,6 +95,9 @@ void EventManager::activate()
         controller->A.signal.pressed.connect(
             boost::bind( &World::queueHardDrop, world)
         );
+        controller->Up.signal.pressed.connect(
+            boost::bind( &World::queueHardDrop, world)
+        );
         keyboard->Return.signal.pressed.connect(
             boost::bind( &World::queueHardDrop, world)
         );
@@ -102,6 +105,9 @@ void EventManager::activate()
 
         // Soft Drop
         controller->LS.signal.movedDown.connect(
+            boost::bind( &World::queueSoftDrop, world)
+        );
+        controller->Down.signal.pressed.connect(
             boost::bind( &World::queueSoftDrop, world)
         );
         keyboard->S.signal.pressed.connect(

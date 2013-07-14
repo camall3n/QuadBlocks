@@ -104,7 +104,7 @@ void ScoreKeeper::tSpin(int clears, bool kick)
             lines  = 16;
             break;
         case 2: //double
-            points = 1200*level;
+            points = 1200*level; // kick is apparently ignored for double
             lines  = 12;
             break;
         case 1: //single
@@ -174,7 +174,7 @@ void ScoreKeeper::updateLines(int lines)
         if (this->lines <= 0) {
             if (level < MAX_LEVEL) {
                 updateLevel();
-                this->lines += 5*level;
+                this->lines = 5*level;
             }
             else {
                 this->lines = 0;
