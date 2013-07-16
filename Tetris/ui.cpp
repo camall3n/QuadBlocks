@@ -117,11 +117,16 @@ void UI::update()
 }
 
 static const double NEW_POINTS_DISPLAY_TIME = 0.5;
+static const double MESSAGE_DISPLAY_TIME = 0.5;
 void UI::UpdateFields()
 {
     if (newPointsTimer.getTime() > NEW_POINTS_DISPLAY_TIME) {
         newPointsTimer.stop();
         SetValue("new_points", "");
+    }
+    if (messageTimer.getTime() > MESSAGE_DISPLAY_TIME) {
+        messageTimer.stop();
+        SetValue("message", "");
     }
 }
 
@@ -160,6 +165,21 @@ void UI::SetValue(std::string id, std::string value)
 void UI::SetValue(std::string id, int value) {
     SetValue(id, boost::lexical_cast<std::string>(value));
 }
+
+void UI::SetVisible(std::string id, bool visible)
+{
+    WebString none(WSLit(""));
+    
+    std::string command;
+    command = "setVisible('" + id + "', "+ boost::lexical_cast<std::string>(visible) + ");";
+    
+    JSValue j = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (!j.IsBoolean() || !j.ToBoolean()) {
+        std::cerr << "JavaScript Error" << std::endl;
+    }
+    isDirty = true;
+}
+
 void UI::SetNewPoints(int points) {
     if (newPointsTimer.isStarted()) {
         newPointsTimer.stop();
@@ -187,6 +207,72 @@ void UI::SetTime(int minutes, int seconds) {
     time += boost::lexical_cast<std::string>(seconds);
 
     SetValue("time", time);
+}
+void UI::DisplayAllClear() {
+    if (messageTimer.isStarted()) {
+        messageTimer.stop();
+    }
+    messageTimer.start();
+    SetValue("message", "All Clear");
+}
+void UI::DisplayLineClear(int lines) {
+    if (messageTimer.isStarted()) {
+        messageTimer.stop();
+    }
+    messageTimer.start();
+    
+    switch (lines) {
+        case 4:
+            SetValue("message", "Tetris");
+            break;
+        case 3:
+            SetValue("message", "Triple");
+            break;
+        case 2:
+            SetValue("message", "Double");
+            break;
+        case 1:
+            SetValue("message", "Single");
+            break;
+            
+        default:
+            SetValue("message", "");
+            break;
+    }
+}
+void UI::DisplayTSpin(int lines, bool kick) {
+    if (messageTimer.isStarted()) {
+        messageTimer.stop();
+    }
+    messageTimer.start();
+    
+    switch (lines) {
+        case 3:
+            SetValue("message", "T-Spin Triple");
+            break;
+        case 2:
+            SetValue("message", "T-Spin Double");
+            break;
+        case 1:
+            if (kick) {
+                SetValue("message", "Kick T-Spin Single");
+            }
+            else {
+                SetValue("message", "T-Spin Single");
+            }
+            break;
+        case 0:
+            if (kick) {
+                SetValue("message", "Kick T-Spin");
+            }
+            else {
+                SetValue("message", "T-Spin");
+            }
+            break;
+            
+        default:
+            SetValue("message", ""); break;
+    }
 }
 
 void UI::InitializeGLObjects()

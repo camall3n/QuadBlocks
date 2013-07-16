@@ -38,7 +38,12 @@
 
 + Fix random pieces
 
-+ UI
+- UI
+   + Main UI
+      + score display
+      + lines remaining
+      + current level
+   - Fix bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
 
 + Keyboard support
    + Fix bug: for some reason putting the std::map<int, Keyboard::Key*> Keys inside of keyboard.cpp or keyboard.h was causing EXC_BAD_ACCESS. Had to put it into main, before the Keyboard declaration to fix the issue. Need to investigate more...
@@ -61,6 +66,7 @@
     + score display
     + lines remaining
     + level
+    + move-type message (single, double, t-spin, all-clear, etc.)
 
 - Modes
     - Marathon

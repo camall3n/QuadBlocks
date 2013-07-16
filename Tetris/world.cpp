@@ -600,16 +600,25 @@ void World::lock()
 {
     bool hadTSpin = checkTSpin(piece);
     bool hadKick = (lastMotion == KICKSPIN);
+    bool sendingMessage = false;// flag to give "bravo" precedence
     
     int linesCleared = garbage.addTetromino(piece);
     if (garbage.top() <= linesCleared) {
         scoreKeeper.queueBravo();
+        signal.allClear();
+        sendingMessage = true;
     }
     if (hadTSpin) {
         scoreKeeper.tSpin(linesCleared, hadKick);
+        if (!sendingMessage) {
+            signal.tSpin(linesCleared, hadKick);
+        }
     }
     else {
         scoreKeeper.linesCleared(linesCleared);
+        if (!sendingMessage && linesCleared > 0) {
+            signal.lineClear(linesCleared);
+        }
     }
     
     Tetromino nextPiece = pieceQueue.getNext();
@@ -669,7 +678,7 @@ void World::linesChanged(int lines) {
 }
 void World::levelChanged(int level) {
     signal.levelChanged(level);
-    baseGravity *= 1.25;
+    baseGravity *= 1.5;
     gravity = baseGravity;
 }
 

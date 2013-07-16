@@ -58,6 +58,10 @@ void EventManager::activate()
         keyboard->D.signal.pressed.connect(
             boost::bind( &World::queueMoveRight, world)
         );
+        keyboard->ArrowRight.signal.pressed.connect(
+            boost::bind( &World::queueMoveRight, world)
+        );
+
         
         // Move Left
         controller->LS.signal.movedLeft.connect(
@@ -72,6 +76,9 @@ void EventManager::activate()
         keyboard->A.signal.pressed.connect(
             boost::bind( &World::queueMoveLeft, world)
         );
+        keyboard->ArrowLeft.signal.pressed.connect(
+            boost::bind( &World::queueMoveLeft, world)
+        );
 
         
         // Rotate CW
@@ -81,6 +88,9 @@ void EventManager::activate()
         keyboard->Period.signal.pressed.connect(
             boost::bind( &World::queueRotateCW, world)
         );
+        keyboard->X.signal.pressed.connect(
+            boost::bind( &World::queueRotateCW, world)
+        );
 
         
         // Rotate CCW
@@ -88,6 +98,9 @@ void EventManager::activate()
             boost::bind( &World::queueRotateCCW, world)
         );
         keyboard->Comma.signal.pressed.connect(
+            boost::bind( &World::queueRotateCCW, world)
+        );
+        keyboard->Z.signal.pressed.connect(
             boost::bind( &World::queueRotateCCW, world)
         );
         
@@ -111,6 +124,9 @@ void EventManager::activate()
             boost::bind( &World::queueSoftDrop, world)
         );
         keyboard->S.signal.pressed.connect(
+            boost::bind( &World::queueSoftDrop, world)
+        );
+        keyboard->ArrowDown.signal.pressed.connect(
             boost::bind( &World::queueSoftDrop, world)
         );
 
@@ -145,6 +161,15 @@ void EventManager::activate()
         );
         world->signal.levelChanged.connect(
             boost::bind( &UI::SetLevel, ui, _1)
+        );
+        world->signal.allClear.connect(
+            boost::bind( &UI::DisplayAllClear, ui)
+        );
+        world->signal.lineClear.connect(
+            boost::bind( &UI::DisplayLineClear, ui, _1)
+        );
+        world->signal.tSpin.connect(
+            boost::bind( &UI::DisplayTSpin, ui, _1, _2)
         );
 
     }

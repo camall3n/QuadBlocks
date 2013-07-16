@@ -36,12 +36,16 @@ public:
     void SetLines(int lines);
     void SetLevel(int level);
     void SetTime(int minutes, int seconds);
+    void DisplayAllClear();
+    void DisplayLineClear(int lines);
+    void DisplayTSpin(int lines, bool kick);
     
 private:
     WebCore* webCore;
     WebView* webView;
     bool isDirty;
     Timer newPointsTimer;
+    Timer messageTimer;
     
     void UpdateFields();
     void UpdateGLTexture();
@@ -50,6 +54,8 @@ private:
     
     void SetValue(std::string id, std::string value);
     void SetValue(std::string id, int value);
+    
+    void SetVisible(std::string id, bool visible);
     
     struct GLAttributes {
         GLuint position;

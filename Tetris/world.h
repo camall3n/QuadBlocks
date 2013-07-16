@@ -43,6 +43,9 @@ public:
         bs2::signal<void (int)> linesLeftChanged;
         bs2::signal<void (int)> levelChanged;
         bs2::signal<void (int, int)> timeChanged;
+        bs2::signal<void ()> allClear;
+        bs2::signal<void (int)> lineClear;
+        bs2::signal<void (int, bool)> tSpin;
     } signal;
 
     // User Actions

@@ -114,18 +114,19 @@ void input() {
     x = controller.LS.x();
     y = controller.LS.y();
     
-    if ( ((y < 0) && (std::abs(y) > std::abs(x))) || keyboard.S.isPressed()) {
+    if ( ((y < 0) && (std::abs(y) > std::abs(x))) || keyboard.S.isPressed() || keyboard.ArrowDown.isPressed()) {
         world->queueSoftDrop();
     }
     else if (controller.LS.x() < 0 || controller.LB.isPressed() ||
-             keyboard.A.isPressed()) {
+             keyboard.A.isPressed() || keyboard.ArrowLeft.isPressed()) {
         world->queueDragLeft();
     }
     else if (controller.LS.x() > 0 || controller.RB.isPressed() ||
-             keyboard.D.isPressed()) {
+             keyboard.D.isPressed() || keyboard.ArrowRight.isPressed()) {
         world->queueDragRight();
     }
-    else if (!keyboard.A.isPressed() && !keyboard.D.isPressed()) {
+    else if (!keyboard.A.isPressed() && !keyboard.D.isPressed() &&
+             !keyboard.ArrowRight.isPressed() && !keyboard.ArrowLeft.isPressed()) {
         world->stopDragging();
     }
     
