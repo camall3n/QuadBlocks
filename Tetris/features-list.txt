@@ -38,24 +38,18 @@
 
 + Fix random pieces
 
-- UI
-   + Main UI
-      + score display
-      + lines remaining
-      + current level
-   - Fix bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
++ UI
+   + score display
+   + lines remaining
+   + current level
 
 + Keyboard support
    + Fix bug: for some reason putting the std::map<int, Keyboard::Key*> Keys inside of keyboard.cpp or keyboard.h was causing EXC_BAD_ACCESS. Had to put it into main, before the Keyboard declaration to fix the issue. Need to investigate more...
      (static initialization order fiasco)
 
-- More obvious pre-lock piece graphic. Too easy to confuse an unlocked/locked piece
++ More obvious pre-lock piece graphic. Too easy to confuse an unlocked/locked piece
 
 + Extra lines cleared for more than single
-
-- Better controls
-
-- Top-outs
 
 + Scoring
     + single, double, triple, tetris
@@ -68,23 +62,15 @@
     + level
     + move-type message (single, double, t-spin, all-clear, etc.)
 
-- Modes
-    - Marathon
-    - Timed
-        - Hard stop
-        - Reset on level-up
-     - Cascade
-     - (Square)
-     - (Hot-Line)
-     - (Fusion)
-     - (Sticky)
-     - "Create" Mode, where you can select your piece
++ Better controls
 
 - Menu
     - Mode Select
     - Customizable controls
     - Sound settings
     - (Dev settings)
+
+- Top-outs
 
 - Sound Effects
     - Movement
@@ -97,6 +83,23 @@
     - Scoring actions
     - Game timer
     - Music
+    
+- Modes
+    - Marathon
+    - Timed
+        - Hard stop
+        - Reset on level-up
+     - Cascade
+     - (Square)
+     - (Hot-Line)
+     - (Fusion)
+     - (Sticky)
+     - "Create" Mode, where you can select your piece
+
+- Precise timing of actions
+   - lock delay
+   - piece entry delay
+   - etc.
 
 - Juice it up
     - Tweens
@@ -111,6 +114,8 @@
     - Sound effects
     - Music
     - Have something trigger a flip by 180 degrees (any direction: X, Y, Z)
+
+- Fix UI bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
 
 - Self-contained, distributable application package
 
