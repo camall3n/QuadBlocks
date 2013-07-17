@@ -35,8 +35,14 @@ private:
     Keyboard* keyboard;
     World* world;
     UI* ui;
+    bool paused;
     
     void LSReallyMovedUp();
+    
+    void UniversalSignals();
+    void GameMode(bool activate);
+    void MenuMode(bool activate);
+    void TogglePause();
 };
 
 #endif /* defined(__Tetris__event_manager__) */

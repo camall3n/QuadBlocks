@@ -21,7 +21,7 @@ const double DRAG_DELAY = 0.25;
 const double DRAG_REPEAT = 0.1;
 
 const double MIN_GRAVITY = 1.0/FRAMES_PER_SECOND;
-const double MAX_GRAVITY = 22;
+const double MAX_GRAVITY = 24;
 
 //#define DEVELOPER_MODE
 
@@ -67,13 +67,13 @@ World::World() :
 
 void World::update()
 {
-    pieceQueue.update();
-    
-    if (garbage.isClearing()) {
-        garbage.update();
-    }
-    
     if (!isPaused) {
+        pieceQueue.update();
+        
+        if (garbage.isClearing()) {
+            garbage.update();
+        }
+    
         updateUserPiece();
     }
     else {
@@ -144,41 +144,59 @@ bool World::isDirty() {
 
 
 void World::queueMoveRight() {
-    queuedAction.moveRight = true;
-    queuedAction.moveLeft = false;
-    queuedAction.dragLeft = false;
+    if (!isPaused) {
+        queuedAction.moveRight = true;
+        queuedAction.moveLeft = false;
+        queuedAction.dragLeft = false;
+    }
 }
 void World::queueMoveLeft() {
-    queuedAction.moveLeft = true;
-    queuedAction.moveRight = false;
-    queuedAction.dragRight = false;
+    if (!isPaused) {
+        queuedAction.moveLeft = true;
+        queuedAction.moveRight = false;
+        queuedAction.dragRight = false;
+    }
 }
 void World::queueDragRight() {
-    queuedAction.dragRight = true;
-    queuedAction.dragLeft = false;
+    if (!isPaused) {
+        queuedAction.dragRight = true;
+        queuedAction.dragLeft = false;
+    }
 }
 void World::queueDragLeft() {
-    queuedAction.dragLeft = true;
-    queuedAction.dragRight = false;
+    if (!isPaused) {
+        queuedAction.dragLeft = true;
+        queuedAction.dragRight = false;
+    }
 }
 void World::queueRotateCW() {
-    queuedAction.rotateCW = true;
-    queuedAction.rotateCCW = false;
+    if (!isPaused) {
+        queuedAction.rotateCW = true;
+        queuedAction.rotateCCW = false;
+    }
 }
 void World::queueRotateCCW() {
-    queuedAction.rotateCCW = true;
-    queuedAction.rotateCW = false;
+    if (!isPaused) {
+        queuedAction.rotateCCW = true;
+        queuedAction.rotateCW = false;
+    }
 }
 void World::queueHardDrop() {
-    queuedAction.hardDrop = true;
-    queuedAction.softDrop = false;
+    if (!isPaused) {
+        queuedAction.hardDrop = true;
+        queuedAction.softDrop = false;
+    }
 }
 void World::queueSoftDrop() {
-    queuedAction.softDrop = true;
-    queuedAction.hardDrop = false;
+    if (!isPaused) {
+        queuedAction.softDrop = true;
+        queuedAction.hardDrop = false;
+    }
 }
 void World::queueHold() {
-    queuedAction.hold = true;
+    if (!isPaused) {
+        queuedAction.hold = true;
+    }
 }
 void World::togglePause() {
     if (isPaused) {

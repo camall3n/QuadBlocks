@@ -49,7 +49,8 @@ static WebURL FileURL(const std::string filename) {
 UI::UI() :
     webCore(NULL),
     webView(NULL),
-    isDirty(true)
+    isDirty(true),
+    paused(false)
 {
     webCore = WebCore::Initialize(WebConfig());
     if (!webCore) {
@@ -71,7 +72,7 @@ UI::UI() :
         webCore->Update();
 
 //    usleep(20000);
-    sleep(2);
+//    sleep(2);
     webCore->Update();
     
     InitializeGLObjects();
@@ -106,14 +107,15 @@ void UI::draw()
 
 void UI::update()
 {
-    UpdateFields();
-    
+    if (!paused) {
+        UpdateFields();
+    }
     webCore->Update();
     
-    if (isDirty) {
-        isDirty = false;
-        UpdateGLTexture();
-    }
+//    if (isDirty) {
+//        isDirty = false;
+    UpdateGLTexture();
+//    }
 }
 
 static const double NEW_POINTS_DISPLAY_TIME = 0.5;
@@ -178,6 +180,56 @@ void UI::SetVisible(std::string id, bool visible)
         std::cerr << "JavaScript Error" << std::endl;
     }
     isDirty = true;
+}
+
+void UI::SelectNextElement(std::string id)
+{
+    WebString none(WSLit(""));
+    
+    std::string command;
+    command = "selectNextElement('" + id + "');";
+    
+    JSValue j = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (!j.IsBoolean() || !j.ToBoolean()) {
+        std::cerr << "JavaScript Error" << std::endl;
+    }
+    isDirty = true;
+}
+void UI::SelectPrevElement(std::string id)
+{
+    WebString none(WSLit(""));
+    
+    std::string command;
+    command = "selectPrevElement('" + id + "');";
+    
+    JSValue j = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (!j.IsBoolean() || !j.ToBoolean()) {
+        std::cerr << "JavaScript Error" << std::endl;
+    }
+    isDirty = true;
+}
+void UI::SelectElement(std::string id, int selection)
+{
+    WebString none(WSLit(""));
+    
+    std::string command;
+    command = "selectElement('" + id + "', '" + boost::lexical_cast<std::string>(selection) + "');";
+    
+    JSValue j = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (!j.IsBoolean() || !j.ToBoolean()) {
+        std::cerr << "JavaScript Error" << std::endl;
+    }
+    isDirty = true;
+}
+
+void UI::SelectNextMenuItem() {
+    SelectNextElement("menu");
+}
+void UI::SelectPrevMenuItem() {
+    SelectPrevElement("menu");
+}
+void UI::SelectMenuItem(int selection) {
+    SelectElement("menu", selection);
 }
 
 void UI::SetNewPoints(int points) {
@@ -273,6 +325,20 @@ void UI::DisplayTSpin(int lines, bool kick) {
         default:
             SetValue("message", ""); break;
     }
+}
+
+void UI::TogglePause()
+{
+    if (paused) {
+        paused = false;
+        SetVisible("main", false);
+    }
+    else {
+        paused = true;
+        SelectMenuItem(0);
+        SetVisible("main", true);
+    }
+    isDirty = true;
 }
 
 void UI::InitializeGLObjects()

@@ -40,12 +40,18 @@ public:
     void DisplayLineClear(int lines);
     void DisplayTSpin(int lines, bool kick);
     
+    void TogglePause();
+    void SelectNextMenuItem();
+    void SelectPrevMenuItem();
+    void SelectMenuItem(int selection);
+    
 private:
     WebCore* webCore;
     WebView* webView;
     bool isDirty;
     Timer newPointsTimer;
     Timer messageTimer;
+    bool paused;
     
     void UpdateFields();
     void UpdateGLTexture();
@@ -56,6 +62,9 @@ private:
     void SetValue(std::string id, int value);
     
     void SetVisible(std::string id, bool visible);
+    void SelectNextElement(std::string id);
+    void SelectPrevElement(std::string id);
+    void SelectElement(std::string id, int selection);
     
     struct GLAttributes {
         GLuint position;

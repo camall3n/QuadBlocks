@@ -65,6 +65,9 @@
 + Better controls
 
 - Menu
+    + Basic overlay
+    - Handle user's selection
+    - Hierarchical menus
     - Mode Select
     - Customizable controls
     - Sound settings
