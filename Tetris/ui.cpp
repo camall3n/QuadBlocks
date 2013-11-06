@@ -46,6 +46,8 @@ static WebURL FileURL(const std::string filename) {
     return FileURL(filename.c_str());
 }
 
+WebConfig *wc;
+
 UI::UI() :
     webCore(NULL),
     webView(NULL),
@@ -53,7 +55,9 @@ UI::UI() :
     paused(false),
     devMode(false)
 {
-    webCore = WebCore::Initialize(WebConfig());
+    std::cout << "Leaking memory: Awesomium's ~WebConfig() descructor causes EXC_BAD_ACCESS (though only on perigee), so we 'new' and never 'delete'." << std::endl;
+    wc = new WebConfig();
+    webCore = WebCore::Initialize(*wc);
     if (!webCore) {
         std::cout << "no web core" << std::endl;
     }
