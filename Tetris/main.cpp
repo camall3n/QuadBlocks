@@ -40,6 +40,7 @@ bool should_quit = false;
 EventManager eventManager;
 Controller controller;
 Keyboard keyboard;
+Menu menu;
 Timer timer;
 World* world = NULL;
 UI* ui = NULL;
@@ -99,10 +100,13 @@ void init() {
     ui->SetLevel(world->getLevel());
 //    ui->SetTime(2, 00);
     
+    menu.SetUI(ui);
+    
     eventManager.setController(&controller);
     eventManager.setWorld(world);
     eventManager.setUI(ui);
     eventManager.setKeyboard(&keyboard);
+    eventManager.setMenu(&menu);
     eventManager.activate();
 }
 
@@ -261,14 +265,13 @@ void initGLFW() {
 
 void onKey(int key, int action) {
     
-    if (key==GLFW_KEY_ESC && action == GLFW_PRESS) {
-        onClose();
-    }
+//    if (key==GLFW_KEY_ESC && action == GLFW_PRESS) {
+//        onClose();
+//    }
     
 }
 
 int onClose() {
-    
     should_quit = true;
     return GL_TRUE;
 }

@@ -13,6 +13,7 @@
 
 #include "controller.h"
 #include "keyboard.h"
+#include "menu.h"
 #include "timer.h"
 #include "ui.h"
 #include "world.h"
@@ -24,17 +25,19 @@ public:
     EventManager();
     
     void setController(Controller* controller);
-    void setWorld(World* world);
     void setKeyboard(Keyboard* keyboard);
+    void setMenu(Menu* menu);
     void setUI(UI* ui);
+    void setWorld(World* world);
     
     void activate();
     
 private:
     Controller* controller;
     Keyboard* keyboard;
-    World* world;
+    Menu* menu;
     UI* ui;
+    World* world;
     bool paused;
     
     void LSReallyMovedUp();
@@ -43,6 +46,7 @@ private:
     void GameMode(bool activate);
     void MenuMode(bool activate);
     void TogglePause();
+    void Exit();
 };
 
 #endif /* defined(__Tetris__event_manager__) */

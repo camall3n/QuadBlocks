@@ -10,10 +10,14 @@
 #define __Tetris__garbage__
 
 #include <vector>
+#include <boost/signals2.hpp>
+namespace bs2 = boost::signals2;
+
 #include "block.h"
 #include "constants.h"
 #include "tetromino.h"
 #include "timer.h"
+
 
 class Garbage
 {

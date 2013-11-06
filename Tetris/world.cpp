@@ -32,7 +32,8 @@ World::World() :
     gravity(baseGravity),
     holdingPiece(false),
     usedHoldPiece(false),
-    _isDirty(true)
+    developerMode(false),
+    gameOver(false)
 {
     Block::useCamera(c);
     c.setPosition(glm::vec3(5,10,80));
@@ -67,7 +68,10 @@ World::World() :
 
 void World::update()
 {
-    if (!isPaused) {
+    if (gameOver) {
+        
+    }
+    else if (!isPaused) {
         pieceQueue.update();
         
         if (garbage.isClearing()) {
@@ -75,9 +79,6 @@ void World::update()
         }
     
         updateUserPiece();
-    }
-    else {
-        _isDirty = true;
     }
 }
 
@@ -122,26 +123,18 @@ void World::updateUserPiece() {
 
 void World::draw()
 {
-    if (true || _isDirty) {
-        light.makeActive();
-        well.draw();
-        garbage.draw();
-        pieceQueue.draw();
-        
-        piece.draw();
-        ghostPiece.draw();
-        
-        if (holdingPiece) {
-            holdPiece.draw();
-        }
-        _isDirty = false;
+    light.makeActive();
+    well.draw();
+    garbage.draw();
+    pieceQueue.draw();
+    
+    piece.draw();
+    ghostPiece.draw();
+    
+    if (holdingPiece) {
+        holdPiece.draw();
     }
 }
-
-bool World::isDirty() {
-    return _isDirty;
-}
-
 
 void World::queueMoveRight() {
     if (!isPaused) {
@@ -206,6 +199,10 @@ void World::togglePause() {
         pause();
     }
 }
+void World::toggleDevMode()
+{
+    developerMode = !developerMode;
+}
 
 void World::moveUp()
 {
@@ -218,7 +215,6 @@ void World::moveUp()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = MOVE;
-        _isDirty = true;
     }
 
 }
@@ -234,7 +230,6 @@ void World::moveDown()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = MOVE;
-        _isDirty = true;
     }
 }
 
@@ -249,7 +244,6 @@ void World::moveRight()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = MOVE;
-        _isDirty = true;
     }
     else {
         stopDragging();
@@ -267,7 +261,6 @@ void World::moveLeft()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = MOVE;
-        _isDirty = true;
     }
     else {
         stopDragging();
@@ -343,14 +336,12 @@ void World::rotateCW()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = SPIN;
-        _isDirty = true;
     }
     else {
         Tetromino kickedPiece = wallKickCW(newPiece);
         if (kickedPiece != newPiece) {
             piece = kickedPiece;
             lastMotion = KICKSPIN;
-            _isDirty = true;
         }
     }
 }
@@ -366,14 +357,12 @@ void World::rotateCCW()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = SPIN;
-        _isDirty = true;
     }
     else {
         Tetromino kickedPiece = wallKickCCW(newPiece);
         if (kickedPiece != newPiece) {
             piece = kickedPiece;
             lastMotion = KICKSPIN;
-            _isDirty = true;
         }
     }
 }
@@ -393,7 +382,10 @@ void World::normalDrop()
 
 void World::hold()
 {
-#ifndef DEVELOPER_MODE
+    if (developerMode) {
+        usedHoldPiece = false;
+        holdingPiece = false;
+    }
     if (!usedHoldPiece) {
         usedHoldPiece = true;
         if (holdingPiece) {
@@ -404,11 +396,9 @@ void World::hold()
             holdPiece = piece;
             
             piece = temp;
-            _isDirty = true;
             lastMotion = HOLD;
         }
         else {
-#endif
             holdPiece = piece;
             
             holdPiece.holdPosition();
@@ -416,15 +406,12 @@ void World::hold()
             piece = pieceQueue.getNext();
             piece.resetPosition();
             holdingPiece = true;
-            _isDirty = true;
             lastMotion = HOLD;
-#ifndef DEVELOPER_MODE
         }
     }
     else {
         // Add sound?
     }
-#endif
 }
 
 void World::pause()
@@ -471,7 +458,6 @@ void World::applyGravity()
             piece = newPiece;
             lastMotion = FALL;
             actualFall++;
-            _isDirty = true;
         }
     }
     
@@ -621,37 +607,40 @@ void World::lock()
     bool sendingMessage = false;// flag to give "bravo" precedence
     
     int linesCleared = garbage.addTetromino(piece);
-    if (garbage.top() <= linesCleared) {
-        scoreKeeper.queueBravo();
-        signal.allClear();
-        sendingMessage = true;
-    }
-    if (hadTSpin) {
-        scoreKeeper.tSpin(linesCleared, hadKick);
-        if (!sendingMessage) {
-            signal.tSpin(linesCleared, hadKick);
-        }
-    }
-    else {
-        scoreKeeper.linesCleared(linesCleared);
-        if (!sendingMessage && linesCleared > 0) {
-            signal.lineClear(linesCleared);
-        }
-    }
-    
-    Tetromino nextPiece = pieceQueue.getNext();
-    piece = nextPiece;
-    usedHoldPiece = false;
-    
-    piece.resetPosition();
-    if (checkCollision(piece)) {
+    if (linesCleared < 0) {
         // top out!!
         std::cout << "TOP OUT!!" << std::endl;
+        gameOver = true;
     }
+    else {
+        if (garbage.top() <= linesCleared) {
+            scoreKeeper.queueBravo();
+            signal.allClear();
+            sendingMessage = true;
+        }
+        if (hadTSpin) {
+            scoreKeeper.tSpin(linesCleared, hadKick);
+            if (!sendingMessage) {
+                signal.tSpin(linesCleared, hadKick);
+            }
+        }
+        else {
+            scoreKeeper.linesCleared(linesCleared);
+            if (!sendingMessage && linesCleared > 0) {
+                signal.lineClear(linesCleared);
+            }
+        }
     
-    //  update world traits?
-    
-    _isDirty = true;
+        Tetromino nextPiece = pieceQueue.getNext();
+        piece = nextPiece;
+        usedHoldPiece = false;
+        
+        piece.resetPosition();
+        if (checkCollision(piece)) {
+            // top out!!
+            std::cout << "TOP OUT!!" << std::endl;
+        }
+    }
 }
 
 void World::updateGhostPiece()
@@ -670,7 +659,6 @@ void World::updateGhostPiece()
         }
         else {
             ghostPiece = newPiece;
-            _isDirty = true;
         }
     }
 }

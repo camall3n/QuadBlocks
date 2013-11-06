@@ -37,6 +37,7 @@
 		FD36E04D175C2BB10041A762 /* event_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E04B175C2BB00041A762 /* event_manager.cpp */; };
 		FD36E0511762BC070041A762 /* next_queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E04F1762BC060041A762 /* next_queue.cpp */; };
 		FD3CB0EA1791D56B0095C5B4 /* kicktable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD3CB0E81791D56B0095C5B4 /* kicktable.cpp */; };
+		FD3CB0ED17978F3C0095C5B4 /* menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD3CB0EB17978F3B0095C5B4 /* menu.cpp */; };
 		FDE7EB961784A7F300A30B8A /* ui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDE7EB941784A7F300A30B8A /* ui.cpp */; };
 		FDE7EBC71784D83000A30B8A /* Awesomium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDE7EB921784A7BF00A30B8A /* Awesomium.framework */; };
 		FDE7EBC91784DAE600A30B8A /* Awesomium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FDE7EB921784A7BF00A30B8A /* Awesomium.framework */; };
@@ -110,6 +111,8 @@
 		FD3C17511788583F00C0C8DD /* ui.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = ui.html; sourceTree = "<group>"; };
 		FD3CB0E81791D56B0095C5B4 /* kicktable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kicktable.cpp; sourceTree = "<group>"; };
 		FD3CB0E91791D56B0095C5B4 /* kicktable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kicktable.h; sourceTree = "<group>"; };
+		FD3CB0EB17978F3B0095C5B4 /* menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = menu.cpp; sourceTree = "<group>"; };
+		FD3CB0EC17978F3C0095C5B4 /* menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu.h; sourceTree = "<group>"; };
 		FDE7EB921784A7BF00A30B8A /* Awesomium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Awesomium.framework; path = Tetris/Awesomium.framework; sourceTree = "<group>"; };
 		FDE7EB941784A7F300A30B8A /* ui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ui.cpp; sourceTree = "<group>"; };
 		FDE7EB951784A7F300A30B8A /* ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
@@ -191,6 +194,8 @@
 				FD36E0241753FAD30041A762 /* light.cpp */,
 				FD36E0251753FAD30041A762 /* light.h */,
 				32FFC0721710F65900667EFC /* main.cpp */,
+				FD3CB0EB17978F3B0095C5B4 /* menu.cpp */,
+				FD3CB0EC17978F3C0095C5B4 /* menu.h */,
 				FD13B31F1735FF9800705C91 /* mesh.cpp */,
 				FD13B3201735FF9800705C91 /* mesh.h */,
 				FD36E04F1762BC060041A762 /* next_queue.cpp */,
@@ -343,6 +348,7 @@
 				FD029139178CC2690097A871 /* keyboard.cpp in Sources */,
 				32FFC0731710F65900667EFC /* main.cpp in Sources */,
 				FD3CB0EA1791D56B0095C5B4 /* kicktable.cpp in Sources */,
+				FD3CB0ED17978F3C0095C5B4 /* menu.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

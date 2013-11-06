@@ -29,7 +29,8 @@ function selectNextElement(id)
     var i;
     for (i=0; i<list.length; i++) {
         var div = list[i].getElementsByTagName("div")[0];
-        if (div.getAttribute("class")=="selected") {
+        var classStr = div.getAttribute("class");
+        if (classStr =="selected" || classStr == "clicked") {
             div.setAttribute("class","");
             break;
         }
@@ -48,7 +49,8 @@ function selectPrevElement(id)
     var i;
     for (i=0; i<list.length; i++) {
         var div = list[i].getElementsByTagName("div")[0];
-        if (div.getAttribute("class")=="selected") {
+        var classStr = div.getAttribute("class");
+        if (classStr =="selected" || classStr == "clicked") {
             div.setAttribute("class","");
             break;
         }
@@ -67,7 +69,8 @@ function selectElement(id, selection)
     var i;
     for (i=0; i<list.length; i++) {
         var div = list[i].getElementsByTagName("div")[0];
-        if (div.getAttribute("class")=="selected") {
+        var classStr = div.getAttribute("class");
+        if (classStr =="selected" || classStr == "clicked") {
             div.setAttribute("class","");
             break;
         }
@@ -78,6 +81,37 @@ function selectElement(id, selection)
     return true;
 }
 
+function clickSelectedElement(id)
+{
+    var list = document.getElementById(id).getElementsByTagName("li");
+    
+    var i;
+    for (i=0; i<list.length; i++) {
+        var div = list[i].getElementsByTagName("div")[0];
+        var classStr = div.getAttribute("class");
+        if (classStr =="selected") {
+            div.setAttribute("class","clicked");
+            break;
+        }
+    }
+    return true;
+}
+function unClickSelectedElement(id)
+{
+    var list = document.getElementById(id).getElementsByTagName("li");
+    
+    var i;
+    for (i=0; i<list.length; i++) {
+        var div = list[i].getElementsByTagName("div")[0];
+        var classStr = div.getAttribute("class");
+        if (classStr=="clicked") {
+            div.setAttribute("class","selected");
+            break;
+        }
+    }
+    return true;
+}
+
 function getSelectedElement(id)
 {
     var list = document.getElementById(id).getElementsByTagName("li");
@@ -85,7 +119,8 @@ function getSelectedElement(id)
     var i;
     for (i=0; i<list.length; i++) {
         var div = list[i].getElementsByTagName("div")[0];
-        if (div.getAttribute("class")=="selected") {
+        var classStr = div.getAttribute("class");
+        if (classStr =="selected" || classStr == "clicked") {
             break;
         }
     }

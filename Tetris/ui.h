@@ -41,9 +41,13 @@ public:
     void DisplayTSpin(int lines, bool kick);
     
     void TogglePause();
+    void ToggleDevMode();
     void SelectNextMenuItem();
     void SelectPrevMenuItem();
     void SelectMenuItem(int selection);
+    int  GetSelection();
+    void ClickMenuItem();
+    void UnClickMenuItem();
     
 private:
     WebCore* webCore;
@@ -51,9 +55,12 @@ private:
     bool isDirty;
     Timer newPointsTimer;
     Timer messageTimer;
+    Timer clickTimer;
     bool paused;
+    bool devMode;
     
     void UpdateFields();
+    void UpdateMenu();
     void UpdateGLTexture();
     void InitializeGLObjects();
     void DestroyGLObjects();
@@ -65,6 +72,8 @@ private:
     void SelectNextElement(std::string id);
     void SelectPrevElement(std::string id);
     void SelectElement(std::string id, int selection);
+    void ClickSelectedElement(std::string id);
+    void UnClickSelectedElement(std::string id);
     
     struct GLAttributes {
         GLuint position;

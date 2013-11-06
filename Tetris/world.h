@@ -31,7 +31,6 @@ public:
     
     void update();
     void draw();
-    bool isDirty();
     
     int getScore();
     int getLines();
@@ -70,6 +69,8 @@ public:
     void moveUp();
     void moveDown();
     
+    void toggleDevMode();
+    
 private:
     // Objects
     Camera c;
@@ -84,6 +85,7 @@ private:
     Timer dragTimerRight;
     Timer dragTimerLeft;
     ScoreKeeper scoreKeeper;
+    bool gameOver;
     
 
     // World traits
@@ -92,6 +94,7 @@ private:
     bool isPaused;
     float baseGravity;
     float gravity;
+    bool developerMode;
     
     enum MOTION_TYPE {
         MOVE,
@@ -101,9 +104,6 @@ private:
         HOLD
     };
     MOTION_TYPE lastMotion;
-    
-    // Other variables
-    bool _isDirty;
     
     // User actions
     struct QueuedActions {

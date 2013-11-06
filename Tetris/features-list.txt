@@ -34,18 +34,18 @@
 + Fix depth clamping
 
 + Fix framerate (30 fps)
-   + Account for scheduler overhead
+    + Account for scheduler overhead
 
 + Fix random pieces
 
 + UI
-   + score display
-   + lines remaining
-   + current level
+    + score display
+    + lines remaining
+    + current level
 
 + Keyboard support
-   + Fix bug: for some reason putting the std::map<int, Keyboard::Key*> Keys inside of keyboard.cpp or keyboard.h was causing EXC_BAD_ACCESS. Had to put it into main, before the Keyboard declaration to fix the issue. Need to investigate more...
-     (static initialization order fiasco)
+    + Fix bug: for some reason putting the std::map<int, Keyboard::Key*> Keys inside of keyboard.cpp or keyboard.h was causing EXC_BAD_ACCESS. Had to put it into main, before the Keyboard declaration to fix the issue. Need to investigate more...
+      (static initialization order fiasco)
 
 + More obvious pre-lock piece graphic. Too easy to confuse an unlocked/locked piece
 
@@ -64,16 +64,43 @@
 
 + Better controls
 
+- Top-outs
+
+- Precise timing of actions
+    - lock delay
+    - piece entry delay
+    - gravity increase rate
+    - etc.
+
 - Menu
     + Basic overlay
-    - Handle user's selection
+    + Handle user's selection
+    + Toggle "Dev Mode" (bottomless hold)
+    - Tetris logo
     - Hierarchical menus
     - Mode Select
     - Customizable controls
     - Sound settings
-    - (Dev settings)
+    - Dev settings
+    - High Scores
+    
+- Rewrite Menu, UI, JavaScript
 
-- Top-outs
+- High Scores
+
+- Modes
+    - Marathon
+    - Timed
+        - Hard stop
+        - Reset on level-up
+    - Cascade
+    - (Square)
+    - (Hot-Line)
+    - (Fusion)
+    - (Sticky)
+    - "Create" Mode, where you can select your piece
+    - Juice Mode: ridiculous powerups and powerdowns
+    - Gravity Mode: Gravity increases with each piece, but line clears or score bonuses may help lower gravity
 
 - Sound Effects
     - Movement
@@ -86,25 +113,10 @@
     - Scoring actions
     - Game timer
     - Music
-    
-- Modes
-    - Marathon
-    - Timed
-        - Hard stop
-        - Reset on level-up
-     - Cascade
-     - (Square)
-     - (Hot-Line)
-     - (Fusion)
-     - (Sticky)
-     - "Create" Mode, where you can select your piece
-
-- Precise timing of actions
-   - lock delay
-   - piece entry delay
-   - etc.
 
 - Juice it up
+    - Sound effects
+    - Music
     - Tweens
     - Bounces
     - Motion blur
@@ -114,9 +126,15 @@
     - Backgrounds
         - Static
         - Animated
-    - Sound effects
-    - Music
     - Have something trigger a flip by 180 degrees (any direction: X, Y, Z)
+    - All the pieces turn to gold (a la Star Power), and you get bonus points
+
+- Powerups
+    - A special piece in the queue
+    - A random block starts flashing
+    - An outline describes a placement location for a piece in the queue
+
+
 
 - Fix UI bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
 

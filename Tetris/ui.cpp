@@ -50,7 +50,8 @@ UI::UI() :
     webCore(NULL),
     webView(NULL),
     isDirty(true),
-    paused(false)
+    paused(false),
+    devMode(false)
 {
     webCore = WebCore::Initialize(WebConfig());
     if (!webCore) {
@@ -110,6 +111,9 @@ void UI::update()
     if (!paused) {
         UpdateFields();
     }
+    else {
+        UpdateMenu();
+    }
     webCore->Update();
     
 //    if (isDirty) {
@@ -129,6 +133,14 @@ void UI::UpdateFields()
     if (messageTimer.getTime() > MESSAGE_DISPLAY_TIME) {
         messageTimer.stop();
         SetValue("message", "");
+    }
+}
+static const double CLICK_TIME = 0.1;
+void UI::UpdateMenu()
+{
+    if (clickTimer.getTime() > CLICK_TIME) {
+        clickTimer.stop();
+        UnClickMenuItem();
     }
 }
 
@@ -220,6 +232,61 @@ void UI::SelectElement(std::string id, int selection)
         std::cerr << "JavaScript Error" << std::endl;
     }
     isDirty = true;
+}
+int UI::GetSelection()
+{
+    WebString none(WSLit(""));
+    
+    std::string command;
+    command = "getSelectedElement('menu');";
+    
+    JSValue j = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (!j.IsInteger() || j.ToInteger() < 0) {
+        std::cerr << "JavaScript Error" << std::endl;
+    }
+    return j.ToInteger();
+}
+
+void UI::ClickSelectedElement(std::string id)
+{
+    WebString none(WSLit(""));
+    
+    std::string command;
+    command = "clickSelectedElement('" + id + "');";
+    
+    JSValue j = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (!j.IsBoolean() || !j.ToBoolean()) {
+        std::cerr << "JavaScript Error" << std::endl;
+    }
+    isDirty = true;
+}
+void UI::UnClickSelectedElement(std::string id)
+{
+    WebString none(WSLit(""));
+    
+    std::string command;
+    command = "unClickSelectedElement('" + id + "');";
+    
+    JSValue j = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (!j.IsBoolean() || !j.ToBoolean()) {
+        std::cerr << "JavaScript Error" << std::endl;
+    }
+    isDirty = true;
+}
+
+
+void UI::ClickMenuItem()
+{
+    ClickSelectedElement("menu");
+    if (clickTimer.isStarted()) {
+        clickTimer.stop();
+    }
+    clickTimer.start();
+}
+
+void UI::UnClickMenuItem()
+{
+    UnClickSelectedElement("menu");
 }
 
 void UI::SelectNextMenuItem() {
@@ -340,6 +407,19 @@ void UI::TogglePause()
     }
     isDirty = true;
 }
+
+void UI::ToggleDevMode()
+{
+    devMode = !devMode;
+    if (devMode) {
+        SetValue("dev_mode", "Dev Mode (on)");
+    }
+    else {
+        SetValue("dev_mode", "Dev Mode (off)");
+    }
+    isDirty = true;
+}
+
 
 void UI::InitializeGLObjects()
 {

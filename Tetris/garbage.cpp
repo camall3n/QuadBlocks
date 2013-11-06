@@ -184,6 +184,7 @@ int Garbage::addTetromino(Tetromino piece)
                 }
                 else {
                     // top-out!!
+                    return -1;
                 }
             }
         }

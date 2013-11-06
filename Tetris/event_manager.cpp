@@ -12,12 +12,14 @@
 #include "constants.h"
 
 extern const int FRAMES_PER_SECOND;
+extern bool should_quit;
 
 EventManager::EventManager() :
     controller(NULL),
     keyboard(NULL),
-    world(NULL),
+    menu(NULL),
     ui(NULL),
+    world(NULL),
     paused(false)
 {
     
@@ -28,9 +30,14 @@ void EventManager::setController(Controller *controller)
     this->controller = controller;
 }
 
-void EventManager::setWorld(World *world)
+void EventManager::setKeyboard(Keyboard *keyboard)
 {
-    this->world = world;
+    this->keyboard = keyboard;
+}
+
+void EventManager::setMenu(Menu *menu)
+{
+    this->menu = menu;
 }
 
 void EventManager::setUI(UI *ui)
@@ -38,14 +45,14 @@ void EventManager::setUI(UI *ui)
     this->ui = ui;
 }
 
-void EventManager::setKeyboard(Keyboard *keyboard)
+void EventManager::setWorld(World *world)
 {
-    this->keyboard = keyboard;
+    this->world = world;
 }
 
 void EventManager::activate()
 {
-    if (controller && world && ui && keyboard) {
+    if (controller && keyboard && menu && ui && world) {
         UniversalSignals();
         GameMode(true);
     }
@@ -58,13 +65,17 @@ void EventManager::activate()
             std::cerr << "Error: Event Manager can't activate without a keyboard."
                       << std::endl;
         }
-        if (!world) {
-            std::cerr << "Error: Event Manager can't activate without a world."
-                      << std::endl;
+        if (!menu) {
+            std::cerr << "Error: Event Manager can't activate without a menu."
+            << std::endl;
         }
         if (!ui) {
             std::cerr << "Error: Event Manager can't activate without a UI."
                       << std::endl;
+        }
+        if (!world) {
+            std::cerr << "Error: Event Manager can't activate without a world."
+            << std::endl;
         }
     }
 }
@@ -75,10 +86,24 @@ void EventManager::UniversalSignals()
     controller->Start.signal.pressed.connect(
         boost::bind( &EventManager::TogglePause, this)
     );
-    keyboard->Backquote.signal.pressed.connect(
+    keyboard->Escape.signal.pressed.connect(
         boost::bind( &EventManager::TogglePause, this)
     );
+    menu->signal.resume.connect(
+        boost::bind( &EventManager::TogglePause, this)
+    );
+
     
+    menu->signal.toggleDevMode.connect(
+        boost::bind( &World::toggleDevMode, world)
+    );
+    menu->signal.toggleDevMode.connect(
+        boost::bind( &UI::ToggleDevMode, ui)
+    );
+    
+    menu->signal.exit.connect(
+        boost::bind( &EventManager::Exit, this)
+    );
 }
 
 void EventManager::GameMode(bool activate)
@@ -267,6 +292,8 @@ void EventManager::MenuMode(bool activate)
     static bs2::connection c1;
     static bs2::connection c2;
     static bs2::connection c3;
+    static bs2::connection c4;
+    static bs2::connection c5;
     
     if (activate) {
         c0 = keyboard->W.signal.pressed.connect(
@@ -281,12 +308,20 @@ void EventManager::MenuMode(bool activate)
         c3 = keyboard->ArrowDown.signal.pressed.connect(
             boost::bind( &UI::SelectNextMenuItem, ui)
         );
+        c4 = keyboard->Return.signal.pressed.connect(
+            boost::bind( &UI::ClickMenuItem, ui)
+        );
+        c5 = keyboard->Return.signal.pressed.connect(
+            boost::bind( &Menu::Select, menu)
+        );
     }
     else {
         c0.disconnect();
         c1.disconnect();
         c2.disconnect();
         c3.disconnect();
+        c4.disconnect();
+        c5.disconnect();
     }
 }
 
@@ -313,4 +348,9 @@ void EventManager::TogglePause()
     }
     world->togglePause();
     ui->TogglePause();
+}
+
+void EventManager::Exit()
+{
+    should_quit = true;
 }
