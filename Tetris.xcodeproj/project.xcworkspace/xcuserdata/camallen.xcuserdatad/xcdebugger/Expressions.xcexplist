@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "Camera::UpdateGLObjects():camera.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "sizeof(glm::mat4)">
+            </PersistentString>
+            <PersistentString
+               value = "Camera::nCameraInstances">
+            </PersistentString>
+            <PersistentString
+               value = "sizeof(GLSharedUniforms)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "World::moveLeft():world.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Garbage::checkCollision(Tetromino):garbage.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Garbage::Garbage(unsigned long, unsigned long):garbage.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "sizeof(BLOCK::COLOR::NUMBER) / sizeof(BLOCK::COLOR::NUMBER[0])">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Tetromino::position():tetromino.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "World::draw():world.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "World::World():world.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "Camera::nCameraInstances">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Block::draw():block.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Block::InitializeGLObjects():block.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexData[59]">
+            </PersistentString>
+            <PersistentString
+               value = "vertexData[34]">
+            </PersistentString>
+            <PersistentString
+               value = "vertexData[2]">
+            </PersistentString>
+            <PersistentString
+               value = "indexData[1]">
+            </PersistentString>
+            <PersistentString
+               value = "vertexData[3]">
+            </PersistentString>
+            <PersistentString
+               value = "vertexData[0]">
+            </PersistentString>
+            <PersistentString
+               value = "indexData[0]">
+            </PersistentString>
+            <PersistentString
+               value = "indexData[58]">
+            </PersistentString>
+            <PersistentString
+               value = "vertexData[35]">
+            </PersistentString>
+            <PersistentString
+               value = "vertexData[1]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Block::setPosition(glm::detail::tvec2&lt;float&gt;):block.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "World::rotateCW():world.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Garbage::addTetromino(Tetromino):garbage.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Well::draw():well.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "void boost::throw_exception&lt;boost::exception_detail::error_info_injector&lt;boost::property_tree::xml_parser::xml_parser_error&gt; &gt;(boost::exception_detail::error_info_injector&lt;boost::property_tree::xml_parser::xml_parser_error&gt; const&amp;):throw_exception.hpp">
+      </ContextState>
+      <ContextState
+         contextName = "Mesh::fillVertexArray(float*):mesh.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "vertexArray[1]">
+            </PersistentString>
+            <PersistentString
+               value = "vertexArray[2]">
+            </PersistentString>
+            <PersistentString
+               value = "vertexArray[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Well::checkCollision(Tetromino):well.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Tetromino::setPosition(glm::detail::tvec2&lt;float&gt;):tetromino.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Tetromino::collisionSquare():tetromino.cpp">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
