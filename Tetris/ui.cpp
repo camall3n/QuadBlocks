@@ -182,6 +182,26 @@ void UI::SetValue(std::string id, std::string value)
         std::cerr << "JavaScript Error" << std::endl;
     }
 }
+void UI::SetDevModeValue(std::string value)
+{
+    WebString none(WSLit(""));
+    
+    std::string command;
+    command = "getDevModeValue();";
+    
+    JSValue prior = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (ToString(prior.ToString()) == value) {
+        return;
+    }
+    
+    isDirty = true;
+    command = "setDevModeValue('" + value + "');";
+    WebString script(WSLit(command.c_str()));
+    JSValue j = webView->ExecuteJavascriptWithResult(script, none);
+    if (!j.IsBoolean() || !j.ToBoolean()) {
+        std::cerr << "JavaScript Error" << std::endl;
+    }
+}
 void UI::SetValue(std::string id, int value) {
     SetValue(id, boost::lexical_cast<std::string>(value));
 }
@@ -468,10 +488,10 @@ void UI::ToggleDevMode()
 {
     devMode = !devMode;
     if (devMode) {
-        SetValue("dev_mode", "Dev Mode (on)");
+        SetDevModeValue("Dev Mode (on)");
     }
     else {
-        SetValue("dev_mode", "Dev Mode (off)");
+        SetDevModeValue("Dev Mode (off)");
     }
     isDirty = true;
 }

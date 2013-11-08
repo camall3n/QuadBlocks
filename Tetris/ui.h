@@ -70,6 +70,7 @@ private:
     void DestroyGLObjects();
     
     void SetValue(std::string id, std::string value);
+    void SetDevModeValue(std::string value);
     void SetValue(std::string id, int value);
     
     void SetVisible(std::string id, bool visible);

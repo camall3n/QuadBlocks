@@ -10,24 +10,38 @@ function getValue(id)
     return document.getElementById(id).innerHTML;
 }
 
+function setDevModeValue(string)
+{
+    var list = document.getElementsByClassName("dev_mode");
+    
+    var i;
+    for (i=0; i<list.length; i++) {
+        var span = list[i];
+        span.innerHTML = string;
+    }
+    return true;
+}
+
+function getDevModeValue(string)
+{
+    var list = document.getElementsByClassName("dev_mode");
+    
+    var i;
+    for (i=0; i<list.length; i++) {
+        var span = list[i];
+        return span.innerHTML;
+    }
+    return "";
+}
+
+
 function setVisible(id, visible)
 {
-    if (id == "menu") {
-    
-        if (visible) {
-            document.getElementById(id).style.visibility="visible";
-        }
-        else {
-            document.getElementById(id).style.visibility="hidden";
-        }
+    if (visible) {
+        document.getElementById(id).style.display="block";
     }
     else {
-        if (visible) {
-            document.getElementById(id).style.display="block";
-        }
-        else {
-            document.getElementById(id).style.display="none";
-        }
+        document.getElementById(id).style.display="none";
     }
     return true;
 }

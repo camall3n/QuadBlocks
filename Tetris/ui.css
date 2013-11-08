@@ -64,9 +64,9 @@ a img,:link img,:visited img { border:none }
     background-color: rgba(0,0,0,0);
 }
 
-#menu {
-    visibility: visible;
-}
+//#menu {
+//    visibility: visible;
+//}
 
 #overlay {
     width: 110%;
