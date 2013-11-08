@@ -12,13 +12,23 @@ function getValue(id)
 
 function setVisible(id, visible)
 {
-    if (visible) {
-        document.getElementById(id).style.visibility="visible";
+    if (id == "menu") {
+    
+        if (visible) {
+            document.getElementById(id).style.visibility="visible";
+        }
+        else {
+            document.getElementById(id).style.visibility="hidden";
+        }
     }
     else {
-        document.getElementById(id).style.visibility="hidden";
+        if (visible) {
+            document.getElementById(id).style.display="block";
+        }
+        else {
+            document.getElementById(id).style.display="none";
+        }
     }
-    
     return true;
 }
 
@@ -77,6 +87,23 @@ function selectElement(id, selection)
     }
     var div = list[selection].getElementsByTagName("div")[0];
     div.setAttribute("class", "selected");
+    
+    return true;
+}
+
+function selectNone(id)
+{
+    var list = document.getElementById(id).getElementsByTagName("li");
+    
+    var i;
+    for (i=0; i<list.length; i++) {
+        var div = list[i].getElementsByTagName("div")[0];
+        var classStr = div.getAttribute("class");
+        if (classStr =="selected" || classStr == "clicked") {
+            div.setAttribute("class","");
+            break;
+        }
+    }
     
     return true;
 }

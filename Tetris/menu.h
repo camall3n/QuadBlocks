@@ -19,6 +19,7 @@ class Menu
     
     enum MENU_STATE {
         MAIN,
+        PAUSE,
         CONTROLS,
         SOUNDS,
         DEVELOPER
@@ -32,12 +33,14 @@ public:
     void Select();
     
     struct signalList {
+        bs2::signal<void ()> start;
         bs2::signal<void ()> resume;
         bs2::signal<void ()> exit;
         bs2::signal<void ()> toggleDevMode;
     } signal;
     
 private:
+    void Start();
     void Resume();
     void Exit();
     void DevMode();

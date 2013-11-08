@@ -22,6 +22,18 @@ int myrandom(int i) { return ::rand() % i; }
 NextQueue::NextQueue() :
     typeVec(7)
 {
+    reset();
+}
+
+void NextQueue::reset()
+{
+    while (!current.empty()) {
+        current.pop_front();
+    }
+    while (!next.empty()) {
+        next.pop_front();
+    }
+    
     srand ( (unsigned int) time(NULL) );
     int type0 = rand() % 7;
     for (int i=0; i<7; i++) {

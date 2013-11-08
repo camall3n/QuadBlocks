@@ -29,6 +29,8 @@ class World
 public:
     World();
     
+    void reset();
+    
     void update();
     void draw();
     

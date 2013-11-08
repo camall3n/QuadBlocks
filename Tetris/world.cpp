@@ -66,6 +66,15 @@ World::World() :
     );
 }
 
+void World::reset()
+{
+    pieceQueue.reset();
+    garbage.reset();
+    
+    piece = pieceQueue.getNext();
+    piece.resetPosition();
+}
+
 void World::update()
 {
     if (gameOver) {

@@ -45,6 +45,7 @@ private:
     void UniversalSignals();
     void GameMode(bool activate);
     void MenuMode(bool activate);
+    void NewGame();
     void TogglePause();
     void Exit();
 };

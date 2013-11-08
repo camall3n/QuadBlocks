@@ -19,26 +19,17 @@ Garbage::Garbage(size_t width, size_t height) :
     blocks(height, std::vector<Block*>(width, NULL)),
     _isClearing(false)
 {
-//    for (int j=0; j<height/3; j++) {
-//        for (int i=0; i<width; i++) {
-//            if ( randint(0, 5) ) {
-//                Block* b = new Block(BLOCK::COLOR::NUMBER[randint(0, BLOCK::COLOR::MAX_NUMBER-1)]);
-//                b->setPosition(glm::vec3(i+0.5, j+0.5, 0));
-//                blocks[j][i] = b;
-//            }
-//        }
-//    }
 }
 
 Garbage::~Garbage()
 {
-    BOOST_FOREACH(std::vector<Block*> blockRow, blocks) {
-        BOOST_FOREACH(Block* block, blockRow) {
-            if (block) {
-                delete block;
-            }
-        }
-    }
+    deleteAllBlocks();
+}
+
+void Garbage::reset()
+{
+    _isClearing = false;
+    deleteAllBlocks();
 }
 
 void Garbage::draw()
@@ -273,5 +264,16 @@ void Garbage::clearLines()
     pendingClearLines.clear();
     lineClearTimer.stop();
     _isClearing = false;
+}
+
+void Garbage::deleteAllBlocks()
+{
+    BOOST_FOREACH(std::vector<Block*> blockRow, blocks) {
+        BOOST_FOREACH(Block* block, blockRow) {
+            if (block) {
+                delete block;
+            }
+        }
+    }
 }
 

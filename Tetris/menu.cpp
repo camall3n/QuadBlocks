@@ -29,6 +29,30 @@ void Menu::Select()
     {
         case MAIN:
             switch(ui->GetSelection())
+        {
+            case 0:
+                Start();
+                break;
+            case 1:
+                state = CONTROLS;
+                break;
+            case 2:
+                state = SOUNDS;
+                break;
+            case 3:
+                signal.toggleDevMode();
+                
+                break;
+            case 4:
+                Exit();
+                break;
+            default:
+                break;
+        }
+            break;
+        
+        case PAUSE:
+            switch(ui->GetSelection())
             {
                 case 0:
                     Resume();
@@ -60,6 +84,12 @@ void Menu::Select()
 void Menu::Resume()
 {
     signal.resume();
+}
+
+void Menu::Start()
+{
+    state = PAUSE;
+    signal.start();
 }
 
 void Menu::Exit()

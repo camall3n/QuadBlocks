@@ -64,8 +64,8 @@ a img,:link img,:visited img { border:none }
     background-color: rgba(0,0,0,0);
 }
 
-#main {
-    visibility: hidden;
+#menu {
+    visibility: visible;
 }
 
 #overlay {
@@ -77,7 +77,7 @@ a img,:link img,:visited img { border:none }
     background-color: rgba(48,48,48,0.9);
 }
 
-#menu {
+#main, #pause {
     width: 40%;
     height: 60%;
     position: absolute;
@@ -88,7 +88,7 @@ a img,:link img,:visited img { border:none }
     padding: none;
 }
 
-#menu ul {
+#main ul, #pause ul {
     position: relative;
     height: 100%;
     text-align: center;
@@ -101,7 +101,7 @@ a img,:link img,:visited img { border:none }
     color: #000;
 }
 
-#menu ul li {
+#main ul li, #pause ul li {
     display: table-row;
     position: relative;
     height: 15%;
@@ -109,7 +109,7 @@ a img,:link img,:visited img { border:none }
     vertical-align: middle;
 }
 
-#menu ul li div
+#main ul li div, #pause ul li div
 {
 	display: table-cell;
 	vertical-align: middle;
@@ -117,17 +117,12 @@ a img,:link img,:visited img { border:none }
 	text-align: center;
 }
 
-#menu ul li .selected
+#main ul li .selected, #pause ul li .selected
 {
 	background-color: rgb(52,127,223);
 }
 
-//#menu ul li .selected:hover
-//{
-//    background-color: rgb(0,78,163);
-//    border: solid 1px #038;
-//}
-#menu ul li .clicked
+#main ul li .clicked, #pause ul li .clicked
 {
     background-color: rgb(0,78,163);
     border: solid 1px #038;

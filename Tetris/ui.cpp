@@ -8,6 +8,7 @@
 
 #include "ui.h"
 
+#include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 #include <GL/glew.h>
@@ -55,7 +56,7 @@ UI::UI() :
     paused(false),
     devMode(false)
 {
-    std::cout << "Leaking memory: Awesomium's ~WebConfig() descructor causes EXC_BAD_ACCESS (though only on perigee), so we 'new' and never 'delete'." << std::endl;
+    std::cout << "Leaking memory: Awesomium's ~WebConfig() descructor causes EXC_BAD_ACCESS (though only on perigee), so we 'new' and never 'delete'." << std::endl << std::endl;
     wc = new WebConfig();
     webCore = WebCore::Initialize(*wc);
     if (!webCore) {
@@ -76,6 +77,7 @@ UI::UI() :
     while (webView->IsLoading())
         webCore->Update();
 
+    SetActiveMenu("main");
 //    usleep(20000);
 //    sleep(2);
     webCore->Update();
@@ -237,12 +239,25 @@ void UI::SelectElement(std::string id, int selection)
     }
     isDirty = true;
 }
+void UI::SelectNone(std::string id)
+{
+    WebString none(WSLit(""));
+    
+    std::string command;
+    command = "selectNone('" + id + "');";
+    
+    JSValue j = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
+    if (!j.IsBoolean() || !j.ToBoolean()) {
+        std::cerr << "JavaScript Error" << std::endl;
+    }
+    isDirty = true;
+}
 int UI::GetSelection()
 {
     WebString none(WSLit(""));
     
     std::string command;
-    command = "getSelectedElement('menu');";
+    command = "getSelectedElement('" + _activeMenu + "');";
     
     JSValue j = webView->ExecuteJavascriptWithResult(WSLit(command.c_str()), none);
     if (!j.IsInteger() || j.ToInteger() < 0) {
@@ -281,7 +296,7 @@ void UI::UnClickSelectedElement(std::string id)
 
 void UI::ClickMenuItem()
 {
-    ClickSelectedElement("menu");
+    ClickSelectedElement(_activeMenu);
     if (clickTimer.isStarted()) {
         clickTimer.stop();
     }
@@ -290,17 +305,40 @@ void UI::ClickMenuItem()
 
 void UI::UnClickMenuItem()
 {
-    UnClickSelectedElement("menu");
+    UnClickSelectedElement(_activeMenu);
+}
+
+void UI::SetActiveMenu(std::string menu)
+{
+    // Remove selection from current menu
+    if (_activeMenu != "") {
+        SelectNone(_activeMenu);
+    }
+    
+    // Change current menu
+    _activeMenu = menu;
+    
+    // Hide all menus
+    std::string menus[] = {"main", "pause"};
+    BOOST_FOREACH(std::string menu, menus) {
+        SetVisible(menu, false);
+    }
+    
+    // Show active menu
+    SetVisible(_activeMenu, true);
+    
+    // Select first element
+    SelectMenuItem(0);
 }
 
 void UI::SelectNextMenuItem() {
-    SelectNextElement("menu");
+    SelectNextElement(_activeMenu);
 }
 void UI::SelectPrevMenuItem() {
-    SelectPrevElement("menu");
+    SelectPrevElement(_activeMenu);
 }
 void UI::SelectMenuItem(int selection) {
-    SelectElement("menu", selection);
+    SelectElement(_activeMenu, selection);
 }
 
 void UI::SetNewPoints(int points) {
@@ -398,16 +436,30 @@ void UI::DisplayTSpin(int lines, bool kick) {
     }
 }
 
+void UI::NewGame()
+{
+    paused = false;
+    SetActiveMenu("pause");
+    SetVisible("menu", false);
+}
+
+void UI::MainMenu()
+{
+    paused = true;
+    SetActiveMenu("main");
+    SetVisible("menu", true);
+}
+
 void UI::TogglePause()
 {
     if (paused) {
         paused = false;
-        SetVisible("main", false);
+        SetVisible("menu", false);
     }
     else {
         paused = true;
+        SetVisible("menu", true);
         SelectMenuItem(0);
-        SetVisible("main", true);
     }
     isDirty = true;
 }

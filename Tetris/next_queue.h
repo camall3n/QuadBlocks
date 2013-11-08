@@ -17,6 +17,8 @@ class NextQueue
 public:
     NextQueue();
     
+    void reset();
+    
     void draw();
     void update();
     

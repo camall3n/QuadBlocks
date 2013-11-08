@@ -40,8 +40,12 @@ public:
     void DisplayLineClear(int lines);
     void DisplayTSpin(int lines, bool kick);
     
+    void NewGame();
+    void MainMenu();
     void TogglePause();
     void ToggleDevMode();
+    
+    void SetActiveMenu(std::string menu);
     void SelectNextMenuItem();
     void SelectPrevMenuItem();
     void SelectMenuItem(int selection);
@@ -72,6 +76,7 @@ private:
     void SelectNextElement(std::string id);
     void SelectPrevElement(std::string id);
     void SelectElement(std::string id, int selection);
+    void SelectNone(std::string id);
     void ClickSelectedElement(std::string id);
     void UnClickSelectedElement(std::string id);
     
@@ -88,6 +93,8 @@ private:
         GLuint textureBuffer;
         GLuint sampler;
     };
+    
+    std::string _activeMenu;
     
     static GLuint _glProgram;
     static GLAttributes _glAttrib;

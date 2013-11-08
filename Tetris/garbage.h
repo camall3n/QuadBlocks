@@ -25,6 +25,8 @@ public:
     Garbage(size_t width = WORLD_N_BLOCKS_X, size_t height = WORLD_N_BLOCKS_Y);
     ~Garbage();
     
+    void reset();
+    
     void draw();
     void update();
     
@@ -44,6 +46,8 @@ private:
     int checkLineClears(std::list<int> rows);
     void markLinesForClearing(std::list<int> rows);
     void clearLines();
+    
+    void deleteAllBlocks();
 
 };
 

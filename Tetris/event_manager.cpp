@@ -55,6 +55,7 @@ void EventManager::activate()
     if (controller && keyboard && menu && ui && world) {
         UniversalSignals();
         GameMode(true);
+        TogglePause();
     }
     else {
         if (!controller) {
@@ -91,6 +92,9 @@ void EventManager::UniversalSignals()
     );
     menu->signal.resume.connect(
         boost::bind( &EventManager::TogglePause, this)
+    );
+    menu->signal.start.connect(
+        boost::bind( &EventManager::NewGame, this)
     );
 
     
@@ -333,6 +337,13 @@ void EventManager::LSReallyMovedUp()
     }
 }
 
+void EventManager::NewGame()
+{
+    MenuMode(false);
+    TogglePause();
+    world->reset();
+    ui->NewGame();
+}
 
 void EventManager::TogglePause()
 {
