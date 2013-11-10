@@ -31,6 +31,7 @@ public:
     
     void SetUI(UI* ui);
     void Select();
+    void MainMenu();
     
     struct signalList {
         bs2::signal<void ()> start;

@@ -461,6 +461,9 @@ void UI::NewGame()
     paused = false;
     SetActiveMenu("pause");
     SetVisible("menu", false);
+    SetScore(0);
+    SetLevel(0);
+    SetLines(0);
 }
 
 void UI::MainMenu()

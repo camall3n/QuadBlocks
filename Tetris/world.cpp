@@ -68,6 +68,14 @@ World::World() :
 
 void World::reset()
 {
+    isPaused = false;
+    baseGravity = MIN_GRAVITY;
+    gravity = baseGravity;
+    holdingPiece = false;
+    usedHoldPiece = false;
+    gameOver = false;
+    resetQueuedActions();
+    
     pieceQueue.reset();
     garbage.reset();
     
@@ -75,17 +83,34 @@ void World::reset()
     piece.resetPosition();
 }
 
+void World::resetQueuedActions()
+{
+    queuedAction.moveRight = false;
+    queuedAction.dragRight = false;
+    queuedAction.moveLeft = false;
+    queuedAction.dragLeft = false;
+    queuedAction.rotateCW = false;
+    queuedAction.rotateCCW = false;
+    queuedAction.hardDrop = false;
+    queuedAction.softDrop = false;
+    queuedAction.hold = false;
+}
+
 void World::update()
 {
     if (gameOver) {
-        
+        if (garbage.isUpdating()) {
+            garbage.update();
+            
+            // If that was the last garbage update, broadcast gameOver signal
+            if (!garbage.isUpdating()) {
+                signal.gameOver();
+            }
+        }
     }
     else if (!isPaused) {
         pieceQueue.update();
-        
-        if (garbage.isClearing()) {
-            garbage.update();
-        }
+        garbage.update();
     
         updateUserPiece();
     }
@@ -617,9 +642,9 @@ void World::lock()
     
     int linesCleared = garbage.addTetromino(piece);
     if (linesCleared < 0) {
-        // top out!!
-        std::cout << "TOP OUT!!" << std::endl;
+        // Game Over
         gameOver = true;
+        garbage.gameOver();
     }
     else {
         if (garbage.top() <= linesCleared) {
@@ -646,8 +671,9 @@ void World::lock()
         
         piece.resetPosition();
         if (checkCollision(piece)) {
-            // top out!!
-            std::cout << "TOP OUT!!" << std::endl;
+            // Game Over
+            gameOver = true;
+            garbage.gameOver();
         }
     }
 }

@@ -47,6 +47,7 @@ private:
     void MenuMode(bool activate);
     void NewGame();
     void TogglePause();
+    void GameOver();
     void Exit();
 };
 

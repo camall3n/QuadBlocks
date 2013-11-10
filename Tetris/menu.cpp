@@ -81,6 +81,11 @@ void Menu::Select()
     }
 }
 
+void Menu::MainMenu()
+{
+    state = MAIN;
+}
+
 void Menu::Resume()
 {
     signal.resume();

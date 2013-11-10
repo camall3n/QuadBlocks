@@ -230,6 +230,12 @@ void EventManager::GameMode(bool activate)
         world->signal.tSpin.connect(
             boost::bind( &UI::DisplayTSpin, ui, _1, _2)
         );
+        
+    
+        world->signal.gameOver.connect(
+            boost::bind( &EventManager::GameOver, this)
+        );
+        
     }
     else {
         // Move Right
@@ -275,7 +281,7 @@ void EventManager::GameMode(bool activate)
         controller->Start.signal.pressed.connect(
             boost::bind( &EventManager::TogglePause, this)
         );
-        keyboard->Backquote.signal.pressed.connect(
+        keyboard->Escape.signal.pressed.connect(
             boost::bind( &EventManager::TogglePause, this)
         );
         
@@ -343,6 +349,14 @@ void EventManager::NewGame()
     TogglePause();
     world->reset();
     ui->NewGame();
+}
+
+void EventManager::GameOver()
+{
+    paused = true;
+    MenuMode(true);
+    menu->MainMenu();
+    ui->MainMenu();
 }
 
 void EventManager::TogglePause()

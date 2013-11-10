@@ -14,10 +14,14 @@
 #include "utility.h"
 
 const double LINE_CLEAR_TIMEOUT = 0.25;
+const double GAME_OVER_TIMING = 0.05;
+
 
 Garbage::Garbage(size_t width, size_t height) :
     blocks(height, std::vector<Block*>(width, NULL)),
-    _isClearing(false)
+    _isClearing(false),
+    _isGameOver(false),
+    _gameOverRowIndex(height-1)
 {
 }
 
@@ -29,13 +33,15 @@ Garbage::~Garbage()
 void Garbage::reset()
 {
     _isClearing = false;
+    _isGameOver = false;
+    _gameOverRowIndex = blocks.size()-1;
     deleteAllBlocks();
 }
 
 void Garbage::draw()
 {
-    BOOST_FOREACH(std::vector<Block*> blockRow, blocks) {
-        BOOST_FOREACH(Block* block, blockRow) {
+    BOOST_FOREACH(std::vector<Block*> &blockRow, blocks) {
+        BOOST_FOREACH(Block* &block, blockRow) {
             if (block) {
                 block->draw();
             }
@@ -45,19 +51,27 @@ void Garbage::draw()
 
 void Garbage::update()
 {
-    if ( lineClearTimer.isStarted() ) {
+    if ( gameOverTimer.isStarted() ) {
+        if (gameOverTimer.getTime() > GAME_OVER_TIMING) {
+            markNextGameOverLine();
+        }
+    }
+    else if ( lineClearTimer.isStarted() ) {
         if (lineClearTimer.getTime() > LINE_CLEAR_TIMEOUT) {
             clearLines();
         }
     }
-    else {
-        std::cerr << "Warning: Garbage::update() called when no lines were clearing." << std::endl;
-    }
 }
 
-bool Garbage::isClearing()
+bool Garbage::isUpdating() {
+    return (lineClearTimer.isStarted() || gameOverTimer.isStarted());
+}
+
+void Garbage::gameOver()
 {
-    return _isClearing;
+    _isGameOver = true;
+    gameOverTimer.start();
+    markNextGameOverLine();
 }
 
 int Garbage::top()
@@ -266,12 +280,33 @@ void Garbage::clearLines()
     _isClearing = false;
 }
 
+void Garbage::markNextGameOverLine()
+{
+    // Mark each block in the row
+    BOOST_FOREACH(Block* &block, blocks[_gameOverRowIndex]) {
+        if (block) {;
+            block->setColor(BLOCK::COLOR::GRAY);
+        }
+    }
+    
+    // Prepare for next row
+    gameOverTimer.stop();
+    _gameOverRowIndex--;
+    if (_gameOverRowIndex < 0) {
+        _gameOverRowIndex = blocks.size()-1;
+    }
+    else {
+        gameOverTimer.start();
+    }
+}
+
 void Garbage::deleteAllBlocks()
 {
-    BOOST_FOREACH(std::vector<Block*> blockRow, blocks) {
-        BOOST_FOREACH(Block* block, blockRow) {
+    BOOST_FOREACH(std::vector<Block*> &blockRow, blocks) {
+        BOOST_FOREACH(Block* &block, blockRow) {
             if (block) {
                 delete block;
+                block = NULL;
             }
         }
     }

@@ -30,11 +30,13 @@ public:
     void draw();
     void update();
     
+    bool isUpdating();
+    void gameOver();
+    
     bool checkCollision(Tetromino piece);
     int getFilledTSpinCorners(Tetromino piece);
     int addTetromino(Tetromino piece);// returns lineClears
     
-    bool isClearing();
     int top();
     
 private:
@@ -42,6 +44,12 @@ private:
     std::list<int> pendingClearLines;
     Timer lineClearTimer;
     bool _isClearing;
+    
+    Timer gameOverTimer;
+    int _gameOverRowIndex;
+    bool _isGameOver;
+    
+    void markNextGameOverLine();
     
     int checkLineClears(std::list<int> rows);
     void markLinesForClearing(std::list<int> rows);

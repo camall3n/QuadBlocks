@@ -47,6 +47,7 @@ public:
         bs2::signal<void ()> allClear;
         bs2::signal<void (int)> lineClear;
         bs2::signal<void (int, bool)> tSpin;
+        bs2::signal<void ()> gameOver;
     } signal;
 
     // User Actions
@@ -119,6 +120,8 @@ private:
         bool softDrop = false;
         bool hold = false;
     } queuedAction;
+    
+    void resetQueuedActions();
     
     // Piece movement
     void moveRight();

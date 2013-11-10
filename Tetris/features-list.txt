@@ -64,7 +64,7 @@
 
 + Better controls
 
-- Top-outs
++ Top-outs
 
 - Precise timing of actions
     - lock delay
