@@ -66,42 +66,6 @@
 
 + Top-outs
 
-- Precise timing of actions
-    - lock delay
-    - piece entry delay
-    - gravity increase rate
-    - etc.
-
-- Menu
-    + Basic overlay
-    + Handle user's selection
-    + Toggle "Dev Mode" (bottomless hold)
-    - Tetris logo
-    - Hierarchical menus
-    - Mode Select
-    - Customizable controls
-    - Sound settings
-    - Dev settings
-    - High Scores
-    
-- Rewrite Menu, UI, JavaScript
-
-- High Scores
-
-- Modes
-    - Marathon
-    - Timed
-        - Hard stop
-        - Reset on level-up
-    - Cascade
-    - (Square)
-    - (Hot-Line)
-    - (Fusion)
-    - (Sticky)
-    - "Create" Mode, where you can select your piece
-    - Juice Mode: ridiculous powerups and powerdowns
-    - Gravity Mode: Gravity increases with each piece, but line clears or score bonuses may help lower gravity
-
 - Sound Effects
     - Movement
     - Rotation
@@ -114,31 +78,62 @@
     - Game timer
     - Music
 
+- Precise timing of actions
+    - lock delay
+    - piece entry delay
+    - gravity increase rate
+    - etc.
+
+- Menu
+    + Basic overlay
+    + Handle user's selection
+    + Toggle "Dev Mode" (bottomless hold)
+    - Tetris logo / "paused"
+    - Customizable controls
+    - Sound settings
+    X Hierarchical menus
+    X Mode Select
+    X Dev settings
+    X High Scores
+    
+- Modes
+    - Marathon
+    - Timed
+        - Hard stop
+        - Reset on level-up
+    - Cascade
+    X (Square)
+    X (Hot-Line)
+    X (Fusion)
+    X (Sticky)
+    X "Create" Mode, where you can select your piece
+    X Juice Mode: ridiculous powerups and powerdowns
+    X Gravity Mode: Gravity increases with each piece, but line clears or score bonuses may help lower gravity
+
 - Juice it up
     - Sound effects
     - Music
     - Tweens
     - Bounces
     - Motion blur
-    - Explosions
-    - Smoke
+    X Explosions
+    X Smoke
     - Animated on-deck pieces
     - Backgrounds
         - Static
-        - Animated
-    - Have something trigger a flip by 180 degrees (any direction: X, Y, Z)
-    - All the pieces turn to gold (a la Star Power), and you get bonus points
-
-- Powerups
-    - A special piece in the queue
-    - A random block starts flashing
-    - An outline describes a placement location for a piece in the queue
-
-
-
-- Fix UI bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
+        X Animated
+    X Have something trigger a flip by 180 degrees (any direction: X, Y, Z)
+    X All the pieces turn to gold (a la Star Power), and you get bonus points
 
 - Self-contained, distributable application package
 
-- App-store hosting
+- Fix UI bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
 
+X App-store hosting
+
+X High Scores
+
+X Powerups
+    - A special piece in the queue
+    - A random block starts flashing
+    - An outline describes a placement location for a piece in the queue
