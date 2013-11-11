@@ -104,6 +104,7 @@ void World::update()
             
             // If that was the last garbage update, broadcast gameOver signal
             if (!garbage.isUpdating()) {
+                soundboard.GameOver();
                 signal.gameOver();
             }
         }

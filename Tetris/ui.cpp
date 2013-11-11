@@ -316,6 +316,7 @@ void UI::UnClickSelectedElement(std::string id)
 
 void UI::ClickMenuItem()
 {
+    soundboard.MenuSelect();
     ClickSelectedElement(_activeMenu);
     if (clickTimer.isStarted()) {
         clickTimer.stop();
@@ -353,9 +354,11 @@ void UI::SetActiveMenu(std::string menu)
 
 void UI::SelectNextMenuItem() {
     SelectNextElement(_activeMenu);
+    soundboard.Menu();
 }
 void UI::SelectPrevMenuItem() {
     SelectPrevElement(_activeMenu);
+    soundboard.Menu();
 }
 void UI::SelectMenuItem(int selection) {
     SelectElement(_activeMenu, selection);
@@ -471,16 +474,20 @@ void UI::MainMenu()
     paused = true;
     SetActiveMenu("main");
     SetVisible("menu", true);
+    SelectMenuItem(0);
+    isDirty = true;
 }
 
 void UI::TogglePause()
 {
     if (paused) {
+        soundboard.Pause();
         paused = false;
         SetVisible("menu", false);
     }
     else {
         paused = true;
+        soundboard.Pause();
         SetVisible("menu", true);
         SelectMenuItem(0);
     }

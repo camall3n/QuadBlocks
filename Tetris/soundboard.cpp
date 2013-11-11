@@ -27,6 +27,7 @@ void Soundboard::LoadBuffers()
 {
     loadBuffer(buffer.lineClear, "line-clear.wav");
     loadBuffer(buffer.levelUp, "level-up.wav");
+    loadBuffer(buffer.gameOver, "game-over.wav");
     
     loadBuffer(buffer.singleWhisper, "single.wav");
     loadBuffer(buffer.doubleWhisper, "double.wav");
@@ -35,7 +36,7 @@ void Soundboard::LoadBuffers()
     loadBuffer(buffer.allClearWhisper, "all-clear.wav");
     
     loadBuffer(buffer.move, "move.wav");
-    loadBuffer(buffer.rotate, "rotate.wav");
+    loadBuffer(buffer.rotate, "rotate2.wav");
     loadBuffer(buffer.drop, "drop.wav");
     
     loadBuffer(buffer.pause, "pause.wav");
@@ -47,6 +48,7 @@ void Soundboard::InitializeSounds()
 {
     sound.lineClear.setBuffer(buffer.lineClear);
     sound.levelUp.setBuffer(buffer.levelUp);
+    sound.gameOver.setBuffer(buffer.gameOver);
     
     sound.singleWhisper.setBuffer(buffer.singleWhisper);
     sound.doubleWhisper.setBuffer(buffer.doubleWhisper);
@@ -69,6 +71,9 @@ void Soundboard::LineClear() {
 }
 void Soundboard::LevelUp() {
     sound.levelUp.play();
+}
+void Soundboard::GameOver() {
+    sound.gameOver.play();
 }
 
 
@@ -101,7 +106,9 @@ void Soundboard::Drop() {
 
 
 void Soundboard::Pause() {
-    sound.pause.play();
+    if (sound.menuSelect.getStatus() != sf::Sound::Status::Playing) {
+        sound.pause.play();
+    }
 }
 void Soundboard::Menu() {
     sound.menu.play();

@@ -55,7 +55,7 @@ void EventManager::activate()
     if (controller && keyboard && menu && ui && world) {
         UniversalSignals();
         GameMode(true);
-        TogglePause();
+        Start();
     }
     else {
         if (!controller) {
@@ -356,6 +356,14 @@ void EventManager::GameOver()
     paused = true;
     MenuMode(true);
     menu->MainMenu();
+    ui->MainMenu();
+}
+
+void EventManager::Start()
+{
+    paused = true;
+    MenuMode(true);
+    world->togglePause();
     ui->MainMenu();
 }
 

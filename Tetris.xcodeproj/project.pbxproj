@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32724F4A183147BA000FCB2D /* game-over.wav in Resources */ = {isa = PBXBuildFile; fileRef = 32724F49183147BA000FCB2D /* game-over.wav */; };
+		32724F4C1831500B000FCB2D /* rotate1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 32724F4B1831500B000FCB2D /* rotate1.wav */; };
+		32724F4E183151A0000FCB2D /* rotate2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 32724F4D183151A0000FCB2D /* rotate2.wav */; };
 		327275071830935F006D4E0F /* soundboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 327275051830935F006D4E0F /* soundboard.cpp */; };
 		3272750B1830A523006D4E0F /* sfml-audio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 327275081830A523006D4E0F /* sfml-audio.framework */; };
 		3272750C1830A523006D4E0F /* sfml-system.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 327275091830A523006D4E0F /* sfml-system.framework */; };
@@ -74,6 +77,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		32724F49183147BA000FCB2D /* game-over.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "game-over.wav"; sourceTree = "<group>"; };
+		32724F4B1831500B000FCB2D /* rotate1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = rotate1.wav; sourceTree = "<group>"; };
+		32724F4D183151A0000FCB2D /* rotate2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = rotate2.wav; sourceTree = "<group>"; };
 		327275051830935F006D4E0F /* soundboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = soundboard.cpp; sourceTree = "<group>"; };
 		327275061830935F006D4E0F /* soundboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = soundboard.h; sourceTree = "<group>"; };
 		327275081830A523006D4E0F /* sfml-audio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-audio.framework"; path = "../../../../../Library/Frameworks/sfml-audio.framework"; sourceTree = "<group>"; };
@@ -178,6 +184,7 @@
 				327275111830AA0D006D4E0F /* all-clear.wav */,
 				327275121830AA0D006D4E0F /* double.wav */,
 				3272751B1830AA0D006D4E0F /* drop.wav */,
+				32724F49183147BA000FCB2D /* game-over.wav */,
 				327275131830AA0D006D4E0F /* level-up.wav */,
 				327275141830AA0D006D4E0F /* line-clear.wav */,
 				327275151830AA0D006D4E0F /* menu-select.wav */,
@@ -185,6 +192,8 @@
 				327275181830AA0D006D4E0F /* move.wav */,
 				327275171830AA0D006D4E0F /* pause.wav */,
 				3272751D1830AA0D006D4E0F /* rotate.wav */,
+				32724F4B1831500B000FCB2D /* rotate1.wav */,
+				32724F4D183151A0000FCB2D /* rotate2.wav */,
 				327275191830AA0D006D4E0F /* single.wav */,
 				3272751A1830AA0D006D4E0F /* tetris.wav */,
 				3272751C1830AA0D006D4E0F /* triple.wav */,
@@ -377,6 +386,7 @@
 				327275251830AA0D006D4E0F /* move.wav in Resources */,
 				32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */,
 				32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */,
+				32724F4A183147BA000FCB2D /* game-over.wav in Resources */,
 				327275261830AA0D006D4E0F /* single.wav in Resources */,
 				FD36E0231753EA660041A762 /* block.xml in Resources */,
 				FD02912E178C71790097A871 /* basic.vert in Resources */,
@@ -391,8 +401,10 @@
 				3272751E1830AA0D006D4E0F /* all-clear.wav in Resources */,
 				327275271830AA0D006D4E0F /* tetris.wav in Resources */,
 				3272751F1830AA0D006D4E0F /* double.wav in Resources */,
+				32724F4C1831500B000FCB2D /* rotate1.wav in Resources */,
 				FD029129178BAD390097A871 /* ui.css in Resources */,
 				327275211830AA0D006D4E0F /* line-clear.wav in Resources */,
+				32724F4E183151A0000FCB2D /* rotate2.wav in Resources */,
 				327275241830AA0D006D4E0F /* pause.wav in Resources */,
 				327275221830AA0D006D4E0F /* menu-select.wav in Resources */,
 				FD029133178C71790097A871 /* ui.js in Resources */,

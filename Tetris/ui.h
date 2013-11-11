@@ -16,6 +16,7 @@ using namespace Awesomium;
 #include <string>
 
 #include "constants.h"
+#include "soundboard.h"
 #include "timer.h"
 
 
@@ -62,6 +63,7 @@ private:
     Timer clickTimer;
     bool paused;
     bool devMode;
+    Soundboard soundboard;
     
     void UpdateFields();
     void UpdateMenu();

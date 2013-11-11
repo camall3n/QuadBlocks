@@ -18,6 +18,7 @@ public:
     
     void LineClear();
     void LevelUp();
+    void GameOver();
     
     void Single();
     void Double();
@@ -43,6 +44,7 @@ private:
     struct bufferList {
         sf::SoundBuffer lineClear;
         sf::SoundBuffer levelUp;
+        sf::SoundBuffer gameOver;
         
         sf::SoundBuffer singleWhisper;
         sf::SoundBuffer doubleWhisper;
@@ -65,6 +67,7 @@ private:
     struct soundList {
         sf::Sound lineClear;
         sf::Sound levelUp;
+        sf::Sound gameOver;
         
         sf::Sound singleWhisper;
         sf::Sound doubleWhisper;
