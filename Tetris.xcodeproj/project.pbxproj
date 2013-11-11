@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		327275071830935F006D4E0F /* soundboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 327275051830935F006D4E0F /* soundboard.cpp */; };
+		3272750B1830A523006D4E0F /* sfml-audio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 327275081830A523006D4E0F /* sfml-audio.framework */; };
+		3272750C1830A523006D4E0F /* sfml-system.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 327275091830A523006D4E0F /* sfml-system.framework */; };
+		3272750D1830A523006D4E0F /* SFML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3272750A1830A523006D4E0F /* SFML.framework */; };
+		3272751E1830AA0D006D4E0F /* all-clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = 327275111830AA0D006D4E0F /* all-clear.wav */; };
+		3272751F1830AA0D006D4E0F /* double.wav in Resources */ = {isa = PBXBuildFile; fileRef = 327275121830AA0D006D4E0F /* double.wav */; };
+		327275201830AA0D006D4E0F /* level-up.wav in Resources */ = {isa = PBXBuildFile; fileRef = 327275131830AA0D006D4E0F /* level-up.wav */; };
+		327275211830AA0D006D4E0F /* line-clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = 327275141830AA0D006D4E0F /* line-clear.wav */; };
+		327275221830AA0D006D4E0F /* menu-select.wav in Resources */ = {isa = PBXBuildFile; fileRef = 327275151830AA0D006D4E0F /* menu-select.wav */; };
+		327275231830AA0D006D4E0F /* menu.wav in Resources */ = {isa = PBXBuildFile; fileRef = 327275161830AA0D006D4E0F /* menu.wav */; };
+		327275241830AA0D006D4E0F /* pause.wav in Resources */ = {isa = PBXBuildFile; fileRef = 327275171830AA0D006D4E0F /* pause.wav */; };
+		327275251830AA0D006D4E0F /* move.wav in Resources */ = {isa = PBXBuildFile; fileRef = 327275181830AA0D006D4E0F /* move.wav */; };
+		327275261830AA0D006D4E0F /* single.wav in Resources */ = {isa = PBXBuildFile; fileRef = 327275191830AA0D006D4E0F /* single.wav */; };
+		327275271830AA0D006D4E0F /* tetris.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3272751A1830AA0D006D4E0F /* tetris.wav */; };
+		327275281830AA0D006D4E0F /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3272751B1830AA0D006D4E0F /* drop.wav */; };
+		327275291830AA0D006D4E0F /* triple.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3272751C1830AA0D006D4E0F /* triple.wav */; };
+		3272752A1830AA0D006D4E0F /* rotate.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3272751D1830AA0D006D4E0F /* rotate.wav */; };
 		32AD906E171A68AB008E0827 /* tetromino.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32AD906C171A68AB008E0827 /* tetromino.cpp */; };
 		32AD9077171B31DE008E0827 /* block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32AD9075171B31DE008E0827 /* block.cpp */; };
 		32DFB0381711073500515349 /* controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32DFB0371711073500515349 /* controller.cpp */; };
@@ -57,6 +74,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		327275051830935F006D4E0F /* soundboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = soundboard.cpp; sourceTree = "<group>"; };
+		327275061830935F006D4E0F /* soundboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = soundboard.h; sourceTree = "<group>"; };
+		327275081830A523006D4E0F /* sfml-audio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-audio.framework"; path = "../../../../../Library/Frameworks/sfml-audio.framework"; sourceTree = "<group>"; };
+		327275091830A523006D4E0F /* sfml-system.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-system.framework"; path = "../../../../../Library/Frameworks/sfml-system.framework"; sourceTree = "<group>"; };
+		3272750A1830A523006D4E0F /* SFML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SFML.framework; path = ../../../../../Library/Frameworks/SFML.framework; sourceTree = "<group>"; };
+		327275111830AA0D006D4E0F /* all-clear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "all-clear.wav"; sourceTree = "<group>"; };
+		327275121830AA0D006D4E0F /* double.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = double.wav; sourceTree = "<group>"; };
+		327275131830AA0D006D4E0F /* level-up.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "level-up.wav"; sourceTree = "<group>"; };
+		327275141830AA0D006D4E0F /* line-clear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "line-clear.wav"; sourceTree = "<group>"; };
+		327275151830AA0D006D4E0F /* menu-select.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "menu-select.wav"; sourceTree = "<group>"; };
+		327275161830AA0D006D4E0F /* menu.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = menu.wav; sourceTree = "<group>"; };
+		327275171830AA0D006D4E0F /* pause.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pause.wav; sourceTree = "<group>"; };
+		327275181830AA0D006D4E0F /* move.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = move.wav; sourceTree = "<group>"; };
+		327275191830AA0D006D4E0F /* single.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = single.wav; sourceTree = "<group>"; };
+		3272751A1830AA0D006D4E0F /* tetris.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = tetris.wav; sourceTree = "<group>"; };
+		3272751B1830AA0D006D4E0F /* drop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drop.wav; sourceTree = "<group>"; };
+		3272751C1830AA0D006D4E0F /* triple.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = triple.wav; sourceTree = "<group>"; };
+		3272751D1830AA0D006D4E0F /* rotate.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = rotate.wav; sourceTree = "<group>"; };
 		32AD906C171A68AB008E0827 /* tetromino.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tetromino.cpp; sourceTree = "<group>"; };
 		32AD906D171A68AB008E0827 /* tetromino.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tetromino.h; sourceTree = "<group>"; };
 		32AD9075171B31DE008E0827 /* block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = block.cpp; sourceTree = "<group>"; };
@@ -125,6 +160,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3272750B1830A523006D4E0F /* sfml-audio.framework in Frameworks */,
+				3272750C1830A523006D4E0F /* sfml-system.framework in Frameworks */,
+				3272750D1830A523006D4E0F /* SFML.framework in Frameworks */,
 				FDE7EBC71784D83000A30B8A /* Awesomium.framework in Frameworks */,
 				32FFC0841710F6C100667EFC /* OpenGL.framework in Frameworks */,
 				32FFC0671710F65900667EFC /* Cocoa.framework in Frameworks */,
@@ -134,6 +172,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		327275101830AA0D006D4E0F /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				327275111830AA0D006D4E0F /* all-clear.wav */,
+				327275121830AA0D006D4E0F /* double.wav */,
+				3272751B1830AA0D006D4E0F /* drop.wav */,
+				327275131830AA0D006D4E0F /* level-up.wav */,
+				327275141830AA0D006D4E0F /* line-clear.wav */,
+				327275151830AA0D006D4E0F /* menu-select.wav */,
+				327275161830AA0D006D4E0F /* menu.wav */,
+				327275181830AA0D006D4E0F /* move.wav */,
+				327275171830AA0D006D4E0F /* pause.wav */,
+				3272751D1830AA0D006D4E0F /* rotate.wav */,
+				327275191830AA0D006D4E0F /* single.wav */,
+				3272751A1830AA0D006D4E0F /* tetris.wav */,
+				3272751C1830AA0D006D4E0F /* triple.wav */,
+			);
+			path = sounds;
+			sourceTree = "<group>";
+		};
 		32FFC05A1710F65900667EFC = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +213,9 @@
 		32FFC0651710F65900667EFC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				327275081830A523006D4E0F /* sfml-audio.framework */,
+				327275091830A523006D4E0F /* sfml-system.framework */,
+				3272750A1830A523006D4E0F /* SFML.framework */,
 				FDE7EB921784A7BF00A30B8A /* Awesomium.framework */,
 				32FFC0661710F65900667EFC /* Cocoa.framework */,
 				32FFC0681710F65900667EFC /* Other Frameworks */,
@@ -202,6 +263,8 @@
 				FD36E0501762BC070041A762 /* next_queue.h */,
 				FD029134178C96730097A871 /* scorekeeper.cpp */,
 				FD029135178C96730097A871 /* scorekeeper.h */,
+				327275051830935F006D4E0F /* soundboard.cpp */,
+				327275061830935F006D4E0F /* soundboard.h */,
 				32AD906C171A68AB008E0827 /* tetromino.cpp */,
 				32AD906D171A68AB008E0827 /* tetromino.h */,
 				FD36E049175C260C0041A762 /* timer.cpp */,
@@ -242,6 +305,7 @@
 				FD3C17511788583F00C0C8DD /* ui.html */,
 				FD02912B178BB8E30097A871 /* ui.js */,
 				FD36E0221753EA660041A762 /* block.xml */,
+				327275101830AA0D006D4E0F /* sounds */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -309,15 +373,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3272752A1830AA0D006D4E0F /* rotate.wav in Resources */,
+				327275251830AA0D006D4E0F /* move.wav in Resources */,
 				32FFC07D1710F65900667EFC /* MainMenu.xib in Resources */,
 				32FFC08A1710F8E500667EFC /* Tetris.icns in Resources */,
+				327275261830AA0D006D4E0F /* single.wav in Resources */,
 				FD36E0231753EA660041A762 /* block.xml in Resources */,
 				FD02912E178C71790097A871 /* basic.vert in Resources */,
 				FD02912F178C71790097A871 /* basic.frag in Resources */,
 				FD029130178C71790097A871 /* ui.vert in Resources */,
+				327275201830AA0D006D4E0F /* level-up.wav in Resources */,
 				FD029131178C71790097A871 /* ui.frag in Resources */,
 				FD029132178C71790097A871 /* ui.html in Resources */,
+				327275281830AA0D006D4E0F /* drop.wav in Resources */,
+				327275291830AA0D006D4E0F /* triple.wav in Resources */,
+				327275231830AA0D006D4E0F /* menu.wav in Resources */,
+				3272751E1830AA0D006D4E0F /* all-clear.wav in Resources */,
+				327275271830AA0D006D4E0F /* tetris.wav in Resources */,
+				3272751F1830AA0D006D4E0F /* double.wav in Resources */,
 				FD029129178BAD390097A871 /* ui.css in Resources */,
+				327275211830AA0D006D4E0F /* line-clear.wav in Resources */,
+				327275241830AA0D006D4E0F /* pause.wav in Resources */,
+				327275221830AA0D006D4E0F /* menu-select.wav in Resources */,
 				FD029133178C71790097A871 /* ui.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,6 +412,7 @@
 				FD13B3211735FF9800705C91 /* mesh.cpp in Sources */,
 				FD16CB9317361D2200688EDC /* ResourcePath.mm in Sources */,
 				FD16CB97173B0EF000688EDC /* utility.cpp in Sources */,
+				327275071830935F006D4E0F /* soundboard.cpp in Sources */,
 				FD16CBB31748920800688EDC /* camera.cpp in Sources */,
 				FD16CBB6175011A300688EDC /* world.cpp in Sources */,
 				FD36E0261753FAD30041A762 /* light.cpp in Sources */,
@@ -432,8 +510,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/Tetris\"",
+					"$(SRCROOT)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
@@ -461,8 +539,8 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/Tetris\"",
+					"$(SRCROOT)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";

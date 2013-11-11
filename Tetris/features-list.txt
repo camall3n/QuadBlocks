@@ -67,14 +67,14 @@
 + Top-outs
 
 - Sound Effects
-    - Movement
-    - Rotation
-    - Hard drop
+    + Movement
+    + Rotation
+    + Hard drop
     - Soft drop
     - Hold
     - Wall-kicks, floor-kicks
-    - Line clear
-    - Scoring actions
+    + Line clear
+    + Scoring actions
     - Game timer
     - Music
 

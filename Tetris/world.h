@@ -19,6 +19,7 @@ namespace bs2 = boost::signals2;
 #include "light.h"
 #include "next_queue.h"
 #include "scorekeeper.h"
+#include "soundboard.h"
 #include "tetromino.h"
 #include "timer.h"
 #include "well.h"
@@ -88,6 +89,7 @@ private:
     Timer dragTimerRight;
     Timer dragTimerLeft;
     ScoreKeeper scoreKeeper;
+    Soundboard soundboard;
     bool gameOver;
     
 

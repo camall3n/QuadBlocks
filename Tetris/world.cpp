@@ -249,6 +249,7 @@ void World::moveUp()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = MOVE;
+        soundboard.Move();
     }
 
 }
@@ -264,6 +265,7 @@ void World::moveDown()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = MOVE;
+        soundboard.Move();
     }
 }
 
@@ -278,6 +280,7 @@ void World::moveRight()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = MOVE;
+        soundboard.Move();
     }
     else {
         stopDragging();
@@ -295,6 +298,7 @@ void World::moveLeft()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = MOVE;
+        soundboard.Move();
     }
     else {
         stopDragging();
@@ -370,12 +374,14 @@ void World::rotateCW()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = SPIN;
+        soundboard.Rotate();
     }
     else {
         Tetromino kickedPiece = wallKickCW(newPiece);
         if (kickedPiece != newPiece) {
             piece = kickedPiece;
             lastMotion = KICKSPIN;
+            soundboard.Rotate();
         }
     }
 }
@@ -391,12 +397,14 @@ void World::rotateCCW()
     if (!checkCollision(newPiece)) {
         piece = newPiece;
         lastMotion = SPIN;
+        soundboard.Rotate();
     }
     else {
         Tetromino kickedPiece = wallKickCCW(newPiece);
         if (kickedPiece != newPiece) {
             piece = kickedPiece;
             lastMotion = KICKSPIN;
+            soundboard.Rotate();
         }
     }
 }
@@ -501,6 +509,7 @@ void World::applyGravity()
         }
         else if (queuedAction.softDrop) {
             scoreKeeper.softDrop(actualFall);
+//            soundboard.Move();
         }
     }
     
@@ -511,6 +520,7 @@ void World::applyGravity()
             // Do lock-related things if necessary
 
             if (queuedAction.hardDrop) {
+                soundboard.Drop();
                 lock();
                 normalDrop();
                 lockTimer.stop();
@@ -664,6 +674,32 @@ void World::lock()
                 signal.lineClear(linesCleared);
             }
         }
+        
+        if (linesCleared > 0) {
+            soundboard.LineClear();
+            if (sendingMessage) {
+                soundboard.AllClear();
+            }
+            else
+            switch (linesCleared) {
+                case 1:
+                    soundboard.Single();
+                    break;
+                case 2:
+                    soundboard.Double();
+                    break;
+                case 3:
+                    soundboard.Triple();
+                    break;
+                case 4:
+                    soundboard.Tetris();
+                    break;
+                    
+                default:
+                    std::cerr << "Error: linesCleared = " << linesCleared << std::endl;
+                    break;
+            }
+        }
     
         Tetromino nextPiece = pieceQueue.getNext();
         piece = nextPiece;
@@ -721,6 +757,7 @@ void World::levelChanged(int level) {
     signal.levelChanged(level);
     baseGravity *= 1.5;
     gravity = baseGravity;
+    soundboard.LevelUp();
 }
 
 
