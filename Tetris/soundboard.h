@@ -9,7 +9,21 @@
 #ifndef __Tetris__soundboard__
 #define __Tetris__soundboard__
 
+#include <boost/format.hpp>
 #include <SFML/Audio.hpp>
+
+class MyMusic : public sf::Music
+{
+    bool onGetData(sf::SoundStream::Chunk& data);
+
+public:
+    MyMusic();
+    void onMusicEnd();
+
+private:
+    int musicIndex;
+    boost::format musicFile;
+};
 
 class Soundboard
 {
@@ -84,6 +98,9 @@ private:
         sf::Sound menuSelect;
     } sound;
     
+    void InitializeMusic();
+    
+    MyMusic music;
 };
 
 #endif /* defined(__Tetris__soundboard__) */

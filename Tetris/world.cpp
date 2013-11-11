@@ -99,6 +99,7 @@ void World::resetQueuedActions()
 void World::update()
 {
     if (gameOver) {
+        soundboard.PauseMusic();
         if (garbage.isUpdating()) {
             garbage.update();
             
@@ -110,10 +111,14 @@ void World::update()
         }
     }
     else if (!isPaused) {
+        soundboard.PlayMusic();
         pieceQueue.update();
         garbage.update();
     
         updateUserPiece();
+    }
+    else {
+        soundboard.PauseMusic();
     }
 }
 
@@ -229,9 +234,11 @@ void World::queueHold() {
 void World::togglePause() {
     if (isPaused) {
         unpause();
+        soundboard.PlayMusic();
     }
     else {
         pause();
+        soundboard.PauseMusic();
     }
 }
 void World::toggleDevMode()
