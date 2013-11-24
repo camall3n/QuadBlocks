@@ -5,7 +5,7 @@
 //
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 #include "controller.h"
 
@@ -188,12 +188,11 @@ void Controller::Thumbstick::update(float x, float y)
     float new_x = this->x();
     float new_y = this->y();
 
-    if ( (new_x != old_x) ||
-         (new_y != old_y) )
-    {
+    if ( (new_x != old_x) || (new_y != old_y) ) {
         signal.moved(new_x, new_y);
     }
     
+    // If there was substantial rightward movement
     if ( new_x >= old_x + THUMBSTICK_DEADZONE )
     {
         _moving[THUMBSTICK_LEFT] = false;
@@ -201,8 +200,12 @@ void Controller::Thumbstick::update(float x, float y)
         if ( !_moving[THUMBSTICK_RIGHT] && (new_x > 0) ) {
             signal.movedRight();
             _moving[THUMBSTICK_RIGHT] = true;
+            if (std::abs(new_x) > std::abs(new_y)) {
+                signal.dpadRight();
+            }
         }
     }
+    // If there was substantial leftward movement
     else if ( new_x <= old_x - THUMBSTICK_DEADZONE )
     {
         _moving[THUMBSTICK_RIGHT] = false;
@@ -210,16 +213,37 @@ void Controller::Thumbstick::update(float x, float y)
         if ( !_moving[THUMBSTICK_LEFT] && (new_x < 0) ) {
             signal.movedLeft();
             _moving[THUMBSTICK_LEFT] = true;
+            if (std::abs(new_x) > std::abs(new_y)) {
+                signal.dpadLeft();
+            }
         }
     }
     
-    if ( new_y > THUMBSTICK_DEADZONE && old_y < THUMBSTICK_DEADZONE)
+    // If there was substantial upward movement
+    if ( new_y >= old_y + THUMBSTICK_DEADZONE )
     {
-        signal.movedUp();
+        _moving[THUMBSTICK_DOWN] = false;
+
+        if ( !_moving[THUMBSTICK_UP] && (new_y > 0) ) {
+            signal.movedUp();
+            _moving[THUMBSTICK_UP] = true;
+            if (std::abs(new_y) > std::abs(new_x)) {
+                signal.dpadUp();
+            }
+        }
     }
-    else if ( new_y < -THUMBSTICK_DEADZONE && old_y > -THUMBSTICK_DEADZONE)
+    // If there was substantial downward movement
+    else if ( new_y <= old_y - THUMBSTICK_DEADZONE )
     {
-        signal.movedDown();
+        _moving[THUMBSTICK_UP] = false;
+        
+        if ( !_moving[THUMBSTICK_DOWN] && (new_y < 0) ) {
+            signal.movedDown();
+            _moving[THUMBSTICK_DOWN] = true;
+            if (std::abs(new_y) > std::abs(new_x)) {
+                signal.dpadDown();
+            }
+        }
     }
 
 }

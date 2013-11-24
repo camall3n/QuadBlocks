@@ -163,7 +163,8 @@ void Soundboard::PlayMusic() {
     }
 }
 void Soundboard::PauseMusic() {
-    if (music.getStatus() != sf::Music::Status::Paused) {
+    if (music.getStatus() != music.Paused &&
+        music.getStatus() != music.Stopped) {
         music.pause();
     }
 }

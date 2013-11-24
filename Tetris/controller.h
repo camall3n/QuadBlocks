@@ -94,11 +94,20 @@ public:
         struct signalList {
             bs2::signal<void ()> pressed;
             bs2::signal<void ()> released;
+
+            // Signals for when thumbstick moves by a substantial amount
             bs2::signal<void (float x, float y)> moved;
             bs2::signal<void ()> movedUp;
             bs2::signal<void ()> movedDown;
             bs2::signal<void ()> movedLeft;
             bs2::signal<void ()> movedRight;
+
+            // Signals for isolating X from Y movement (whichever is greater)
+            bs2::signal<void ()> dpadUp;
+            bs2::signal<void ()> dpadDown;
+            bs2::signal<void ()> dpadLeft;
+            bs2::signal<void ()> dpadRight;
+
             bs2::signal<void ()> holdingUp;
             bs2::signal<void ()> holdingDown;
             bs2::signal<void ()> holdingLeft;

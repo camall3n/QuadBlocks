@@ -31,7 +31,7 @@ extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
 extern const int SCREEN_BPP;
 extern const int FRAMES_PER_SECOND;
-const char* const WINDOW_TITLE = "Tetris";
+const char* const WINDOW_TITLE = "QuadBlocks";
 
 //Globals
 #pragma mark
@@ -118,15 +118,19 @@ void input() {
     x = controller.LS.x();
     y = controller.LS.y();
     
-    if ( ((y < 0) && (std::abs(y) > std::abs(x))) || keyboard.S.isPressed() || keyboard.ArrowDown.isPressed()) {
+    if ( ((y < 0) && (std::abs(y) > std::abs(x))) ||
+        keyboard.S.isPressed() || keyboard.ArrowDown.isPressed() ||
+        controller.Down.isPressed()) {
         world->queueSoftDrop();
     }
     else if (controller.LS.x() < 0 || controller.LB.isPressed() ||
-             keyboard.A.isPressed() || keyboard.ArrowLeft.isPressed()) {
+             keyboard.A.isPressed() || keyboard.ArrowLeft.isPressed() ||
+             controller.Left.isPressed()) {
         world->queueDragLeft();
     }
     else if (controller.LS.x() > 0 || controller.RB.isPressed() ||
-             keyboard.D.isPressed() || keyboard.ArrowRight.isPressed()) {
+             keyboard.D.isPressed() || keyboard.ArrowRight.isPressed() ||
+             controller.Right.isPressed()) {
         world->queueDragRight();
     }
     else if (!keyboard.A.isPressed() && !keyboard.D.isPressed() &&

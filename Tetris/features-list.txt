@@ -67,16 +67,16 @@
 + Top-outs
 
 - Sound Effects
+    + Music
+    + Line clear
+    + Scoring actions
     + Movement
     + Rotation
     + Hard drop
     - Soft drop
     - Hold
     - Wall-kicks, floor-kicks
-    + Line clear
-    + Scoring actions
     - Game timer
-    - Music
 
 - Precise timing of actions
     - lock delay
@@ -95,6 +95,8 @@
     X Mode Select
     X Dev settings
     X High Scores
+
+- Self-contained, distributable application package
     
 - Modes
     - Marathon
@@ -111,23 +113,21 @@
     X Gravity Mode: Gravity increases with each piece, but line clears or score bonuses may help lower gravity
 
 - Juice it up
-    - Sound effects
-    - Music
-    - Tweens
-    - Bounces
+    + Sound effects
+    + Music
     - Motion blur
-    X Explosions
-    X Smoke
+    - Bounces
+    - Tweens
     - Animated on-deck pieces
     - Backgrounds
         - Static
         X Animated
+    X Explosions
+    X Smoke
     X Have something trigger a flip by 180 degrees (any direction: X, Y, Z)
     X All the pieces turn to gold (a la Star Power), and you get bonus points
 
-- Self-contained, distributable application package
-
-- Fix UI bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
+X Fix UI bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
 
 X App-store hosting
 

@@ -114,7 +114,7 @@ void EventManager::GameMode(bool activate)
 {
     if (activate) {
         // Move Right
-        controller->LS.signal.movedRight.connect(
+        controller->LS.signal.dpadRight.connect(
             boost::bind( &World::queueMoveRight, world)
         );
         controller->RB.signal.pressed.connect(
@@ -132,7 +132,7 @@ void EventManager::GameMode(bool activate)
 
         
         // Move Left
-        controller->LS.signal.movedLeft.connect(
+        controller->LS.signal.dpadLeft.connect(
             boost::bind( &World::queueMoveLeft, world)
         );
         controller->LB.signal.pressed.connect(
@@ -150,6 +150,9 @@ void EventManager::GameMode(bool activate)
 
         
         // Rotate CW
+        controller->A.signal.pressed.connect(
+            boost::bind( &World::queueRotateCW, world)
+        );
         controller->RT.signal.pressed.connect(
             boost::bind( &World::queueRotateCW, world)
         );
@@ -162,6 +165,9 @@ void EventManager::GameMode(bool activate)
 
         
         // Rotate CCW
+        controller->X.signal.pressed.connect(
+            boost::bind( &World::queueRotateCCW, world)
+        );
         controller->LT.signal.pressed.connect(
             boost::bind( &World::queueRotateCCW, world)
         );
@@ -173,7 +179,7 @@ void EventManager::GameMode(bool activate)
         );
         
         // Hard Drop
-        controller->A.signal.pressed.connect(
+        controller->LS.signal.dpadUp.connect(
             boost::bind( &World::queueHardDrop, world)
         );
         controller->Up.signal.pressed.connect(
@@ -185,7 +191,7 @@ void EventManager::GameMode(bool activate)
 
 
         // Soft Drop
-        controller->LS.signal.movedDown.connect(
+        controller->LS.signal.dpadDown.connect(
             boost::bind( &World::queueSoftDrop, world)
         );
         controller->Down.signal.pressed.connect(
@@ -298,40 +304,55 @@ void EventManager::GameMode(bool activate)
 
 void EventManager::MenuMode(bool activate)
 {
-    static bs2::connection c0;
-    static bs2::connection c1;
-    static bs2::connection c2;
-    static bs2::connection c3;
-    static bs2::connection c4;
-    static bs2::connection c5;
+    static bs2::connection c[6];// Controller signals
+    static bs2::connection k[6];// Keyboard signals
     
     if (activate) {
-        c0 = keyboard->W.signal.pressed.connect(
+        // Controller signals
+        c[0] = controller->Up.signal.pressed.connect(
             boost::bind( &UI::SelectPrevMenuItem, ui)
         );
-        c1 = keyboard->ArrowUp.signal.pressed.connect(
+        c[1] = controller->Down.signal.pressed.connect(
+            boost::bind( &UI::SelectNextMenuItem, ui)
+        );
+        c[2] = controller->LS.signal.movedUp.connect(
             boost::bind( &UI::SelectPrevMenuItem, ui)
         );
-        c2 = keyboard->S.signal.pressed.connect(
+        c[3] = controller->LS.signal.movedDown.connect(
             boost::bind( &UI::SelectNextMenuItem, ui)
         );
-        c3 = keyboard->ArrowDown.signal.pressed.connect(
-            boost::bind( &UI::SelectNextMenuItem, ui)
-        );
-        c4 = keyboard->Return.signal.pressed.connect(
+        c[4] = controller->A.signal.pressed.connect(
             boost::bind( &UI::ClickMenuItem, ui)
         );
-        c5 = keyboard->Return.signal.pressed.connect(
+        c[5] = controller->A.signal.pressed.connect(
+            boost::bind( &Menu::Select, menu)
+        );
+
+        // Keyboard signals
+        k[0] = keyboard->W.signal.pressed.connect(
+            boost::bind( &UI::SelectPrevMenuItem, ui)
+        );
+        k[1] = keyboard->S.signal.pressed.connect(
+            boost::bind( &UI::SelectNextMenuItem, ui)
+        );
+        k[2] = keyboard->ArrowUp.signal.pressed.connect(
+            boost::bind( &UI::SelectPrevMenuItem, ui)
+        );
+        k[3] = keyboard->ArrowDown.signal.pressed.connect(
+            boost::bind( &UI::SelectNextMenuItem, ui)
+        );
+        k[4] = keyboard->Return.signal.pressed.connect(
+            boost::bind( &UI::ClickMenuItem, ui)
+        );
+        k[5] = keyboard->Return.signal.pressed.connect(
             boost::bind( &Menu::Select, menu)
         );
     }
     else {
-        c0.disconnect();
-        c1.disconnect();
-        c2.disconnect();
-        c3.disconnect();
-        c4.disconnect();
-        c5.disconnect();
+        for (int i=0; i<6; i++) {
+            c[i].disconnect();// Controller signals
+            k[i].disconnect();// Keyboard signals
+        }
     }
 }
 

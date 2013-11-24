@@ -17,8 +17,8 @@
 #include "utility.h"
 
 const double LOCK_DELAY = 1.0;
-const double DRAG_DELAY = 0.25;
-const double DRAG_REPEAT = 0.1;
+const double DRAG_DELAY = 0.2;
+const double DRAG_REPEAT = 0.05;
 
 const double MIN_GRAVITY = 1.0/FRAMES_PER_SECOND;
 const double MAX_GRAVITY = 24;
@@ -234,7 +234,6 @@ void World::queueHold() {
 void World::togglePause() {
     if (isPaused) {
         unpause();
-        soundboard.PlayMusic();
     }
     else {
         pause();
@@ -466,15 +465,15 @@ void World::hold()
 
 void World::pause()
 {
+    soundboard.PauseMusic();
     isPaused = true;
-    
-    // Display menu?
 }
 
 void World::unpause()
 {
-    // Display "get ready" or something?
+    // TODO: Display "get ready" or something?
     
+    soundboard.PlayMusic();
     isPaused = false;
 }
 
