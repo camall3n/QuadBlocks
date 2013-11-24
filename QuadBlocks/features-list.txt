@@ -1,0 +1,141 @@
++ Movement
+    + Basic
+    + Hold-to-drag
+
++ Rotation
+
++ Collision detection
+    + walls
+    + floor
+    + garbage
+
++ Wall kicks
+
++ T-spins
+    + detection
+    + scoring
+
++ Gravity
+    + Basic (static)
+    + Basic (increasing with level)
+    + Hard drop
+    + Soft drop
+
++ Piece Locking
+
++ Line Clears
+
++ Next pieces
+
++ Hold piece
+
++ Ghost piece
+
++ Fix depth clamping
+
++ Fix framerate (30 fps)
+    + Account for scheduler overhead
+
++ Fix random pieces
+
++ UI
+    + score display
+    + lines remaining
+    + current level
+
++ Keyboard support
+    + Fix bug: for some reason putting the std::map<int, Keyboard::Key*> Keys inside of keyboard.cpp or keyboard.h was causing EXC_BAD_ACCESS. Had to put it into main, before the Keyboard declaration to fix the issue. Need to investigate more...
+      (static initialization order fiasco)
+
++ More obvious pre-lock piece graphic. Too easy to confuse an unlocked/locked piece
+
++ Extra lines cleared for more than single
+
++ Scoring
+    + single, double, triple, quad
+    + back-to-back
+    + t-spins, plus t-spin single, double, triple
+    + combo
+    + bravo / perfect / all-clear
+    + score display
+    + lines remaining
+    + level
+    + move-type message (single, double, t-spin, all-clear, etc.)
+
++ Better controls
+
++ Top-outs
+
+- Rename project from Tetris to QuadBlocks
+
+- Sound Effects
+    + Music
+    + Line clear
+    + Scoring actions
+    + Movement
+    + Rotation
+    + Hard drop
+    - Game timer
+    X Soft drop
+    X Hold
+    X Wall-kicks, floor-kicks
+
+- Precise timing of actions
+    - lock delay
+    - piece entry delay
+    - gravity increase rate
+    - etc.
+
+- Menu
+    + Basic overlay
+    + Handle user's selection
+    + Toggle "Dev Mode" (bottomless hold)
+    - QuadBlocks logo / "paused"
+    - Customizable controls
+    - Sound settings
+    X Hierarchical menus
+    X Mode Select
+    X Dev settings
+    X High Scores
+
+- Self-contained, distributable application package
+    
+- Modes
+    - Marathon
+    - Timed
+        - Hard stop
+        - Reset on level-up
+    - Cascade
+    X (Square)
+    X (Hot-Line)
+    X (Fusion)
+    X (Sticky)
+    X "Create" Mode, where you can select your piece
+    X Juice Mode: ridiculous powerups and powerdowns
+    X Gravity Mode: Gravity increases with each piece, but line clears or score bonuses may help lower gravity
+
+- Juice it up
+    + Sound effects
+    + Music
+    - Motion blur
+    - Bounces
+    - Tweens
+    - Animated on-deck pieces
+    - Backgrounds
+        - Static
+        X Animated
+    X Explosions
+    X Smoke
+    X Have something trigger a flip by 180 degrees (any direction: X, Y, Z)
+    X All the pieces turn to gold (a la Star Power), and you get bonus points
+
+X Fix UI bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
+
+X App-store hosting
+
+X High Scores
+
+X Powerups
+    - A special piece in the queue
+    - A random block starts flashing
+    - An outline describes a placement location for a piece in the queue
