@@ -66,16 +66,22 @@
 
 + Top-outs
 
-- Rename project from Tetris to QuadBlocks
++ Rename project from Tetris to QuadBlocks
 
 - Sound Effects
-    + Music
+    - Music
+       - Change to free music
+    - Scoring actions
+       - Quad (formerly Tetris)
+       + All Clear
+       + Triple
+       + Double
+       + Single
+    - Game timer
     + Line clear
-    + Scoring actions
     + Movement
     + Rotation
     + Hard drop
-    - Game timer
     X Soft drop
     X Hold
     X Wall-kicks, floor-kicks
@@ -87,16 +93,18 @@
     - etc.
 
 - Menu
-    + Basic overlay
-    + Handle user's selection
-    + Toggle "Dev Mode" (bottomless hold)
     - QuadBlocks logo / "paused"
-    - Customizable controls
     - Sound settings
+    - Customizable controls
+    - High Scores
+    + Toggle "Dev Mode" (bottomless hold)
+    + Handle user's selection
+    + Basic overlay
     X Hierarchical menus
     X Mode Select
     X Dev settings
-    X High Scores
+
+- High Scores
 
 - Self-contained, distributable application package
     
@@ -129,11 +137,11 @@
     X Have something trigger a flip by 180 degrees (any direction: X, Y, Z)
     X All the pieces turn to gold (a la Star Power), and you get bonus points
 
+- Fix UI bug: Awesomium's ~WebConfig() destructor causes EXC_BAD_ACCESS (on perigee), so we 'new' the WebConfig but never 'delete' it in UI::UI().
+
 X Fix UI bug: the bounding box of each opaque character on a transparent background is itself opaque. (works just fine in Chrome, but not Awesomium)
 
 X App-store hosting
-
-X High Scores
 
 X Powerups
     - A special piece in the queue

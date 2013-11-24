@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3235B39D1841D35A001E711A /* Awesomium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD3A07121841B4BC001B24AB /* Awesomium.framework */; };
 		32724F681831611E000FCB2D /* all-clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = 32724F581831611E000FCB2D /* all-clear.wav */; };
 		32724F691831611E000FCB2D /* double.wav in Resources */ = {isa = PBXBuildFile; fileRef = 32724F591831611E000FCB2D /* double.wav */; };
 		32724F6A1831611E000FCB2D /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 32724F5A1831611E000FCB2D /* drop.wav */; };
@@ -100,6 +101,7 @@
 				FD3A07151841B790001B24AB /* sfml-audio.framework in CopyFiles */,
 				FD3A07161841B790001B24AB /* sfml-system.framework in CopyFiles */,
 				FD3A07171841B790001B24AB /* SFML.framework in CopyFiles */,
+				3235B39D1841D35A001E711A /* Awesomium.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

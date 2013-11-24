@@ -56,9 +56,10 @@ UI::UI() :
     paused(false),
     devMode(false)
 {
-    std::cout << "Leaking memory: Awesomium's ~WebConfig() descructor causes EXC_BAD_ACCESS (though only on perigee), so we 'new' and never 'delete'." << std::endl << std::endl;
-    wc = new WebConfig();
+    wc = new WebConfig();// BUGFIX: Leaks
     webCore = WebCore::Initialize(*wc);
+//    delete wc;
+//    wc = NULL;
     if (!webCore) {
         std::cout << "no web core" << std::endl;
     }
