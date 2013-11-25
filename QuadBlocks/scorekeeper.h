@@ -19,6 +19,8 @@ class ScoreKeeper
 public:
     ScoreKeeper();
     
+    void reset();
+    
     struct signalsList {
         bs2::signal<void (int)> scoreChanged;
         bs2::signal<void (int)> newPoints;

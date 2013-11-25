@@ -16,12 +16,31 @@
 #include "kicktable.h"
 #include "utility.h"
 
-const double LOCK_DELAY = 1.0;
+const double LOCK_DELAY = 0.5;
 const double DRAG_DELAY = 0.2;
 const double DRAG_REPEAT = 0.05;
 
-const double MIN_GRAVITY = 1.0/FRAMES_PER_SECOND;
-const double MAX_GRAVITY = 24;
+// Gravity, in squares per frame
+const double MIN_GRAVITY = 4/256;
+const double MAX_GRAVITY = 4;
+const double GRAVITY[] = {
+      4/256.f,
+      8/256.f,
+     16/256.f,
+     24/256.f,
+     32/256.f,
+     48/256.f,
+     64/256.f,
+     96/256.f,
+    128/256.f,
+    192/256.f,
+    256/256.f,
+    320/256.f,
+    384/256.f,
+    512/256.f,
+    640/256.f
+};
+const double HARD_GRAVITY = 24;
 
 //#define DEVELOPER_MODE
 
@@ -30,6 +49,7 @@ World::World() :
     isPaused(false),
     baseGravity(MIN_GRAVITY),
     gravity(baseGravity),
+    idxGravity(0),
     holdingPiece(false),
     usedHoldPiece(false),
     developerMode(false),
@@ -69,7 +89,9 @@ World::World() :
 void World::reset()
 {
     isPaused = false;
-    baseGravity = MIN_GRAVITY;
+    idxGravity = 0;
+    scoreKeeper.reset();
+    baseGravity = GRAVITY[idxGravity];
     gravity = baseGravity;
     holdingPiece = false;
     usedHoldPiece = false;
@@ -130,33 +152,35 @@ void World::updateUserPiece() {
     }
     
     // Rotation
+    bool didRotate = false;
     if (queuedAction.rotateCW) {
-        rotateCW();
+        didRotate = rotateCW();
         queuedAction.rotateCW = false;
     }
     else if (queuedAction.rotateCCW) {
-        rotateCCW();
+        didRotate = rotateCCW();
         queuedAction.rotateCCW = false;
     }
     
     // Horizontal Movement
+    bool didMove = false;
     if (queuedAction.moveLeft) {
-        moveLeft();
+        didMove = moveLeft();
         stopDragging();
     }
     else if (queuedAction.moveRight) {
-        moveRight();
+        didMove = moveRight();
         stopDragging();
     }
     else if (queuedAction.dragLeft) {
-        dragLeft();
+        didMove = dragLeft();
     }
     else if (queuedAction.dragRight) {
-        dragRight();
+        didMove = dragRight();
     }
     
     // Gravity
-    applyGravity();
+    applyGravity(didMove, didRotate);
     
     updateGhostPiece();
 }
@@ -276,7 +300,7 @@ void World::moveDown()
     }
 }
 
-void World::moveRight()
+bool World::moveRight()
 {
     glm::vec2 pos = piece.position();
 
@@ -288,13 +312,15 @@ void World::moveRight()
         piece = newPiece;
         lastMotion = MOVE;
         soundboard.Move();
+        return true;
     }
     else {
         stopDragging();
+        return false;
     }
 }
 
-void World::moveLeft()
+bool World::moveLeft()
 {
     glm::vec2 pos = piece.position();
     
@@ -306,23 +332,27 @@ void World::moveLeft()
         piece = newPiece;
         lastMotion = MOVE;
         soundboard.Move();
+        return true;
     }
     else {
         stopDragging();
+        return false;
     }
 }
 
-void World::dragRight()
+bool World::dragRight()
 {
     dragTimerLeft.stop();
     queuedAction.dragLeft = false;
+    
+    bool didMove = false;
     
     if (dragTimerRight.isStarted())
     {
         static double repeat = 0.0;
         if (dragTimerRight.getTime() > DRAG_DELAY) {
             if (repeat==0.0 || repeat > DRAG_REPEAT) {
-                moveRight();
+                didMove = moveRight();
                 repeat = 0.0;
             }
             repeat += 1.0/FRAMES_PER_SECOND;
@@ -334,19 +364,22 @@ void World::dragRight()
     else {
         dragTimerRight.start();
     }
+    return didMove;
 }
 
-void World::dragLeft()
+bool World::dragLeft()
 {
     dragTimerRight.stop();
     queuedAction.dragRight = false;
+    
+    bool didMove = false;
     
     if (dragTimerLeft.isStarted())
     {
         static double repeat = 0.0;
         if (dragTimerLeft.getTime() > DRAG_DELAY) {
             if (repeat==0.0 || repeat > DRAG_REPEAT) {
-                moveLeft();
+                didMove = moveLeft();
                 repeat = 0.0;
             }
             repeat += 1.0/FRAMES_PER_SECOND;
@@ -358,6 +391,7 @@ void World::dragLeft()
     else {
         dragTimerLeft.start();
     }
+    return didMove;
 }
 
 void World::stopDragging()
@@ -370,7 +404,7 @@ void World::stopDragging()
     dragTimerRight.stop();
 }
 
-void World::rotateCW()
+bool World::rotateCW()
 {
     float angle = piece.rotation();
     
@@ -382,6 +416,7 @@ void World::rotateCW()
         piece = newPiece;
         lastMotion = SPIN;
         soundboard.Rotate();
+        return true;
     }
     else {
         Tetromino kickedPiece = wallKickCW(newPiece);
@@ -389,11 +424,13 @@ void World::rotateCW()
             piece = kickedPiece;
             lastMotion = KICKSPIN;
             soundboard.Rotate();
+            return true;
         }
     }
+    return false;
 }
 
-void World::rotateCCW()
+bool World::rotateCCW()
 {
     float angle = piece.rotation();
     
@@ -405,6 +442,7 @@ void World::rotateCCW()
         piece = newPiece;
         lastMotion = SPIN;
         soundboard.Rotate();
+        return true;
     }
     else {
         Tetromino kickedPiece = wallKickCCW(newPiece);
@@ -412,17 +450,21 @@ void World::rotateCCW()
             piece = kickedPiece;
             lastMotion = KICKSPIN;
             soundboard.Rotate();
+            return true;
         }
     }
+    return false;
 }
 
 void World::hardDrop()
 {
-    gravity = MAX_GRAVITY;
+    gravity = HARD_GRAVITY;
 }
 void World::softDrop()
 {
-    gravity = std::fmin(10*baseGravity, MAX_GRAVITY);
+    gravity = 10*baseGravity;// Try 10 * base
+    gravity = std::fmax(gravity, 0.5);// make sure it's at least 0.5
+    gravity = std::fmin(gravity, MAX_GRAVITY);// make sure it's less than max
 }
 void World::normalDrop()
 {
@@ -478,7 +520,7 @@ void World::unpause()
 }
 
 
-void World::applyGravity()
+void World::applyGravity(bool didMove, bool didRotate)
 {
     // Gravity Modifiers
     if (queuedAction.hardDrop) {
@@ -523,7 +565,7 @@ void World::applyGravity()
     if (maximumFall>0) {
         // If the piece was supposed to fall
         
-        if (atBottom) {
+        if (atBottom && !didMove && !didRotate) {
             // Do lock-related things if necessary
 
             if (queuedAction.hardDrop) {
@@ -641,8 +683,8 @@ int World::getFallDistance()
     else if (gravity == 1.0) {
         return 1;
     }
-    else if (gravity > 1.0 && gravity <= MAX_GRAVITY) {
-        return floor(gravity);
+    else if (gravity > 1.0 && gravity <= HARD_GRAVITY) {
+        return round(gravity);
     }
     else {
         std::cerr << "Error: Invalid gravity value. G = " << gravity << std::endl;
@@ -727,7 +769,7 @@ void World::updateGhostPiece()
     
     ghostPiece.setState(TETROMINO::GHOST);
     
-    for (int i=1; i<=MAX_GRAVITY; i++) {
+    for (int i=1; i<=HARD_GRAVITY; i++) {
         Tetromino newPiece(ghostPiece);
         glm::vec2 pos = ghostPiece.position();
         pos += glm::vec2(0, -1);
@@ -762,7 +804,8 @@ void World::linesChanged(int lines) {
 }
 void World::levelChanged(int level) {
     signal.levelChanged(level);
-    baseGravity *= 1.5;
+    idxGravity = level-1;
+    baseGravity = GRAVITY[idxGravity];
     gravity = baseGravity;
     soundboard.LevelUp();
 }

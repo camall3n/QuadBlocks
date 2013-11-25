@@ -68,29 +68,53 @@
 
 + Rename project from Tetris to QuadBlocks
 
+- Fix bug: T-spins are happening against walls when they shouldn't
+
+- Precise specifications
+    - Infinity limit: 8 rotations or 10 movements
+    - loss condition: blocked at entry, or locks partially out of bounds
+    - authentic piece entry
+    + max gravity: 2.5G
+    + max level: 15
+    + lock delay: 0.5 seconds (or 15 frames?)
+    + Infinity: reset lock delay on move/rotate
+    + soft drop speed (native * 10) or 0.5 G, whichever is greater (<= MAX)
+    + gravity increase rate:
+        level   G/256    G
+            1   4      0.016
+            2   8      0.032
+            3   16     0.063
+            4   24     0.094
+            5   32     0.125
+            6   48     0.1875
+            7   64     0.25
+            8   96     0.375
+            9   128    0.5
+           10   192    0.75
+           11   256    1
+           12   320    1.25
+           13   384    1.5
+           14   512    2
+           15   640    2.5
+
 - Sound Effects
-    - Music
-       - Change to free music
+    - Soft drop
     - Scoring actions
        - Quad (formerly Tetris)
        + All Clear
        + Triple
        + Double
        + Single
+    - Music
+       - Change to free music?
+       - Get permission to use Worlds music?
     - Game timer
-    + Line clear
     + Movement
     + Rotation
     + Hard drop
-    X Soft drop
+    + Line clear
     X Hold
     X Wall-kicks, floor-kicks
-
-- Precise timing of actions
-    - lock delay
-    - piece entry delay
-    - gravity increase rate
-    - etc.
 
 - Menu
     - QuadBlocks logo / "paused"
@@ -104,15 +128,12 @@
     X Mode Select
     X Dev settings
 
-- High Scores
-
 - Self-contained, distributable application package
     
 - Modes
     - Marathon
-    - Timed
-        - Hard stop
-        - Reset on level-up
+    - Timed 2 min, reset on level-up
+    - Line limit / Sprint / Race / Time Attack
     - Cascade
     X (Square)
     X (Hot-Line)
@@ -129,6 +150,7 @@
     - Bounces
     - Tweens
     - Animated on-deck pieces
+    - High Scores
     - Backgrounds
         - Static
         X Animated

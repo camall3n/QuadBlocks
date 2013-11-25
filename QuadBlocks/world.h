@@ -99,6 +99,7 @@ private:
     bool isPaused;
     float baseGravity;
     float gravity;
+    int idxGravity;
     bool developerMode;
     
     enum MOTION_TYPE {
@@ -126,12 +127,12 @@ private:
     void resetQueuedActions();
     
     // Piece movement
-    void moveRight();
-    void dragRight();
-    void moveLeft();
-    void dragLeft();
-    void rotateCW();
-    void rotateCCW();
+    bool moveRight();
+    bool dragRight();
+    bool moveLeft();
+    bool dragLeft();
+    bool rotateCW();
+    bool rotateCCW();
     void hold();
 
     void updateUserPiece();
@@ -147,7 +148,7 @@ private:
     void hardDrop();
     void softDrop();
     void normalDrop();
-    void applyGravity();
+    void applyGravity(bool didMove, bool didRotate);
     void updateGhostPiece();
 
     // Menu functions

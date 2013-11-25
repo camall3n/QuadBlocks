@@ -62,11 +62,13 @@ UI::UI() :
 //    wc = NULL;
     if (!webCore) {
         std::cout << "no web core" << std::endl;
+        exit(1);
     }
     
     webView = webCore->CreateWebView(TEXTURE_WIDTH, TEXTURE_HEIGHT);
     if (!webView) {
         std::cout << "no web view" << std::endl;
+        exit(1);
     }
         
     WebURL url = FileURL("ui.html");
