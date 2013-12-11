@@ -45,15 +45,15 @@ const double HARD_GRAVITY = 24;
 //#define DEVELOPER_MODE
 
 World::World() :
-    piece(TETROMINO::I),
-    isPaused(false),
-    baseGravity(MIN_GRAVITY),
-    gravity(baseGravity),
-    idxGravity(0),
-    holdingPiece(false),
-    usedHoldPiece(false),
-    developerMode(false),
-    gameOver(false)
+  piece(TETROMINO::I),
+  isPaused(false),
+  baseGravity(MIN_GRAVITY),
+  gravity(baseGravity),
+  idxGravity(0),
+  holdingPiece(false),
+  usedHoldPiece(false),
+  developerMode(false),
+  gameOver(false)
 {
     Block::useCamera(c);
     c.setPosition(glm::vec3(5,10,80));
@@ -499,6 +499,9 @@ void World::hold()
             holdingPiece = true;
             lastMotion = HOLD;
         }
+        // Cancel any in-progress piece-locking
+        lockTimer.stop();
+        infinityTimer.stop();
     }
     else {
         // Add sound?
@@ -562,30 +565,42 @@ void World::applyGravity(bool didMove, bool didRotate)
         }
     }
     
+    if ( (lockTimer.isStarted() && (didMove || didRotate)) &&
+         ((infinityTimer.getTime() < maxInfinity) || (maxInfinity < 0)) )
+    {
+        // Saved by "Infinity"!
+        lockTimer.stop();
+        lockTimer.start();
+    }
+    
+    // If the piece was supposed to fall
     if (maximumFall>0) {
-        // If the piece was supposed to fall
-        
-        if (atBottom && !didMove && !didRotate) {
-            // Do lock-related things if necessary
-
+        // But it's already at the bottom!
+        if (atBottom) {
+            // Do lock-related things
             if (queuedAction.hardDrop) {
                 soundboard.Drop();
                 lock();
                 normalDrop();
                 lockTimer.stop();
+                infinityTimer.stop();
             }
-            
-            if (lockTimer.isStarted()) {
+            else if (lockTimer.isStarted()) {
                 if (lockTimer.getTime() > LOCK_DELAY) {
                     lock();
                     normalDrop();
                     lockTimer.stop();
+                    infinityTimer.stop();
                 }
             }
             else {
                 lockTimer.start();
+                if (!infinityTimer.isStarted()) {
+                    infinityTimer.start();
+                }
             }
         }
+        // It's not at the bottom...
         else {
             lockTimer.stop();
         }

@@ -92,6 +92,13 @@ private:
     Soundboard soundboard;
     bool gameOver;
     
+    // The lock timer gets reset every time there is a move / rotation. With no
+    // other restricitons, this would allow infinite rotations and moves after
+    // the piece was supposed to lock. This sets a maximum time before the piece
+    // locks anyway. Set it to something < 0 if you want true "Infinity" mode.
+    Timer infinityTimer;
+    const double maxInfinity = 5;// seconds
+    
 
     // World traits
     bool holdingPiece;

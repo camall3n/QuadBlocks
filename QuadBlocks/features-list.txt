@@ -68,12 +68,12 @@
 
 + Rename project from Tetris to QuadBlocks
 
-- Fix bug: T-spins are happening against walls when they shouldn't
++ Fix bug: T-spins are happening against walls when they shouldn't
 
 - Precise specifications
-    - Infinity limit: 8 rotations or 10 movements
     - loss condition: blocked at entry, or locks partially out of bounds
     - authentic piece entry
+    + Infinity limit: 5 seconds
     + max gravity: 2.5G
     + max level: 15
     + lock delay: 0.5 seconds (or 15 frames?)

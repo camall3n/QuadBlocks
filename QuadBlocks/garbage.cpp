@@ -128,9 +128,9 @@ bool Garbage::checkCollision(Tetromino piece)
 
 int Garbage::getFilledTSpinCorners(Tetromino piece)
 {
-    //    [?][ ][?]
-    //    [ ] X [ ]
-    //    [?][ ][?]
+    //      [?] X [?]      [?]   [?]
+    // e.g.     X  X        X  X  X
+    //      [?] X [?] ,    [?] X [?] ,  etc.
     
     if (piece.type() != TETROMINO::T) {
         return 0;
@@ -145,9 +145,10 @@ int Garbage::getFilledTSpinCorners(Tetromino piece)
             glm::vec2 position = basePosition + glm::vec2(j+0.5, i+0.5);
             int x = round(position.x)-1;
             int y = round(position.y)-1;
-            if ( !isValidGarbageCoord(x, y) || (blocks[y][x]) ) {
-                // it's either outside the garbage coords (aka wall / floor)
-                // or, it's inside, and there's a block there
+            if ( (isValidGarbageCoord(x, y) && (blocks[y][x])) || (y < -1) ) {
+                // either inside the garbage coords and there's a block there,
+                // or it's the floor, which always counts for T-spins.
+                // walls by themselves don't count.
                 nFilledCorners++;
             }
         }

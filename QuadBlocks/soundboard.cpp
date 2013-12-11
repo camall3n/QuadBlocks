@@ -159,7 +159,7 @@ void Soundboard::MenuSelect() {
 
 void Soundboard::PlayMusic() {
     if (music.getStatus() != sf::Music::Status::Playing) {
-        music.play();
+//        music.play();
     }
 }
 void Soundboard::PauseMusic() {
