@@ -70,9 +70,9 @@
 
 + Fix bug: T-spins are happening against walls when they shouldn't
 
-- Precise specifications
-    - loss condition: blocked at entry, or locks partially out of bounds
-    - authentic piece entry
++ Precise specifications (close enough)
+    ~ authentic piece entry
+    + loss condition: blocked at entry, or locks partially out of bounds (close enough)
     + Infinity limit: 5 seconds
     + max gravity: 2.5G
     + max level: 15
@@ -131,8 +131,8 @@
 - Self-contained, distributable application package
     
 - Modes
-    - Marathon
-    - Timed 2 min, reset on level-up
+    + Marathon
+    + Timed 2 min, reset on level-up
     - Line limit / Sprint / Race / Time Attack
     - Cascade
     X (Square)

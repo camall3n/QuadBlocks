@@ -6,6 +6,9 @@
 //
 #include "timer.h"
 
+#include <boost/lexical_cast.hpp>
+#include <cmath>
+
 //#include <GL/glew.h>
 #include <GL/glfw.h>
 //#include <OpenGL/OpenGL.h>
@@ -59,6 +62,20 @@ double Timer::getTime()
         }
     }
     return 0;
+}
+
+std::string Timer::getTimeString()
+{
+    int secondsElapsed = floor(getTime());
+    int minutes = secondsElapsed / 60;
+    int seconds = secondsElapsed % 60;
+    
+    std::string str;
+    str = boost::lexical_cast<std::string>(minutes) +
+          ":" + ((seconds < 10) ? "0" : "" ) +
+          boost::lexical_cast<std::string>(seconds);
+    
+    return str;
 }
 
 double Timer::getLapTime()

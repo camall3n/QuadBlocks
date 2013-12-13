@@ -10,11 +10,13 @@
 #define __QuadBlocks__world__
 
 #include <list>
+#include <string>
 #include <boost/signals2.hpp>
 namespace bs2 = boost::signals2;
 
 #include "block.h"
 #include "camera.h"
+#include "countdown.h"
 #include "garbage.h"
 #include "light.h"
 #include "next_queue.h"
@@ -24,6 +26,12 @@ namespace bs2 = boost::signals2;
 #include "timer.h"
 #include "well.h"
 
+enum GAME_MODE {
+    MARATHON,
+    TIMED,
+    RACE,
+    CASCADE
+};
 
 class World
 {
@@ -31,6 +39,7 @@ public:
     World();
     
     void reset();
+    void setMode(GAME_MODE mode);
     
     void update();
     void draw();
@@ -44,7 +53,7 @@ public:
         bs2::signal<void (int)> newPoints;
         bs2::signal<void (int)> linesLeftChanged;
         bs2::signal<void (int)> levelChanged;
-        bs2::signal<void (int, int)> timeChanged;
+        bs2::signal<void (std::string)> timeChanged;
         bs2::signal<void ()> allClear;
         bs2::signal<void (int)> lineClear;
         bs2::signal<void (int, bool)> tSpin;
@@ -77,6 +86,7 @@ public:
     
 private:
     // Objects
+    GAME_MODE gameMode;
     Camera c;
     Tetromino piece;
     Tetromino holdPiece;
@@ -85,6 +95,8 @@ private:
     Well well;
     Garbage garbage;
     NextQueue pieceQueue;
+    Timer gameTimer;
+    Countdown gameCountdown;
     Timer lockTimer;
     Timer dragTimerRight;
     Timer dragTimerLeft;

@@ -8,6 +8,8 @@
 #ifndef __QuadBlocks__timer__
 #define __QuadBlocks__timer__
 
+#include <string>
+
 class Timer
 {
 public:
@@ -20,6 +22,7 @@ public:
     void unpause();
     
     double getTime();// Since start
+    std::string getTimeString();
     double getLapTime();// Since last getLapTime (or since start if no lap time)
     
     //Check the status of the timer

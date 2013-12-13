@@ -8,21 +8,21 @@
 
 #include "scorekeeper.h"
 
+const int START_LINES = 5;
 const int START_LEVEL = 1;
 
-ScoreKeeper::ScoreKeeper() :
-    score(0),
-    lines(5),
-    level(START_LEVEL),
-    combo(0),
-    difficult(0),
-    bravo(0)
-{
+ScoreKeeper::ScoreKeeper() {
+    reset();
 }
 
 void ScoreKeeper::reset()
 {
+    score = 0;
+    lines = START_LINES;
     level = START_LEVEL;
+    combo = 0;
+    difficult = 0;
+    bravo = 0;
     
     if (level > 1) {
         signal.levelChanged(level);

@@ -383,17 +383,14 @@ void UI::SetLines(int lines) {
 void UI::SetLevel(int level) {
     SetValue("level", level);
 }
-void UI::SetTime(int minutes, int seconds) {
-    assert(minutes >= 0);
-    assert(seconds >= 0 && seconds < 60);
-
-    std::string time = boost::lexical_cast<std::string>(minutes) + ":";
-    if (seconds < 10) {
-        time += "0";
-    }
-    time += boost::lexical_cast<std::string>(seconds);
-
+void UI::SetTime(std::string time) {
     SetValue("time", time);
+    if (time == "") {
+        SetVisible("pane_right", false);
+    }
+    else {
+        SetVisible("pane_right", true);
+    }
 }
 void UI::DisplayAllClear() {
     if (messageTimer.isStarted()) {

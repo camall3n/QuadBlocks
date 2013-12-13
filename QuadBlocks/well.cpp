@@ -17,7 +17,7 @@ Well::Well(size_t width, size_t height)
     glm::vec3 color = BLOCK::COLOR::BLACK;
     
     // Border (sides)
-    for (int i = -1; i < (int)height+1; i++) {
+    for (int i = -1; i < (int)height; i++) {
         Block left = Block(color);
         Block right = left;
         left.setPosition(glm::vec2(-0.5, i+0.5));

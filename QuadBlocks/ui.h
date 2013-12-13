@@ -36,7 +36,7 @@ public:
     void SetScore(int score);
     void SetLines(int lines);
     void SetLevel(int level);
-    void SetTime(int minutes, int seconds);
+    void SetTime(std::string time);
     void DisplayAllClear();
     void DisplayLineClear(int lines);
     void DisplayTSpin(int lines, bool kick);

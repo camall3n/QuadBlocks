@@ -42,6 +42,8 @@ const double GRAVITY[] = {
 };
 const double HARD_GRAVITY = 24;
 
+const int TIMED_MODE_MINUTES = 2;
+
 //#define DEVELOPER_MODE
 
 World::World() :
@@ -53,7 +55,8 @@ World::World() :
   holdingPiece(false),
   usedHoldPiece(false),
   developerMode(false),
-  gameOver(false)
+  gameOver(false),
+  gameMode(TIMED)
 {
     Block::useCamera(c);
     c.setPosition(glm::vec3(5,10,80));
@@ -101,8 +104,28 @@ void World::reset()
     pieceQueue.reset();
     garbage.reset();
     
+    gameCountdown.setTime(TIMED_MODE_MINUTES, 0);
+    gameTimer.stop();
+    if (gameMode == TIMED) {
+        signal.timeChanged(gameCountdown.getTimeString());
+    } else if (gameMode == RACE) {
+        signal.timeChanged(gameTimer.getTimeString());
+    } else {
+        signal.timeChanged("");
+    }
+    signal.levelChanged(getLevel());
+    signal.linesLeftChanged(getLines());
+    signal.scoreChanged(getScore());
+    gameCountdown.start();
+    gameTimer.start();
+    
     piece = pieceQueue.getNext();
     piece.resetPosition();
+}
+
+void World::setMode(GAME_MODE mode)
+{
+    gameMode = mode;
 }
 
 void World::resetQueuedActions()
@@ -120,6 +143,17 @@ void World::resetQueuedActions()
 
 void World::update()
 {
+    if (gameMode == TIMED) {
+        if (gameCountdown.didChange()) {
+            signal.timeChanged(gameCountdown.getTimeString());
+        }
+        if (!gameOver && gameCountdown.isStarted() && gameCountdown.isDone()) {
+            // Game Over
+            gameOver = true;
+            garbage.gameOver();
+        }
+    }
+    
     if (gameOver) {
         soundboard.PauseMusic();
         if (garbage.isUpdating()) {
@@ -140,6 +174,8 @@ void World::update()
         updateUserPiece();
     }
     else {
+        gameCountdown.pause();
+        gameTimer.pause();
         soundboard.PauseMusic();
     }
 }
@@ -517,6 +553,18 @@ void World::pause()
 void World::unpause()
 {
     // TODO: Display "get ready" or something?
+    if (gameTimer.isStarted()) {
+        gameTimer.unpause();
+    }
+    else {
+        gameTimer.start();
+    }
+    if (gameCountdown.isStarted()) {
+        gameCountdown.unpause();
+    }
+    else {
+        gameCountdown.start();
+    }
     
     soundboard.PlayMusic();
     isPaused = false;
@@ -823,6 +871,9 @@ void World::levelChanged(int level) {
     baseGravity = GRAVITY[idxGravity];
     gravity = baseGravity;
     soundboard.LevelUp();
+    gameCountdown.reset();
+    signal.timeChanged(gameCountdown.getTimeString());
+    gameCountdown.start();
 }
 
 

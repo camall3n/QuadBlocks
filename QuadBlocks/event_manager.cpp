@@ -227,6 +227,9 @@ void EventManager::GameMode(bool activate)
         world->signal.levelChanged.connect(
             boost::bind( &UI::SetLevel, ui, _1)
         );
+        world->signal.timeChanged.connect(
+            boost::bind( &UI::SetTime, ui, _1)
+        );
         world->signal.allClear.connect(
             boost::bind( &UI::DisplayAllClear, ui)
         );
@@ -368,8 +371,8 @@ void EventManager::NewGame()
 {
     MenuMode(false);
     TogglePause();
-    world->reset();
     ui->NewGame();
+    world->reset();
 }
 
 void EventManager::GameOver()

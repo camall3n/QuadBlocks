@@ -21,7 +21,18 @@ a img,:link img,:visited img { border:none }
     text-align: right;
 }
 
-#pane_left .section {
+#pane_right {
+    position: absolute;
+    right: 9%;
+    top: 24%;
+    width:25%;
+    height:52%;
+    background-color:rgba(50, 0, 50, 0);
+    vertical-align: top;
+    text-align: left;
+}
+
+#pane_left .section, #pane_right .section {
     position: relative;
     width: 100%;
     height: 25%;
@@ -63,10 +74,6 @@ a img,:link img,:visited img { border:none }
     color: #888;
     background-color: rgba(0,0,0,0);
 }
-
-//#menu {
-//    visibility: visible;
-//}
 
 #overlay {
     width: 110%;
