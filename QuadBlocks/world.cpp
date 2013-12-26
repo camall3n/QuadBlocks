@@ -143,17 +143,6 @@ void World::resetQueuedActions()
 
 void World::update()
 {
-    if (gameMode == TIMED) {
-        if (gameCountdown.didChange()) {
-            signal.timeChanged(gameCountdown.getTimeString());
-        }
-        if (!gameOver && gameCountdown.isStarted() && gameCountdown.isDone()) {
-            // Game Over
-            gameOver = true;
-            garbage.gameOver();
-        }
-    }
-    
     if (gameOver) {
         soundboard.PauseMusic();
         if (garbage.isUpdating()) {
@@ -167,16 +156,32 @@ void World::update()
         }
     }
     else if (!isPaused) {
+        if (gameMode == TIMED) {
+            if (gameCountdown.didChange()) {
+                signal.timeChanged(gameCountdown.getTimeString());
+            }
+            if (!gameOver && gameCountdown.isStarted() && gameCountdown.isDone()) {
+                // Game Over
+                gameOver = true;
+                garbage.gameOver();
+                return;
+            }
+        }
+        
         soundboard.PlayMusic();
         pieceQueue.update();
         garbage.update();
     
+        if (garbage.isCascading()) {
+            int linesCleared = garbage.doCascade();
+            if (linesCleared > 0) {
+                soundboard.LineClear();
+            }
+        }
         updateUserPiece();
     }
     else {
-        gameCountdown.pause();
-        gameTimer.pause();
-        soundboard.PauseMusic();
+        pause();
     }
 }
 
@@ -546,6 +551,8 @@ void World::hold()
 
 void World::pause()
 {
+    gameCountdown.pause();
+    gameTimer.pause();
     soundboard.PauseMusic();
     isPaused = true;
 }

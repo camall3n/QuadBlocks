@@ -15,11 +15,15 @@
 
 const double LINE_CLEAR_TIMEOUT = 0.25;
 const double GAME_OVER_TIMING = 0.05;
+const double CASCADE_TIMEOUT = 0.05;
 
+const bool CASCADE_MODE = true;
 
 Garbage::Garbage(size_t width, size_t height) :
     blocks(height, std::vector<Block*>(width, NULL)),
     _isClearing(false),
+    _isCascading(false),
+    cascadeStates(height, std::vector<int>(width, TBD)),
     _isGameOver(false),
     _gameOverRowIndex(height-1)
 {
@@ -33,6 +37,7 @@ Garbage::~Garbage()
 void Garbage::reset()
 {
     _isClearing = false;
+    _isCascading = false;
     _isGameOver = false;
     _gameOverRowIndex = blocks.size()-1;
     deleteAllBlocks();
@@ -59,12 +64,34 @@ void Garbage::update()
     else if ( lineClearTimer.isStarted() ) {
         if (lineClearTimer.getTime() > LINE_CLEAR_TIMEOUT) {
             clearLines();
+            if (CASCADE_MODE) {
+//                if (!_isCascading) {
+                    startCascade();
+//                }
+            }
         }
     }
 }
 
+void Garbage::pause()
+{
+    lineClearTimer.pause();
+    cascadeTimer.pause();
+}
+
+void Garbage::unpause()
+{
+    lineClearTimer.unpause();
+    cascadeTimer.unpause();
+}
+
 bool Garbage::isUpdating() {
-    return (lineClearTimer.isStarted() || gameOverTimer.isStarted());
+    return ( lineClearTimer.isStarted()
+             || gameOverTimer.isStarted() );
+}
+
+bool Garbage::isCascading() {
+    return _isCascading;
 }
 
 void Garbage::gameOver()
@@ -164,6 +191,7 @@ int Garbage::addTetromino(Tetromino piece)
     Block refBlock = piece.blocks().front();
     
     std::list<int> rowsWithNewBlocks;
+    std::list<Block*> newBlocks;
     
     for (int i=0; i<piece.collisionSquareSize(); i++) {
         for (int j=0; j<piece.collisionSquareSize(); j++) {
@@ -183,6 +211,7 @@ int Garbage::addTetromino(Tetromino piece)
                     blockCopy->setOffset(glm::vec2(0,0));
                     blockCopy->setRotation(0);
                     blocks[row][col] = blockCopy;
+                    newBlocks.push_back(blockCopy);
                     if (rowsWithNewBlocks.empty() || (rowsWithNewBlocks.back() < row))
                     {
                         rowsWithNewBlocks.push_back(row);
@@ -196,7 +225,104 @@ int Garbage::addTetromino(Tetromino piece)
         }
     }
     
+    addConnections(newBlocks);
+    
     return checkLineClears(rowsWithNewBlocks);
+}
+
+void Garbage::startCascade()
+{
+    int nTBDs = WORLD_N_BLOCKS_Y * WORLD_N_BLOCKS_X;
+    
+    // clear cascade table and mark all spaces as TBD
+    cascadeStates = std::vector< std::vector<int> >(WORLD_N_BLOCKS_Y, std::vector<int>(WORLD_N_BLOCKS_X, TBD));
+    
+    for (int y=0; y<WORLD_N_BLOCKS_Y; ++y) {
+        for (int x=0; x<WORLD_N_BLOCKS_X; ++x) {
+            if (cascadeStates[y][x] == TBD) {
+                if (blocks[y][x] == NULL) {
+                    cascadeStates[y][x] = EMPTY;
+                    --nTBDs;
+                }
+                else if ( y <= 0 || cascadeStates[y-1][x] == STATIC) {
+                    nTBDs -= cascadeMarkStatic(y, x);
+                }
+            }
+        }
+    }
+    
+    if (nTBDs > 0) {
+        _isCascading = true;
+        cascadeTimer.start();
+    }
+    else {
+        _isCascading = false;
+    }
+}
+
+
+int Garbage::doCascade()
+{
+    if ( cascadeTimer.isStarted() ) {
+        if (cascadeTimer.getTime() <= CASCADE_TIMEOUT) {
+            // wait
+            return 0;
+        }
+        else {
+            cascadeTimer.stop();
+        }
+    }
+    
+    // continue cascade
+    int nTBDs = 0;
+    for (int y=0; y<WORLD_N_BLOCKS_Y; ++y) {
+        for (int x=0; x<WORLD_N_BLOCKS_X; ++x) {
+            if (cascadeStates[y][x] == TBD) {
+                if (y > 0 && cascadeStates[y-1][x] == EMPTY) {
+                    // decrease block's Y position by 1
+                    glm::vec2 pos = blocks[y][x]->position();
+                    blocks[y][x]->setPosition(pos + glm::vec2(0,-1));
+
+                    // shift block's pointer down by 1 index
+                    if (blocks[y-1][x] != NULL) {
+                        std::cerr << "Error: Cascading through an 'empty' position that somehow contains a block." << std::endl;
+                        delete blocks[y-1][x];
+                    }
+                    blocks[y-1][x] = blocks[y][x];
+                    blocks[y][x] = NULL;
+                    
+                    // swap EMPTY/TBD cascadeStates
+                    cascadeStates[y-1][x] = TBD;
+                    cascadeStates[y][x] = EMPTY;
+                    
+                    nTBDs++;
+                }
+                else {
+                    cascadeMarkStatic(y, x);
+                }
+            }
+        }
+    }
+    if (nTBDs > 0) {
+        // blocks still falling
+        cascadeTimer.start();
+    }
+    else {
+        // blocks done falling. check for line clears
+        std::list<int> allRows;
+        for (int i=WORLD_N_BLOCKS_Y-1; i>=0; --i) {
+            allRows.push_back(i);
+        }
+        if (!lineClearTimer.isStarted()) {
+            int lineClears = checkLineClears(allRows);
+            if (lineClears == 0) {
+                // end cascade
+                _isCascading = false;
+            }
+            return lineClears;
+        }
+    }
+    return 0;
 }
 
 int Garbage::checkLineClears(std::list<int> rows)
@@ -255,6 +381,7 @@ void Garbage::clearLines()
         // Delete blocks in that row
         BOOST_FOREACH(Block* &block, blocks[row]) {
             if (block) {
+                removeConnections(block);
                 delete block;
                 block = NULL;
             }
@@ -279,6 +406,54 @@ void Garbage::clearLines()
     pendingClearLines.clear();
     lineClearTimer.stop();
     _isClearing = false;
+}
+
+int Garbage::cascadeMarkStatic(int y, int x)
+{
+    int nMarked = 0;
+    // mark position as static
+    cascadeStates[y][x] = STATIC;
+    ++nMarked;
+    
+    Block* block = blocks[y][x];
+    if (block) {
+        std::list<Block*> connectedList = connections.at(block);
+        
+        BOOST_FOREACH(Block* connectedBlock, connectedList) {
+            glm::vec2 pos = connectedBlock->position() + glm::vec2(-0.5, -0.5);
+            cascadeStates[pos.y][pos.x] = STATIC;
+            ++nMarked;
+        }
+    }
+    
+    return nMarked;
+}
+
+void Garbage::addConnections(std::list<Block*> newBlocks)
+{
+    BOOST_FOREACH(Block* block, newBlocks) {
+        std::list<Block*> connectionList;
+        BOOST_FOREACH(Block* other, newBlocks) {
+            if (other != block) {
+                connectionList.push_back(other);
+            }
+        }
+        connections[block] = connectionList;
+    }
+}
+
+void Garbage::removeConnections(Block* block)
+{
+    // Find connected blocks
+    std::list<Block*> connectionList = connections.at(block);
+    
+    // Erase this block from each connected block's list
+    BOOST_FOREACH(Block* other, connectionList) {
+        connections.at(other).remove(block);
+    }
+    // Delete this block's list
+    connections.erase(block);
+    
 }
 
 void Garbage::markNextGameOverLine()
@@ -312,4 +487,3 @@ void Garbage::deleteAllBlocks()
         }
     }
 }
-

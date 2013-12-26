@@ -9,6 +9,7 @@
 #ifndef __QuadBlocks__garbage__
 #define __QuadBlocks__garbage__
 
+#include <map>
 #include <vector>
 #include <boost/signals2.hpp>
 namespace bs2 = boost::signals2;
@@ -30,20 +31,36 @@ public:
     void draw();
     void update();
     
+    void pause();
+    void unpause();
+    
     bool isUpdating();
+    bool isCascading();
     void gameOver();
     
     bool checkCollision(Tetromino piece);
     int getFilledTSpinCorners(Tetromino piece);
     int addTetromino(Tetromino piece);// returns lineClears
+
+    void startCascade();
+    int doCascade();// returns lineClears and updates 'isCascading'
     
     int top();
     
 private:
-    std::vector<std::vector<Block*>> blocks;
+    std::vector< std::vector<Block*> > blocks;
     std::list<int> pendingClearLines;
     Timer lineClearTimer;
     bool _isClearing;
+    Timer cascadeTimer;
+    bool _isCascading;
+    enum BLOCK_STATE {
+        TBD,
+        EMPTY,
+        STATIC
+    };
+    std::vector< std::vector<int> > cascadeStates;
+    std::map< Block*, std::list<Block*> > connections;
     
     Timer gameOverTimer;
     int _gameOverRowIndex;
@@ -54,6 +71,10 @@ private:
     int checkLineClears(std::list<int> rows);
     void markLinesForClearing(std::list<int> rows);
     void clearLines();
+    
+    int cascadeMarkStatic(int y, int x);// returns number of blocks marked
+    void addConnections(std::list<Block*> newBlocks);
+    void removeConnections(Block* block);
     
     void deleteAllBlocks();
 

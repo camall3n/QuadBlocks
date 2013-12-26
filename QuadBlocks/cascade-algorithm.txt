@@ -16,6 +16,13 @@ check for line clears
 
 
 after a line clear...
+  start cascade
+
+during a cascade...
+  continue or end cascade
+
+
+start cascade...
 
 clear the recursive gravity table, and mark all spaces as tbd
 for each block, starting with the bottom row {
@@ -32,10 +39,13 @@ for each block, starting with the bottom row {
     }
   }
 }
-while there are still positions marked as 'tbd' {
+
+continue cascade...
+
+if there are still positions marked as 'tbd' {
   for each position that's still marked 'tbd', starting with bottom row {
     if the position is above an 'empty' position {
-      move the block down 1 space
+      decrease the block's Y position by 1
       mark the bottom position as 'tbd'
       mark the top position as 'empty'
     }
@@ -48,7 +58,10 @@ while there are still positions marked as 'tbd' {
     }
   }
 }
-check for line clears
+else {
+  end cascade
+  check for line clears
+}
 
 
 
@@ -63,8 +76,51 @@ delete its connected blocks list
 
 
 
+EXAMPLE:
 
-##OO## ##
-##O ### ##
+'O' = tbd
+'#" = static
+' ' = empty
+
+0. start
+OOOOOOOOOO
+OOOOOOOOOO
+OOOOOOOOOO
+OOOOOOOOOO
+
+1. bottom row
+OOOOOOOOOO
+OOOOOOOOOO
+OOOOOOOOOO
+## #######
+
+2. second row. one block still 'tbd'
+OOOOOOOOOO
+OOOOOOOOOO
 ##O### ###
 ## #######
+
+3. third row. two new blocks still 'tbd'. rightmost is connected to obstructed blocks
+OOOOOOOOOO
+##O ##O ##
+##O### ###
+## #######
+
+4. fourth row - part 1. first two blocks marked static, next two as 'tbd'.
+##OOOOOOOO
+##O ##O ##
+##O### ###
+## #######
+
+5. fourth row - part 2. 5th block and its connected blocks marked as static
+##OO..OOOO      ##OO##OOOO
+##O #.. ##  =>  ##O ### ##
+##O### ###      ##O### ###
+## #######      ## #######
+
+6. fourth row - part 3. 8th block would remain 'tbd', except its connected 9th block is 'static'
+##OO## OOO      ##OO## ..O      ##OO## ##
+##O ### ##  =>  ##O ### .#  =>  ##O ### ##
+##O### ###      ##O### #.#      ##O### ###
+## #######      ## #######      ## #######
+
