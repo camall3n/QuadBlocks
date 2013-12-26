@@ -38,6 +38,9 @@ public:
     void hardDrop(int distance);
     void softDrop(int distance);
     
+    void scoreCascade(int lines);
+    void resetCascade();
+    
 private:
     int score;
     int lines;
@@ -45,6 +48,8 @@ private:
     int combo;
     int difficult;
     int bravo;
+    
+    int cascade;
     
     void updateScore(int points);
     void updateLines(int lines);

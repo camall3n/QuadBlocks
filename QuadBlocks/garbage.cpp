@@ -10,6 +10,7 @@
 
 #include <boost/foreach.hpp>
 #include <functional>
+#include <set>
 #include "constants.h"
 #include "utility.h"
 
@@ -230,8 +231,6 @@ int Garbage::addTetromino(Tetromino piece)
 
 void Garbage::startCascade()
 {
-    int nTBDs = WORLD_N_BLOCKS_Y * WORLD_N_BLOCKS_X;
-    
     // clear cascade table and mark all spaces as TBD
     cascadeStates = std::vector< std::vector<int> >(WORLD_N_BLOCKS_Y, std::vector<int>(WORLD_N_BLOCKS_X, TBD));
     
@@ -240,16 +239,26 @@ void Garbage::startCascade()
             if (cascadeStates[y][x] == TBD) {
                 if (blocks[y][x] == NULL) {
                     cascadeStates[y][x] = EMPTY;
-                    --nTBDs;
                 }
                 else if ( y <= 0 || cascadeStates[y-1][x] == STATIC) {
-                    nTBDs -= cascadeMarkStatic(y, x);
+                    cascadeMarkStatic(y, x);
                 }
             }
         }
     }
     
-    if (nTBDs > 0) {
+    bool hasTBDs = false;
+    for (int y=0; y<WORLD_N_BLOCKS_Y; ++y) {
+        for (int x=0; x<WORLD_N_BLOCKS_X; ++x) {
+            if (cascadeStates[y][x] == TBD) {
+                hasTBDs = true;
+                break;
+            }
+        }
+        if (hasTBDs) break;
+    }
+    
+    if (hasTBDs) {
         _isCascading = true;
         cascadeTimer.start();
     }
@@ -415,12 +424,26 @@ int Garbage::cascadeMarkStatic(int y, int x)
     
     Block* block = blocks[y][x];
     if (block) {
-        std::list<Block*> connectedList = connections.at(block);
+        std::set<Block*> checkedSet;
+        checkedSet.insert(block);
         
-        BOOST_FOREACH(Block* connectedBlock, connectedList) {
+        std::list<Block*> toCheckList;
+        BOOST_FOREACH(Block* other, connections.at(block)) {
+            toCheckList.push_back(other);
+        }
+        
+        while (!toCheckList.empty()) {
+            Block* connectedBlock = toCheckList.front();
+            toCheckList.pop_front();
+            BOOST_FOREACH(Block* newBlock, connections.at(connectedBlock)) {
+                if (checkedSet.count(newBlock) == 0) {
+                    toCheckList.push_back(newBlock);
+                }
+            }
             glm::vec2 pos = connectedBlock->position() + glm::vec2(-0.5, -0.5);
             cascadeStates[pos.y][pos.x] = STATIC;
             ++nMarked;
+            checkedSet.insert(connectedBlock);
         }
     }
     
@@ -436,8 +459,8 @@ void Garbage::addConnections(std::list<Block*> newBlocks)
         BOOST_FOREACH(Block* other, newBlocks) {
             if (other != block) {
                 glm::vec2 otherPos = other->position();
-                glm::vec2 diff = otherPos - blockPos;
-                if (diff.length() == 1) {
+                double dist = glm::length(otherPos - blockPos);
+                if (0.95 <= dist && dist <= 1.05) {
                     connectionList.push_back(other);
                 }
             }

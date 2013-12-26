@@ -176,7 +176,12 @@ void World::update()
             int linesCleared = garbage.doCascade();
             if (linesCleared > 0) {
                 soundboard.LineClear();
+                scoreKeeper.scoreCascade(linesCleared);
             }
+        }
+        else {
+            // end chain
+            scoreKeeper.resetCascade();
         }
         updateUserPiece();
     }

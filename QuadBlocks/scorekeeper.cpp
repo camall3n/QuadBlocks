@@ -23,6 +23,7 @@ void ScoreKeeper::reset()
     combo = 0;
     difficult = 0;
     bravo = 0;
+    cascade = 0;
     
     if (level > 1) {
         signal.levelChanged(level);
@@ -160,6 +161,19 @@ void ScoreKeeper::hardDrop(int distance) {
 
 void ScoreKeeper::softDrop(int distance) {
     updateScore(1*distance);
+}
+
+void ScoreKeeper::scoreCascade(int clears) {
+    cascade++;
+    int lines = (clears+cascade) * 2 - 3;
+    int points = lines * 50 * level;
+    
+    updateScore(points);
+    updateLines(clears);
+}
+
+void ScoreKeeper::resetCascade() {
+    cascade = 0;
 }
 
 void ScoreKeeper::updateScore(int points)
