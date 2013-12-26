@@ -65,9 +65,7 @@ void Garbage::update()
         if (lineClearTimer.getTime() > LINE_CLEAR_TIMEOUT) {
             clearLines();
             if (CASCADE_MODE) {
-//                if (!_isCascading) {
-                    startCascade();
-//                }
+                startCascade();
             }
         }
     }
@@ -432,10 +430,16 @@ int Garbage::cascadeMarkStatic(int y, int x)
 void Garbage::addConnections(std::list<Block*> newBlocks)
 {
     BOOST_FOREACH(Block* block, newBlocks) {
+        glm::vec2 blockPos = block->position();
+        
         std::list<Block*> connectionList;
         BOOST_FOREACH(Block* other, newBlocks) {
             if (other != block) {
-                connectionList.push_back(other);
+                glm::vec2 otherPos = other->position();
+                glm::vec2 diff = otherPos - blockPos;
+                if (diff.length() == 1) {
+                    connectionList.push_back(other);
+                }
             }
         }
         connections[block] = connectionList;
