@@ -183,7 +183,7 @@ void World::update()
                 int chainLength = scoreKeeper.scoreCascade(linesCleared);
                 if (garbage.top() > linesCleared) {
                     signal.cascadeChain(chainLength);
-                }d
+                }
             }
         }
         else {
