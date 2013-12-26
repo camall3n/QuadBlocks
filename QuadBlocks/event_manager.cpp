@@ -239,6 +239,9 @@ void EventManager::GameMode(bool activate)
         world->signal.tSpin.connect(
             boost::bind( &UI::DisplayTSpin, ui, _1, _2)
         );
+        world->signal.cascadeChain.connect(
+            boost::bind( &UI::DisplayCascadeChain, ui, _1)
+        );
         
     
         world->signal.gameOver.connect(

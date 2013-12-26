@@ -38,7 +38,7 @@ public:
     void hardDrop(int distance);
     void softDrop(int distance);
     
-    void scoreCascade(int lines);
+    int scoreCascade(int lines);// returns current cascade chain length
     void resetCascade();
     
 private:

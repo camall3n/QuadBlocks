@@ -163,13 +163,18 @@ void ScoreKeeper::softDrop(int distance) {
     updateScore(1*distance);
 }
 
-void ScoreKeeper::scoreCascade(int clears) {
+int ScoreKeeper::scoreCascade(int clears) {
     cascade++;
     int lines = (clears+cascade) * 2 - 3;
     int points = lines * 50 * level;
     
+    points*=bravo;
+    bravo = 1;
+    
     updateScore(points);
     updateLines(clears);
+    
+    return cascade;
 }
 
 void ScoreKeeper::resetCascade() {

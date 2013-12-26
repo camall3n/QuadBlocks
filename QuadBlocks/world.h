@@ -58,6 +58,7 @@ public:
         bs2::signal<void (int)> lineClear;
         bs2::signal<void (int, bool)> tSpin;
         bs2::signal<void ()> gameOver;
+        bs2::signal<void (int)> cascadeChain;
     } signal;
 
     // User Actions

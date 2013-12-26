@@ -459,6 +459,21 @@ void UI::DisplayTSpin(int lines, bool kick) {
     }
 }
 
+void UI::DisplayCascadeChain(int chainLength)
+{
+    if (messageTimer.isStarted()) {
+        messageTimer.stop();
+    }
+    messageTimer.start();
+    
+    std::string numStr = boost::lexical_cast<std::string>(chainLength);
+    std::string message = numStr + " Cascade";
+    if (chainLength>1) {
+        message += "s";
+    }
+    SetValue("message", message);
+}
+
 void UI::NewGame()
 {
     paused = false;

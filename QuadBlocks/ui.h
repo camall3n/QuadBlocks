@@ -40,6 +40,7 @@ public:
     void DisplayAllClear();
     void DisplayLineClear(int lines);
     void DisplayTSpin(int lines, bool kick);
+    void DisplayCascadeChain(int chainLength);
     
     void NewGame();
     void MainMenu();
