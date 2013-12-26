@@ -64,6 +64,7 @@
 		FD16CB97173B0EF000688EDC /* utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CB95173B0EEF00688EDC /* utility.cpp */; };
 		FD16CBB31748920800688EDC /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBB11748920800688EDC /* camera.cpp */; };
 		FD16CBB6175011A300688EDC /* world.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD16CBB4175011A200688EDC /* world.cpp */; };
+		FD1C03ED186BA99C00039A67 /* cascade-algorithm.txt in Resources */ = {isa = PBXBuildFile; fileRef = FD1C03EC186BA99C00039A67 /* cascade-algorithm.txt */; };
 		FD36E0231753EA660041A762 /* block.xml in Resources */ = {isa = PBXBuildFile; fileRef = FD36E0221753EA660041A762 /* block.xml */; };
 		FD36E0261753FAD30041A762 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E0241753FAD30041A762 /* light.cpp */; };
 		FD36E043175A925E0041A762 /* well.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD36E041175A925D0041A762 /* well.cpp */; };
@@ -182,6 +183,7 @@
 		FD16CBB21748920800688EDC /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
 		FD16CBB4175011A200688EDC /* world.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = world.cpp; sourceTree = "<group>"; };
 		FD16CBB5175011A300688EDC /* world.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = world.h; sourceTree = "<group>"; };
+		FD1C03EC186BA99C00039A67 /* cascade-algorithm.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cascade-algorithm.txt"; sourceTree = "<group>"; };
 		FD36E0221753EA660041A762 /* block.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = block.xml; sourceTree = "<group>"; };
 		FD36E0241753FAD30041A762 /* light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
 		FD36E0251753FAD30041A762 /* light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light.h; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				FD36E04E175C4EFD0041A762 /* features-list.txt */,
+				FD1C03EC186BA99C00039A67 /* cascade-algorithm.txt */,
 				32AD9075171B31DE008E0827 /* block.cpp */,
 				32AD9076171B31DE008E0827 /* block.h */,
 				FD16CBB11748920800688EDC /* camera.cpp */,
@@ -481,6 +484,7 @@
 				32724F6D1831611E000FCB2D /* line-clear.wav in Resources */,
 				FD029130178C71790097A871 /* ui.vert in Resources */,
 				FD029131178C71790097A871 /* ui.frag in Resources */,
+				FD1C03ED186BA99C00039A67 /* cascade-algorithm.txt in Resources */,
 				32724F701831611E000FCB2D /* move.wav in Resources */,
 				FD029132178C71790097A871 /* ui.html in Resources */,
 				32724F6C1831611E000FCB2D /* level-up.wav in Resources */,

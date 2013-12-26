@@ -1,0 +1,70 @@
+all garbage blocks have a position in the 2-D array 'blocks'.
+
+each garbage block also has a list of up to three blocks it's connected to.
+
+those blocks have positions, which, if you add (-.5, -.5), gives you their row and column
+
+
+when a piece is added to the garbage...
+
+for each block in the piece {
+  create a new connected blocks list
+  add each other block to the connected blocks list
+}
+check for line clears
+
+
+
+after a line clear...
+
+clear the recursive gravity table, and mark all spaces as tbd
+for each block, starting with the bottom row {
+  if the block is marked 'tbd' {
+    if there is no block there {
+      mark it as empty
+    }
+    else if there is no position below it, or the position below is marked 'static' {
+      mark it as static
+      find its connected blocks.
+      for each connected block {
+        mark as static
+      }
+    }
+  }
+}
+while there are still positions marked as 'tbd' {
+  for each position that's still marked 'tbd', starting with bottom row {
+    if the position is above an 'empty' position {
+      move the block down 1 space
+      mark the bottom position as 'tbd'
+      mark the top position as 'empty'
+    }
+    else {
+      mark the position as 'static'
+      find its connected blocks
+      for each connected block {
+        mark as static
+      }
+    }
+  }
+}
+check for line clears
+
+
+
+when a block is cleared...
+
+find its connected blocks.
+for each connected block {
+  remove the cleared block from the connected blocks list
+}
+delete its connected blocks list
+
+
+
+
+
+##OO## ##
+##O ### ##
+##O### ###
+## #######
