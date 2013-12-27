@@ -98,21 +98,21 @@
            15   640    2.5
 
 - Sound Effects
-    - Soft drop
-    - Scoring actions
-       - Quad (formerly Tetris)
-       + All Clear
-       + Triple
-       + Double
-       + Single
+    - Game timer
     - Music
        - Change to free music?
        - Get permission to use Worlds music?
-    - Game timer
     + Movement
     + Rotation
     + Hard drop
     + Line clear
+    X Scoring actions
+       X Quad (formerly Tetris)
+       + All Clear
+       + Triple
+       + Double
+       + Single
+    X Soft drop
     X Hold
     X Wall-kicks, floor-kicks
 
@@ -134,7 +134,7 @@
     + Marathon
     + Timed 2 min, reset on level-up
     - Line limit / Sprint / Race / Time Attack
-    - Cascade
+    + Cascade
     X (Square)
     X (Hot-Line)
     X (Fusion)

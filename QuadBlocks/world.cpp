@@ -172,23 +172,25 @@ void World::update()
         pieceQueue.update();
         garbage.update();
     
-        if (garbage.isCascading()) {
-            int linesCleared = garbage.doCascade();
-            if (linesCleared > 0) {
-                soundboard.LineClear();
-                if (garbage.top() <= linesCleared) {
-                    scoreKeeper.queueBravo();
-                    signal.allClear();
-                }
-                int chainLength = scoreKeeper.scoreCascade(linesCleared);
-                if (garbage.top() > linesCleared) {
-                    signal.cascadeChain(chainLength);
+        if (gameMode == CASCADE) {
+            if (garbage.isCascading()) {
+                int linesCleared = garbage.doCascade();
+                if (linesCleared > 0) {
+                    soundboard.LineClear();
+                    if (garbage.top() <= linesCleared) {
+                        scoreKeeper.queueBravo();
+                        signal.allClear();
+                    }
+                    int chainLength = scoreKeeper.scoreCascade(linesCleared);
+                    if (garbage.top() > linesCleared) {
+                        signal.cascadeChain(chainLength);
+                    }
                 }
             }
-        }
-        else {
-            // end chain
-            scoreKeeper.resetCascade();
+            else {
+                // end chain
+                scoreKeeper.resetCascade();
+            }
         }
         updateUserPiece();
     }
@@ -809,21 +811,21 @@ void World::lock()
         if (linesCleared > 0) {
             soundboard.LineClear();
             if (sendingMessage) {
-                soundboard.AllClear();
+//                soundboard.AllClear();
             }
             else
             switch (linesCleared) {
                 case 1:
-                    soundboard.Single();
+//                    soundboard.Single();
                     break;
                 case 2:
-                    soundboard.Double();
+//                    soundboard.Double();
                     break;
                 case 3:
-                    soundboard.Triple();
+//                    soundboard.Triple();
                     break;
                 case 4:
-                    soundboard.Quad();
+//                    soundboard.Quad();
                     break;
                     
                 default:
@@ -890,9 +892,11 @@ void World::levelChanged(int level) {
     baseGravity = GRAVITY[idxGravity];
     gravity = baseGravity;
     soundboard.LevelUp();
-    gameCountdown.reset();
-    signal.timeChanged(gameCountdown.getTimeString());
-    gameCountdown.start();
+    if (gameMode == TIMED) {
+        gameCountdown.reset();
+        signal.timeChanged(gameCountdown.getTimeString());
+        gameCountdown.start();
+    }
 }
 
 
