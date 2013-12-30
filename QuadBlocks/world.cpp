@@ -44,8 +44,6 @@ const double HARD_GRAVITY = 24;
 
 const int TIMED_MODE_MINUTES = 2;
 
-//#define DEVELOPER_MODE
-
 World::World() :
   piece(TETROMINO::I),
   isPaused(false),

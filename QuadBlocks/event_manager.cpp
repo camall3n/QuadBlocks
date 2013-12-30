@@ -87,9 +87,6 @@ void EventManager::UniversalSignals()
     controller->Start.signal.pressed.connect(
         boost::bind( &EventManager::TogglePause, this)
     );
-    keyboard->Escape.signal.pressed.connect(
-        boost::bind( &EventManager::TogglePause, this)
-    );
     menu->signal.resume.connect(
         boost::bind( &EventManager::TogglePause, this)
     );
@@ -372,6 +369,10 @@ void EventManager::LSReallyMovedUp()
 
 void EventManager::NewGame()
 {
+    keyboard->Escape.signal.pressed.connect(
+        boost::bind( &EventManager::TogglePause, this)
+    );
+    
     MenuMode(false);
     TogglePause();
     ui->NewGame();
@@ -380,6 +381,8 @@ void EventManager::NewGame()
 
 void EventManager::GameOver()
 {
+    keyboard->Escape.signal.pressed.disconnect_all_slots();
+
     paused = true;
     MenuMode(true);
     menu->MainMenu();
@@ -388,6 +391,8 @@ void EventManager::GameOver()
 
 void EventManager::Start()
 {
+    keyboard->Escape.signal.pressed.disconnect_all_slots();
+
     paused = true;
     MenuMode(true);
     world->togglePause();
@@ -398,13 +403,11 @@ void EventManager::TogglePause()
 {
     if (!paused) {
         paused = true;
-//        GameMode(false);
         MenuMode(true);
     }
     else {
         paused = false;
         MenuMode(false);
-//        GameMode(true);
     }
     world->togglePause();
     ui->TogglePause();

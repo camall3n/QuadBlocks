@@ -45,7 +45,7 @@
 
 + Keyboard support
     + Fix bug: for some reason putting the std::map<int, Keyboard::Key*> Keys inside of keyboard.cpp or keyboard.h was causing EXC_BAD_ACCESS. Had to put it into main, before the Keyboard declaration to fix the issue. Need to investigate more...
-      (static initialization order fiasco)
+      ("static initialization order fiasco")
 
 + More obvious pre-lock piece graphic. Too easy to confuse an unlocked/locked piece
 
@@ -116,6 +116,8 @@
     X Hold
     X Wall-kicks, floor-kicks
 
+- High Scores
+
 - Menu
     - QuadBlocks logo / "paused"
     - Sound settings
@@ -150,7 +152,6 @@
     - Bounces
     - Tweens
     - Animated on-deck pieces
-    - High Scores
     - Backgrounds
         - Static
         X Animated
